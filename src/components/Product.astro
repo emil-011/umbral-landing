@@ -1,0 +1,1014 @@
+---
+const planned = {
+  2: 'run',
+  3: 'bike',
+  4: 'swim',
+  6: 'strength',
+  8: 'run',
+  9: 'swim',
+  10: 'bike',
+  11: 'strength',
+  12: 'run',
+  13: 'rest',
+  14: 'run',
+  15: 'swim',
+  17: 'strength',
+  19: 'run',
+  20: 'bike',
+  22: 'swim',
+  23: 'run',
+  24: 'bike',
+  26: 'run',
+  27: 'run',
+  28: 'strength',
+  29: 'run',
+  30: 'strength',
+};
+
+const monthCells = [
+  ...Array.from({ length: 6 }, () => null),
+  ...Array.from({ length: 30 }, (_, index) => {
+    const day = index + 1;
+    return { day, sport: planned[day] ?? null };
+  }),
+  ...Array.from({ length: 6 }, () => null),
+];
+
+const weekdays = ['L', 'M', 'X', 'J', 'V', 'S', 'D'];
+const loadBars = [40, 64, 52, 22, 16, 60, 30];
+const ecsPoints = [54, 44, 52, 74, 80, 48, 66];
+const paces = [
+  { zone: 'z1', name: 'Z1 · Recuperación', pace: '2:05' },
+  { zone: 'z2', name: 'Z2 · Aeróbico', pace: '1:58' },
+  { zone: 'z4', name: 'Z4 · Umbral', pace: '1:41' },
+  { zone: 'z5', name: 'Z5 · VO2max', pace: '1:32' },
+];
+---
+
+<section class="section product" id="producto" aria-labelledby="product-title">
+  <div class="container">
+    <div class="product__head">
+      <div class="section-head reveal">
+        <p class="eyebrow">02 — El producto</p>
+        <h2 id="product-title">Un plan que no se queda en el papel.</h2>
+        <p class="lede">
+          Del mes completo a la última vuelta de la sesión. Sifos ordena el trabajo del club y lo
+          convierte en algo que se puede mirar, comparar y decidir.
+        </p>
+      </div>
+      <a class="link-arrow product__link" href="#para-quien">
+        Para entrenadores y atletas
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M7 17 17 7M9 7h8v8"></path>
+        </svg>
+      </a>
+    </div>
+
+    <div class="bento">
+      <article class="bento__card card-plan glass reveal">
+        <div class="bento__copy">
+          <span class="pill">Planificación</span>
+          <h3>El mes, vivo.</h3>
+          <p>
+            Planes mensuales con días, pasos y semanas de fuerza. Asigna a un grupo entero o a un
+            atleta concreto y que cada uno vea lo suyo.
+          </p>
+        </div>
+
+        <div class="month" aria-hidden="true">
+          <div class="month__head">
+            <span class="month__title">Noviembre 2026</span>
+            <span class="month__nav">
+              <span>‹</span>
+              <span>›</span>
+            </span>
+          </div>
+
+          <div class="month__grid">
+            {weekdays.map((day) => <span class="month__weekday">{day}</span>)}
+            {monthCells.map((cell) => (
+              <span class:list={['month__cell', { 'is-empty': !cell, 'is-today': cell?.day === 12 }]}>
+                {cell && (
+                  <>
+                    <span class="month__day">{cell.day}</span>
+                    {cell.sport && <span class:list={['month__dot', `month__dot--${cell.sport}`]}></span>}
+                  </>
+                )}
+              </span>
+            ))}
+          </div>
+
+          <div class="month__foot">
+            <span class="avatars">
+              <span>LM</span>
+              <span>AR</span>
+              <span>+6</span>
+            </span>
+            <span class="month__assign">Plan asignado · Grupo Élite</span>
+            <span class="pill month__strength">Semana de fuerza</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="bento__card card-load glass reveal">
+        <div class="bento__copy">
+          <span class="pill">Carga</span>
+          <h3>Lo planificado y lo vivido, en la misma gráfica.</h3>
+          <p>
+            El ECO dice lo que costó el plan. El ECS, lo que sintió el atleta. Compararlos es la
+            conversación que de verdad importa.
+          </p>
+        </div>
+
+        <div class="load" aria-hidden="true">
+          <div class="load__legend">
+            <span class="load__key"><span class="load__swatch load__swatch--eco"></span> ECO · planificado</span>
+            <span class="load__key"><span class="load__swatch load__swatch--ecs"></span> ECS · percibido (1–10)</span>
+          </div>
+
+          <svg class="load__chart" viewBox="0 0 330 132" role="img" aria-label="Carga planificada y percibida de la semana">
+            <defs>
+              <linearGradient id="planBar" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#8fe9ff"></stop>
+                <stop offset="100%" stop-color="#3bb8df"></stop>
+              </linearGradient>
+            </defs>
+
+            <g stroke="rgba(11,59,82,.08)" stroke-width="1">
+              <line x1="0" y1="32" x2="330" y2="32"></line>
+              <line x1="0" y1="72" x2="330" y2="72"></line>
+              <line x1="0" y1="112" x2="330" y2="112"></line>
+            </g>
+
+            {loadBars.map((height, index) => (
+              <rect
+                x={10 + index * 45}
+                y={112 - height}
+                width="24"
+                height={height}
+                rx="5"
+                fill="url(#planBar)"
+                opacity={index === 3 ? '1' : '.62'}
+              ></rect>
+            ))}
+
+            <path
+              d="M22 54 C 36 54, 50 44, 67 44 C 82 44, 96 52, 112 52 C 128 52, 142 74, 157 74 C 172 74, 186 80, 202 80 C 217 80, 231 48, 247 48 C 262 48, 276 66, 292 66"
+              fill="none"
+              stroke="#e8803a"
+              stroke-width="2.4"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            ></path>
+
+            {ecsPoints.map((y, index) => (
+              <circle cx={22 + index * 45} cy={y} r="3.2" fill="#fff" stroke="#e8803a" stroke-width="2"></circle>
+            ))}
+
+            <g fill="rgba(11,59,82,.42)" font-family="JetBrains Mono, monospace" font-size="7" text-anchor="end">
+              <text x="328" y="27">10</text>
+              <text x="328" y="74">5</text>
+              <text x="328" y="112">1</text>
+            </g>
+          </svg>
+
+          <div class="load__axis">
+            {['L', 'M', 'X', 'J', 'V', 'S', 'D'].map((day) => <span>{day}</span>)}
+          </div>
+
+          <div class="load__foot">
+            <span><strong>286</strong> ECO</span>
+            <span class="load__sep"></span>
+            <span><strong>6,4</strong> ECS medio</span>
+            <span class="load__delta">6 / 6 registradas</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="bento__card card-tests glass reveal">
+        <div class="bento__copy">
+          <span class="pill">Ritmos y tests</span>
+          <h3>Tus ritmos, no una tabla genérica.</h3>
+          <p>Tests de natación, carrera y bici. Las zonas salen de lo que tú y tus atletas hacéis.</p>
+        </div>
+
+        <div class="tests" aria-hidden="true">
+          <div class="tests__head">
+            <span class="mono">Natación · /100 m</span>
+            <span class="tests__badge">1.500 m · 21:30</span>
+          </div>
+
+          <div class="tests__table">
+            {paces.map((row) => (
+              <div class="tests__row">
+                <span class:list={['tests__zone', `tests__zone--${row.zone}`]}></span>
+                <span class="tests__name">{row.name}</span>
+                <span class="tests__pace">{row.pace}</span>
+              </div>
+            ))}
+          </div>
+
+          <div class="tests__foot">
+            <span class="pill">FTP 268 W</span>
+            <span class="pill">Test de 5 km</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="bento__card card-phases glass reveal">
+        <div class="bento__copy">
+          <span class="pill">Intensidad</span>
+          <h3>Tres fases para leer la semana.</h3>
+          <p>Más allá de la zona: mira cuánta carga vive por debajo, alrededor y por encima del umbral.</p>
+        </div>
+
+        <div class="phases" aria-hidden="true">
+          <div class="phases__top">
+            <span class="mono">Carga semanal</span>
+            <span class="phases__note">64 % fase 2</span>
+          </div>
+
+          <div class="phases__bar">
+            <span class="phases__seg phases__seg--1" style="--w:34%">34</span>
+            <span class="phases__seg phases__seg--2" style="--w:52%">52</span>
+            <span class="phases__seg phases__seg--3" style="--w:14%">14</span>
+          </div>
+
+          <div class="phases__legend">
+            <span><i class="phases__dot phases__dot--1"></i> Fase 1 <b>34 %</b></span>
+            <span><i class="phases__dot phases__dot--2"></i> Fase 2 <b>52 %</b></span>
+            <span><i class="phases__dot phases__dot--3"></i> Fase 3 <b>14 %</b></span>
+          </div>
+
+          <p class="phases__foot">Z1–Z2 · Z3–Z4 · Z5–Z6</p>
+        </div>
+      </article>
+
+      <article class="bento__card card-club glass reveal">
+        <div class="bento__copy">
+          <span class="pill">Club</span>
+          <h3>Tu club, en orden.</h3>
+          <p>Clubes, grupos e invitaciones. Cada atleta ve su calendario; cada entrenador, lo de su grupo.</p>
+        </div>
+
+        <div class="club" aria-hidden="true">
+          <div class="club__row">
+            <span class="club__avatar club__avatar--a">É</span>
+            <span class="club__meta">
+              <strong>Élite</strong>
+              <span>8 atletas · Javi M.</span>
+            </span>
+            <span class="club__bar"><i style="--w:64%"></i></span>
+          </div>
+          <div class="club__row">
+            <span class="club__avatar club__avatar--b">J</span>
+            <span class="club__meta">
+              <strong>Juvenil</strong>
+              <span>12 atletas · Ana R.</span>
+            </span>
+            <span class="club__bar"><i style="--w:86%"></i></span>
+          </div>
+          <div class="club__row">
+            <span class="club__avatar club__avatar--c">I</span>
+            <span class="club__meta">
+              <strong>Iniciación</strong>
+              <span>6 atletas · Leo P.</span>
+            </span>
+            <span class="club__bar"><i style="--w:44%"></i></span>
+          </div>
+
+          <div class="club__invite">
+            <span class="club__invite-avatar">MR</span>
+            <span>Invitación a <strong>Marta R.</strong></span>
+            <span class="pill">Pendiente</span>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<style>
+  .product {
+    padding-top: clamp(64px, 8vw, 110px);
+  }
+
+  .product__head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 30px;
+  }
+
+  .product__head .section-head {
+    max-width: 700px;
+  }
+
+  .product__link {
+    flex: none;
+    padding-bottom: 8px;
+  }
+
+  .bento {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 16px;
+    margin-top: clamp(38px, 4.5vw, 56px);
+  }
+
+  .bento__card {
+    display: flex;
+    flex-direction: column;
+    padding: clamp(22px, 2.6vw, 30px);
+    overflow: hidden;
+  }
+
+  .bento__copy .pill {
+    align-self: flex-start;
+  }
+
+  .bento__copy h3 {
+    max-width: 22ch;
+    margin-top: 16px;
+    font-size: clamp(1.42rem, 1.9vw, 1.78rem);
+    line-height: 1.05;
+  }
+
+  .bento__copy p {
+    max-width: 43ch;
+    margin-top: 10px;
+    color: var(--ink-soft);
+    font-size: 0.88rem;
+    line-height: 1.58;
+  }
+
+  .card-plan {
+    grid-column: span 7;
+    background:
+      radial-gradient(520px 220px at 84% 110%, rgba(111, 224, 255, 0.22), transparent 70%) padding-box,
+      linear-gradient(155deg, var(--glass-strong), var(--glass-soft)) padding-box;
+  }
+
+  .card-load {
+    grid-column: span 5;
+    background:
+      radial-gradient(420px 220px at 100% 100%, rgba(242, 146, 74, 0.12), transparent 72%) padding-box,
+      linear-gradient(155deg, var(--glass-strong), var(--glass-soft)) padding-box;
+  }
+
+  .card-tests,
+  .card-phases,
+  .card-club {
+    grid-column: span 4;
+  }
+
+  /* ---------- Mes ---------- */
+
+  .month {
+    margin-top: auto;
+    padding: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.72);
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.38);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85);
+  }
+
+  .month__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 2px 3px 12px;
+  }
+
+  .month__title {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  .month__nav {
+    display: flex;
+    gap: 4px;
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+  }
+
+  .month__nav span {
+    display: grid;
+    place-items: center;
+    width: 22px;
+    height: 22px;
+    border: 1px solid var(--hairline-soft);
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.45);
+  }
+
+  .month__grid {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 3px;
+  }
+
+  .month__weekday {
+    display: grid;
+    place-items: center;
+    height: 20px;
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.52rem;
+    letter-spacing: 0.05em;
+  }
+
+  .month__cell {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    min-height: 33px;
+    padding-top: 5px;
+    border-radius: 7px;
+    background: rgba(255, 255, 255, 0.42);
+    color: var(--ink-soft);
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+  }
+
+  .month__cell.is-empty {
+    background: transparent;
+  }
+
+  .month__cell.is-today {
+    color: #a34816;
+    background: rgba(242, 146, 74, 0.16);
+    box-shadow: inset 0 0 0 1px rgba(242, 146, 74, 0.28);
+    font-weight: 700;
+  }
+
+  .month__dot {
+    position: absolute;
+    bottom: 6px;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--rest);
+  }
+
+  .month__dot--run {
+    background: var(--run);
+  }
+
+  .month__dot--bike {
+    background: var(--bike);
+  }
+
+  .month__dot--swim {
+    background: var(--swim);
+  }
+
+  .month__dot--strength {
+    background: var(--strength);
+  }
+
+  .month__foot {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin-top: 12px;
+    padding-top: 11px;
+    border-top: 1px solid var(--hairline-soft);
+  }
+
+  .avatars {
+    display: flex;
+    flex: none;
+  }
+
+  .avatars span {
+    display: grid;
+    place-items: center;
+    width: 24px;
+    height: 24px;
+    margin-left: -5px;
+    border: 1.5px solid rgba(255, 255, 255, 0.95);
+    border-radius: 50%;
+    color: var(--on-accent);
+    background: linear-gradient(150deg, #d9f8ff, #8cdcf2);
+    font-family: var(--font-mono);
+    font-size: 0.44rem;
+    font-weight: 700;
+  }
+
+  .avatars span:first-child {
+    margin-left: 0;
+  }
+
+  .avatars span:last-child {
+    background: rgba(255, 255, 255, 0.9);
+  }
+
+  .month__assign {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    color: var(--ink-soft);
+    font-family: var(--font-mono);
+    font-size: 0.5rem;
+    letter-spacing: 0.03em;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .month__strength {
+    flex: none;
+    margin-left: auto;
+    padding: 4px 7px;
+    color: #5f4aa8;
+    background: rgba(139, 123, 216, 0.14);
+    border-color: rgba(139, 123, 216, 0.2);
+    font-size: 0.47rem;
+  }
+
+  /* ---------- Gráfica de carga ---------- */
+
+  .load {
+    margin-top: auto;
+    padding-top: 26px;
+  }
+
+  .load__legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+    margin-bottom: 8px;
+    color: var(--ink-soft);
+    font-family: var(--font-mono);
+    font-size: 0.52rem;
+    letter-spacing: 0.04em;
+  }
+
+  .load__key {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .load__swatch {
+    width: 9px;
+    height: 9px;
+    border-radius: 3px;
+  }
+
+  .load__swatch--eco {
+    background: linear-gradient(180deg, #8fe9ff, #3bb8df);
+  }
+
+  .load__swatch--ecs {
+    width: 12px;
+    height: 3px;
+    border-radius: 2px;
+    background: #e8803a;
+  }
+
+  .load__chart {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+
+  .load__axis {
+    display: flex;
+    justify-content: space-between;
+    padding: 2px 8px 0;
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.52rem;
+  }
+
+  .load__foot {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin-top: 12px;
+    padding-top: 11px;
+    border-top: 1px solid var(--hairline-soft);
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.56rem;
+    letter-spacing: 0.04em;
+  }
+
+  .load__foot strong {
+    color: var(--ink);
+    font-family: var(--font-display);
+    font-size: 1rem;
+    letter-spacing: -0.02em;
+  }
+
+  .load__sep {
+    width: 1px;
+    height: 11px;
+    background: var(--hairline);
+  }
+
+  .load__delta {
+    margin-left: auto;
+    color: var(--ink-soft);
+    font-weight: 500;
+  }
+
+  /* ---------- Tests ---------- */
+
+  .tests {
+    margin-top: auto;
+    padding-top: 24px;
+  }
+
+  .tests__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--hairline-soft);
+  }
+
+  .tests__head .mono {
+    color: var(--muted);
+    font-size: 0.55rem;
+  }
+
+  .tests__badge {
+    color: var(--accent-deep);
+    font-family: var(--font-mono);
+    font-size: 0.52rem;
+    font-weight: 600;
+  }
+
+  .tests__table {
+    display: grid;
+  }
+
+  .tests__row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--hairline-soft);
+  }
+
+  .tests__zone {
+    width: 6px;
+    height: 6px;
+    flex: none;
+    border-radius: 50%;
+    background: var(--z2);
+  }
+
+  .tests__zone--z1 {
+    background: var(--z1);
+  }
+
+  .tests__zone--z2 {
+    background: var(--z2);
+  }
+
+  .tests__zone--z4 {
+    background: var(--z4);
+  }
+
+  .tests__zone--z5 {
+    background: var(--z5);
+  }
+
+  .tests__name {
+    color: var(--ink-soft);
+    font-size: 0.74rem;
+  }
+
+  .tests__pace {
+    margin-left: auto;
+    color: var(--ink);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 600;
+  }
+
+  .tests__foot {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 12px;
+  }
+
+  .tests__foot .pill {
+    padding: 4px 8px;
+    font-size: 0.5rem;
+  }
+
+  /* ---------- Fases ---------- */
+
+  .phases {
+    margin-top: auto;
+    padding-top: 24px;
+  }
+
+  .phases__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    color: var(--muted);
+  }
+
+  .phases__top .mono {
+    font-size: 0.55rem;
+  }
+
+  .phases__note {
+    color: var(--ink-soft);
+    font-family: var(--font-mono);
+    font-size: 0.54rem;
+  }
+
+  .phases__bar {
+    display: flex;
+    gap: 3px;
+    height: 34px;
+    margin-top: 10px;
+  }
+
+  .phases__seg {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--w);
+    border-radius: 8px;
+    color: rgba(255, 255, 255, 0.92);
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    font-weight: 600;
+  }
+
+  .phases__seg--1 {
+    background: linear-gradient(150deg, #8fc6ff, #5b9ee3);
+  }
+
+  .phases__seg--2 {
+    background: linear-gradient(150deg, #ecc76b, #d3a636);
+  }
+
+  .phases__seg--3 {
+    background: linear-gradient(150deg, #f5829d, #e05473);
+  }
+
+  .phases__legend {
+    display: grid;
+    gap: 7px;
+    margin-top: 16px;
+    color: var(--ink-soft);
+    font-size: 0.7rem;
+  }
+
+  .phases__legend span {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+
+  .phases__legend b {
+    margin-left: auto;
+    color: var(--ink);
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    font-weight: 600;
+  }
+
+  .phases__dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 2px;
+    background: #5b9ee3;
+  }
+
+  .phases__dot--2 {
+    background: #d3a636;
+  }
+
+  .phases__dot--3 {
+    background: #e05473;
+  }
+
+  .phases__foot {
+    margin-top: 14px;
+    padding-top: 10px;
+    border-top: 1px solid var(--hairline-soft);
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.52rem;
+    letter-spacing: 0.05em;
+  }
+
+  /* ---------- Club ---------- */
+
+  .club {
+    display: grid;
+    gap: 2px;
+    margin-top: auto;
+    padding-top: 22px;
+  }
+
+  .club__row {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 8px 0;
+    border-top: 1px solid var(--hairline-soft);
+  }
+
+  .club__row:first-child {
+    border-top: 0;
+  }
+
+  .club__avatar {
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    flex: none;
+    border: 1px solid rgba(255, 255, 255, 0.85);
+    border-radius: 9px;
+    color: #1d5f8a;
+    background: rgba(99, 170, 242, 0.18);
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    font-weight: 700;
+  }
+
+  .club__avatar--b {
+    color: #1e7039;
+    background: rgba(76, 194, 116, 0.18);
+  }
+
+  .club__avatar--c {
+    color: #a34816;
+    background: rgba(242, 146, 74, 0.18);
+  }
+
+  .club__meta {
+    display: grid;
+    gap: 1px;
+    min-width: 0;
+  }
+
+  .club__meta strong {
+    overflow: hidden;
+    color: var(--ink);
+    font-size: 0.76rem;
+    line-height: 1.2;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .club__meta span {
+    overflow: hidden;
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.49rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .club__bar {
+    width: 46px;
+    height: 4px;
+    flex: none;
+    margin-left: auto;
+    overflow: hidden;
+    border-radius: 99px;
+    background: rgba(11, 59, 82, 0.08);
+  }
+
+  .club__bar i {
+    display: block;
+    width: var(--w);
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, var(--accent-light), var(--accent));
+  }
+
+  .club__invite {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 12px;
+    padding-top: 11px;
+    border-top: 1px solid var(--hairline-soft);
+    color: var(--muted);
+    font-size: 0.66rem;
+  }
+
+  .club__invite strong {
+    color: var(--ink-soft);
+  }
+
+  .club__invite-avatar {
+    display: grid;
+    place-items: center;
+    width: 24px;
+    height: 24px;
+    flex: none;
+    border: 1px solid rgba(255, 255, 255, 0.85);
+    border-radius: 50%;
+    color: var(--on-accent);
+    background: linear-gradient(150deg, #d9f8ff, #8cdcf2);
+    font-family: var(--font-mono);
+    font-size: 0.44rem;
+    font-weight: 700;
+  }
+
+  .club__invite .pill {
+    flex: none;
+    margin-left: auto;
+    padding: 3px 6px;
+    font-size: 0.45rem;
+  }
+
+  @media (max-width: 1020px) {
+    .product__head {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .product__link {
+      padding-bottom: 0;
+    }
+
+    .card-plan,
+    .card-load {
+      grid-column: span 12;
+    }
+
+    .card-tests,
+    .card-phases,
+    .card-club {
+      grid-column: span 6;
+    }
+
+    .card-club {
+      grid-column: span 12;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .bento {
+      gap: 12px;
+    }
+
+    .card-plan,
+    .card-load,
+    .card-tests,
+    .card-phases,
+    .card-club {
+      grid-column: span 12;
+    }
+
+    .month__foot {
+      flex-wrap: wrap;
+    }
+
+    .month__assign {
+      flex: 1 1 130px;
+      width: auto;
+    }
+  }
+
+  @media (max-width: 430px) {
+    .month {
+      padding: 10px;
+    }
+
+    .month__cell {
+      min-height: 28px;
+      font-size: 0.5rem;
+    }
+
+    .month__dot {
+      bottom: 4px;
+    }
+
+    .month__weekday {
+      height: 17px;
+      font-size: 0.46rem;
+    }
+
+    .load__legend {
+      gap: 4px 10px;
+      font-size: 0.48rem;
+    }
+  }
+</style>

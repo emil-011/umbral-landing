@@ -1,0 +1,600 @@
+---
+const providers = [
+  { name: 'Garmin', mark: 'G' },
+  { name: 'COROS', mark: 'C' },
+  { name: 'Wahoo', mark: 'W' },
+  { name: 'Polar', mark: 'P' },
+];
+
+const metrics = [
+  { label: 'Tiempo', value: '48:12' },
+  { label: 'Distancia', value: '10,4 km' },
+  { label: 'Ritmo medio', value: '4:38 /km' },
+  { label: 'FC media', value: '152 ppm' },
+];
+
+const laps = [
+  { n: '01', dist: '400 m', pace: '1:32', zone: 'Z4' },
+  { n: '02', dist: '400 m', pace: '1:31', zone: 'Z4' },
+  { n: '08', dist: '400 m', pace: '1:29', zone: 'Z5' },
+];
+---
+
+<section class="section integrations" id="integraciones" aria-labelledby="integrations-title">
+  <div class="integrations__orb aero-orb" aria-hidden="true"></div>
+
+  <div class="container integrations__grid">
+    <div class="integrations__copy">
+      <div class="reveal">
+        <p class="eyebrow">05 — Sin fricción</p>
+        <h2 id="integrations-title">Tus datos ya existen.<br />Que trabajen.</h2>
+        <p class="lede">
+          Sifos importa tus actividades en formato FIT desde Garmin, COROS, Wahoo y Polar. Las
+          vueltas, la frecuencia cardiaca, la potencia y el ritmo llegan a la misma ficha donde vive
+          el plan.
+        </p>
+      </div>
+
+      <ul class="providers reveal" aria-label="Proveedores compatibles">
+        {providers.map((provider) => (
+          <li class="provider">
+            <span class="provider__mark" aria-hidden="true">{provider.mark}</span>
+            <span class="provider__name">{provider.name}</span>
+            <span class="provider__tag">FIT</span>
+          </li>
+        ))}
+      </ul>
+
+      <div class="integrations__note reveal">
+        <span class="integrations__shield" aria-hidden="true">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3 4.5 6v5.2c0 4.5 3.1 8.2 7.5 9.8 4.4-1.6 7.5-5.3 7.5-9.8V6L12 3Z"></path>
+            <path d="m9 12 2 2 4-4"></path>
+          </svg>
+        </span>
+        <p>
+          Solo lectura. El atleta decide qué comparte y puede desconectar la integración cuando
+          quiera.
+        </p>
+      </div>
+    </div>
+
+    <div class="activity glass reveal">
+      <div class="activity__head">
+        <div>
+          <span class="mono activity__kicker">Actividad · 12 noviembre</span>
+          <h3>Carrera · 8 × 400 m</h3>
+        </div>
+        <span class="activity__source">
+          <span class="activity__source-dot"></span>
+          Garmin
+        </span>
+      </div>
+
+      <div class="activity__status">
+        <span class="activity__done">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M20 6 9 17l-5-5"></path>
+          </svg>
+          Sesión cumplida
+        </span>
+        <span class="pill">58 ECO · planificado</span>
+      </div>
+
+      <div class="activity__metrics">
+        {metrics.map((metric) => (
+          <div class="metric">
+            <span class="metric__label">{metric.label}</span>
+            <strong class="metric__value">{metric.value}</strong>
+          </div>
+        ))}
+      </div>
+
+      <div class="activity__chart" aria-hidden="true">
+        <div class="activity__chart-head">
+          <span class="mono">Ritmo y FC</span>
+          <span class="activity__legend">
+            <span><i class="legend-dot legend-dot--pace"></i> Ritmo</span>
+            <span><i class="legend-dot legend-dot--hr"></i> FC</span>
+          </span>
+        </div>
+
+        <svg viewBox="0 0 460 108" role="img" aria-label="Evolución del ritmo y la frecuencia cardiaca durante la sesión">
+          <defs>
+            <linearGradient id="paceArea" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="rgba(0,144,214,.24)"></stop>
+              <stop offset="100%" stop-color="rgba(0,144,214,0)"></stop>
+            </linearGradient>
+          </defs>
+
+          <g stroke="rgba(11,59,82,.07)" stroke-width="1">
+            <line x1="0" y1="24" x2="460" y2="24"></line>
+            <line x1="0" y1="58" x2="460" y2="58"></line>
+            <line x1="0" y1="94" x2="460" y2="94"></line>
+          </g>
+
+          <path
+            d="M0 76 C 20 76, 28 40, 48 40 S 76 64, 96 64 S 118 34, 138 34 S 164 58, 184 58 S 206 28, 226 28 S 252 56, 272 56 S 294 30, 314 30 S 340 60, 360 60 S 382 36, 402 36 S 432 66, 460 66 L 460 108 L 0 108 Z"
+            fill="url(#paceArea)"
+            stroke="none"
+          ></path>
+
+          <path
+            d="M0 76 C 20 76, 28 40, 48 40 S 76 64, 96 64 S 118 34, 138 34 S 164 58, 184 58 S 206 28, 226 28 S 252 56, 272 56 S 294 30, 314 30 S 340 60, 360 60 S 382 36, 402 36 S 432 66, 460 66"
+            fill="none"
+            stroke="#0090d6"
+            stroke-width="2.2"
+            stroke-linecap="round"
+          ></path>
+
+          <path
+            d="M0 84 C 30 82, 46 62, 70 66 S 110 54, 140 58 S 180 48, 210 52 S 250 42, 280 46 S 320 38, 350 40 S 410 34, 460 38"
+            fill="none"
+            stroke="#e8803a"
+            stroke-width="1.8"
+            stroke-dasharray="1 5"
+            stroke-linecap="round"
+          ></path>
+        </svg>
+      </div>
+
+      <div class="activity__laps">
+        <div class="activity__laps-head">
+          <span class="mono">Vueltas</span>
+          <span class="mono">8 de 8</span>
+        </div>
+        {laps.map((lap) => (
+          <div class="lap">
+            <span class="lap__n">{lap.n}</span>
+            <span class="lap__dist">{lap.dist}</span>
+            <span class:list={['lap__zone', `lap__zone--${lap.zone.toLowerCase()}`]}>{lap.zone}</span>
+            <span class="lap__pace">{lap.pace}</span>
+          </div>
+        ))}
+      </div>
+
+      <div class="activity__foot">
+        <span class="activity__sync">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M20 12a8 8 0 1 1-2.34-5.66"></path>
+            <path d="M20 4v5h-5"></path>
+          </svg>
+          Sincronizado hace 2 h
+        </span>
+        <span class="activity__link">Vinculada al plan</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .integrations {
+    position: relative;
+    overflow: hidden;
+    padding-top: clamp(54px, 7vw, 92px);
+  }
+
+  .integrations__orb {
+    right: -80px;
+    top: 80px;
+    width: 210px;
+    height: 210px;
+    opacity: 0.55;
+  }
+
+  .integrations__grid {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+    align-items: center;
+    gap: clamp(34px, 5vw, 68px);
+  }
+
+  .integrations__copy h2 {
+    margin-top: 18px;
+    font-size: clamp(2.2rem, 4vw, 3.7rem);
+  }
+
+  .integrations__copy .lede {
+    max-width: 48ch;
+    margin-top: 20px;
+  }
+
+  .providers {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    max-width: 430px;
+    margin-top: 28px;
+  }
+
+  .provider {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 10px 12px;
+    border: 1px solid rgba(255, 255, 255, 0.78);
+    border-radius: 13px;
+    background: rgba(255, 255, 255, 0.38);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    transition:
+      transform 180ms var(--ease),
+      background 180ms var(--ease);
+  }
+
+  .provider:hover {
+    background: rgba(255, 255, 255, 0.62);
+    transform: translateY(-2px);
+  }
+
+  .provider__mark {
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    flex: none;
+    border-radius: 8px;
+    color: var(--on-accent);
+    background: linear-gradient(150deg, #e3faff, #a3e2f2);
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+  .provider__name {
+    color: var(--ink);
+    font-size: 0.84rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  .provider__tag {
+    margin-left: auto;
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.48rem;
+    letter-spacing: 0.08em;
+  }
+
+  .integrations__note {
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    max-width: 43ch;
+    margin-top: 22px;
+    color: var(--ink-soft);
+    font-size: 0.76rem;
+    line-height: 1.5;
+  }
+
+  .integrations__shield {
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    flex: none;
+    border-radius: 8px;
+    color: #1e7039;
+    background: rgba(76, 194, 116, 0.16);
+  }
+
+  /* ---------- Ficha de actividad ---------- */
+
+  .activity {
+    --glass-strong: rgba(255, 255, 255, 0.92);
+    --glass-soft: rgba(255, 255, 255, 0.7);
+    padding: 20px;
+    border-radius: 28px;
+    box-shadow:
+      inset 0 1px 0 #fff,
+      0 34px 70px rgba(6, 55, 78, 0.16);
+  }
+
+  .activity__head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 14px;
+  }
+
+  .activity__kicker {
+    color: var(--muted);
+    font-size: 0.56rem;
+  }
+
+  .activity h3 {
+    margin-top: 5px;
+    font-size: clamp(1.3rem, 2vw, 1.6rem);
+    line-height: 1.05;
+  }
+
+  .activity__source {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    flex: none;
+    padding: 5px 9px;
+    border: 1px solid var(--hairline);
+    border-radius: 999px;
+    color: var(--ink-soft);
+    background: rgba(255, 255, 255, 0.5);
+    font-family: var(--font-mono);
+    font-size: 0.52rem;
+    letter-spacing: 0.05em;
+  }
+
+  .activity__source-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #2aa7a0;
+  }
+
+  .activity__status {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 16px;
+    padding-top: 12px;
+    border-top: 1px solid var(--hairline-soft);
+  }
+
+  .activity__done {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #1e7039;
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .activity__status .pill {
+    padding: 4px 7px;
+    font-size: 0.47rem;
+  }
+
+  .activity__metrics {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 4px;
+    margin-top: 14px;
+    padding: 12px 0;
+    border-block: 1px solid var(--hairline-soft);
+  }
+
+  .metric {
+    display: grid;
+    gap: 3px;
+    padding-inline: 8px;
+  }
+
+  .metric + .metric {
+    border-left: 1px solid var(--hairline-soft);
+  }
+
+  .metric__label {
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.45rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .metric__value {
+    color: var(--ink);
+    font-family: var(--font-display);
+    font-size: clamp(0.86rem, 1.3vw, 1rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    white-space: nowrap;
+  }
+
+  .activity__chart {
+    margin-top: 14px;
+  }
+
+  .activity__chart-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .activity__chart-head .mono {
+    color: var(--muted);
+    font-size: 0.5rem;
+  }
+
+  .activity__legend {
+    display: flex;
+    gap: 10px;
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.46rem;
+  }
+
+  .activity__legend span {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .legend-dot {
+    width: 9px;
+    height: 3px;
+    border-radius: 2px;
+    background: var(--accent);
+  }
+
+  .legend-dot--hr {
+    background: #e8803a;
+  }
+
+  .activity__chart svg {
+    width: 100%;
+    height: auto;
+    margin-top: 6px;
+  }
+
+  .activity__laps {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid var(--hairline-soft);
+  }
+
+  .activity__laps-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 6px;
+  }
+
+  .activity__laps-head .mono {
+    color: var(--muted);
+    font-size: 0.48rem;
+  }
+
+  .lap {
+    display: grid;
+    grid-template-columns: 24px 1fr 34px 44px;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 0;
+    border-top: 1px solid var(--hairline-soft);
+  }
+
+  .lap__n,
+  .lap__dist,
+  .lap__pace {
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+  }
+
+  .lap__n {
+    color: var(--muted);
+  }
+
+  .lap__dist {
+    color: var(--ink-soft);
+  }
+
+  .lap__zone {
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 18px;
+    border-radius: 5px;
+    color: #a34816;
+    background: rgba(242, 146, 74, 0.18);
+    font-family: var(--font-mono);
+    font-size: 0.48rem;
+    font-weight: 700;
+  }
+
+  .lap__zone--z5 {
+    color: #a32845;
+    background: rgba(239, 84, 119, 0.16);
+  }
+
+  .lap__pace {
+    justify-self: end;
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  .activity__foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid var(--hairline-soft);
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.48rem;
+  }
+
+  .activity__sync {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .activity__link {
+    color: var(--ink-soft);
+    font-weight: 500;
+  }
+
+  @media (max-width: 940px) {
+    .integrations__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .integrations__copy {
+      max-width: 620px;
+    }
+
+    .activity {
+      max-width: 620px;
+      width: 100%;
+    }
+
+    .integrations__orb {
+      top: 30px;
+      right: -110px;
+      opacity: 0.4;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .providers {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .provider {
+      padding: 8px 9px;
+    }
+
+    .provider__tag {
+      display: none;
+    }
+
+    .activity {
+      padding: 15px;
+      border-radius: 22px;
+    }
+
+    .activity__metrics {
+      grid-template-columns: 1fr 1fr;
+      gap: 10px 0;
+    }
+
+    .metric:nth-child(3) {
+      border-left: 0;
+    }
+
+    .metric {
+      padding-inline: 0 8px;
+    }
+
+    .activity__laps-head {
+      padding-bottom: 4px;
+    }
+
+    .lap {
+      grid-template-columns: 20px 1fr 30px 40px;
+    }
+
+    .activity__foot {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 5px;
+    }
+  }
+</style>

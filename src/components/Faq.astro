@@ -1,0 +1,231 @@
+---
+const questions = [
+  {
+    q: '¿Sifos es solo para triatlón?',
+    a: 'No. Nace en el triatlón, pero cubre duatlón, aquatlón, carrera, natación, bici y el trabajo de fuerza asociado. Cada disciplina tiene sus zonas, sus ritmos y su forma de calcular la carga.',
+  },
+  {
+    q: '¿Tengo que cambiar cómo escribo los planes?',
+    a: 'No. Escribes el entrenamiento como lo harías en tu libreta. El motor ECO interpreta el texto libre y calcula la carga de cada bloque; no hay formularios bloque a bloque ni plantillas rígidas.',
+  },
+  {
+    q: '¿Qué es exactamente el ECO?',
+    a: 'Una medida objetiva de la carga planificada: minutos × factor de zona × multiplicador de disciplina. Se compara con el ECS, que es el RPE que registra el atleta de 1 a 10. Dos números, dos miradas al mismo esfuerzo.',
+  },
+  {
+    q: '¿Y si falta un dato en el entrenamiento?',
+    a: 'Sifos no inventa. Si un bloque no se puede calcular porque falta una zona, un factor o un ritmo, el resultado se marca como parcial en lugar de dar un número falso.',
+  },
+  {
+    q: '¿Puedo usar Sifos con todo mi club?',
+    a: 'Sí. Sifos está pensado para clubes: grupos, invitaciones y roles de entrenador y atleta. Cada persona ve lo que le toca y cada entrenador trabaja con los suyos.',
+  },
+  {
+    q: '¿De dónde salen las actividades?',
+    a: 'De Garmin, COROS, Wahoo y Polar, en formato FIT. Sifos guarda las vueltas y las gráficas de cada sesión para que el entrenador pueda revisarla junto al plan. El atleta decide qué comparte y puede desconectar la integración cuando quiera.',
+  },
+  {
+    q: '¿Sifos es lo mismo que tritrain?',
+    a: 'Sí. Sifos es la nueva identidad de tritrain: la misma plataforma, la misma idea y un nombre que habla de subir la cuesta.',
+  },
+  {
+    q: '¿Cómo consigo acceso?',
+    a: 'Estamos abriendo plazas para clubes y entrenadores. Déjanos tu correo y te escribimos cuando haya hueco, con tiempo para preparar tu primer mes.',
+  },
+];
+---
+
+<section class="section faq" id="preguntas" aria-labelledby="faq-title">
+  <div class="container faq__grid">
+    <div class="faq__intro reveal">
+      <p class="eyebrow">06 — Preguntas</p>
+      <h2 id="faq-title">Lo que suele preguntarse antes de empezar.</h2>
+      <p class="lede">
+        Si te queda algo en el aire, escríbenos cuando pidas acceso. Contestamos personas, no un
+        formulario automático.
+      </p>
+
+      <div class="faq__aside">
+        <span class="faq__aside-num">08</span>
+        <span>preguntas<br />y una cuesta</span>
+      </div>
+    </div>
+
+    <div class="faq__list glass reveal">
+      {questions.map((item, index) => (
+        <details class="faq__item" open={index === 0}>
+          <summary>
+            <span class="faq__q">{item.q}</span>
+            <span class="faq__toggle" aria-hidden="true"></span>
+          </summary>
+          <p class="faq__a">{item.a}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .faq {
+    padding-top: clamp(54px, 7vw, 94px);
+  }
+
+  .faq__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.4fr) minmax(0, 0.6fr);
+    align-items: start;
+    gap: clamp(34px, 6vw, 90px);
+  }
+
+  .faq__intro {
+    position: sticky;
+    top: 112px;
+  }
+
+  .faq__intro h2 {
+    max-width: 14ch;
+    margin-top: 18px;
+    font-size: clamp(2rem, 3.5vw, 3.1rem);
+  }
+
+  .faq__intro .lede {
+    margin-top: 18px;
+    font-size: 0.92rem;
+  }
+
+  .faq__aside {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 34px;
+    padding-top: 18px;
+    border-top: 1px solid var(--hairline-soft);
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
+    letter-spacing: 0.06em;
+    line-height: 1.5;
+    text-transform: uppercase;
+  }
+
+  .faq__aside-num {
+    color: var(--accent-deep);
+    font-family: var(--font-display);
+    font-size: 2.4rem;
+    font-weight: 600;
+    letter-spacing: -0.04em;
+    line-height: 1;
+  }
+
+  .faq__list {
+    overflow: hidden;
+  }
+
+  .faq__item + .faq__item {
+    border-top: 1px solid var(--hairline-soft);
+  }
+
+  .faq__item summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    padding: 20px clamp(18px, 2.4vw, 26px);
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .faq__item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq__q {
+    color: var(--ink);
+    font-family: var(--font-display);
+    font-size: clamp(1rem, 1.3vw, 1.12rem);
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    line-height: 1.25;
+  }
+
+  .faq__toggle {
+    position: relative;
+    width: 22px;
+    height: 22px;
+    flex: none;
+    border: 1px solid var(--hairline);
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.4);
+    transition: transform 220ms var(--ease);
+  }
+
+  .faq__toggle::before,
+  .faq__toggle::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 8px;
+    height: 1.5px;
+    border-radius: 2px;
+    background: var(--ink-soft);
+    transform: translate(-50%, -50%);
+  }
+
+  .faq__toggle::after {
+    transform: translate(-50%, -50%) rotate(90deg);
+  }
+
+  .faq__item[open] .faq__toggle {
+    transform: rotate(45deg);
+  }
+
+  .faq__a {
+    max-width: 64ch;
+    padding: 0 clamp(18px, 2.4vw, 26px) 22px;
+    color: var(--ink-soft);
+    font-size: 0.9rem;
+    line-height: 1.65;
+    animation: answer-in 220ms var(--ease) both;
+  }
+
+  @keyframes answer-in {
+    from {
+      opacity: 0;
+      transform: translateY(-4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (max-width: 900px) {
+    .faq__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .faq__intro {
+      position: static;
+    }
+
+    .faq__intro h2 {
+      max-width: 18ch;
+    }
+
+    .faq__aside {
+      display: none;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .faq__item summary {
+      padding: 16px;
+    }
+
+    .faq__a {
+      padding: 0 16px 18px;
+      font-size: 0.86rem;
+    }
+  }
+</style>

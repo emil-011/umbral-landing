@@ -1,0 +1,323 @@
+---
+import WeekBoard from './WeekBoard.astro';
+
+const disciplines = [
+  'Triatlón',
+  'Duatlón',
+  'Aquatlón',
+  'Carrera',
+  'Bici',
+  'Natación',
+  'Fuerza',
+  'Clubes',
+];
+---
+
+<section class="hero" id="inicio">
+  <div class="bokeh" aria-hidden="true"></div>
+  <div class="hero__orb aero-orb" aria-hidden="true"></div>
+  <div class="hero__ring aero-ring" aria-hidden="true"></div>
+
+  <div class="container hero__inner">
+    <div class="hero__copy hero-rise">
+      <p class="eyebrow">Entrenamiento de resistencia · antes tritrain</p>
+
+      <h1 class="hero__title">
+        <span>Entrenar es</span>
+        <span>subir la cuesta.</span>
+        <span class="hero__title-accent">Sifos la mide.</span>
+      </h1>
+
+      <p class="hero__lede">
+        La plataforma donde entrenadores y atletas comparten algo más que un plan: zonas, carga
+        real, calendario y estadísticas. Escribe el entreno como siempre; Sifos hace el resto.
+      </p>
+
+      <div class="hero__actions">
+        <a class="btn btn-primary" href="#acceso">
+          Pedir acceso
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M5 12h14M13 6l6 6-6 6"></path>
+          </svg>
+        </a>
+        <a class="btn btn-ghost" href="#motor">
+          Ver el motor ECO
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 5v14M6 13l6 6 6-6"></path>
+          </svg>
+        </a>
+      </div>
+
+      <ul class="hero__points">
+        <li>
+          <span class="tick" aria-hidden="true">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 6 9 17l-5-5"></path>
+            </svg>
+          </span>
+          Sin hojas de cálculo
+        </li>
+        <li>
+          <span class="tick" aria-hidden="true">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 6 9 17l-5-5"></path>
+            </svg>
+          </span>
+          Todo el club, en orden
+        </li>
+        <li>
+          <span class="tick" aria-hidden="true">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 6 9 17l-5-5"></path>
+            </svg>
+          </span>
+          Del reloj al análisis
+        </li>
+      </ul>
+    </div>
+
+    <div class="hero__visual">
+      <WeekBoard />
+      <p class="hero__caption">
+        <span class="hero__caption-line" aria-hidden="true"></span>
+        Una semana cualquiera, con la carga ya calculada.
+      </p>
+    </div>
+  </div>
+
+  <div class="marquee" aria-label="Disciplinas y ámbitos que cubre Sifos">
+    <div class="marquee__track">
+      <div class="marquee__group">
+        {disciplines.map((discipline) => <span class="marquee__item">{discipline}</span>)}
+      </div>
+      <div class="marquee__group" aria-hidden="true">
+        {disciplines.map((discipline) => <span class="marquee__item">{discipline}</span>)}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    padding: clamp(142px, 17vh, 188px) 0 0;
+    overflow: hidden;
+  }
+
+  .hero__inner {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: minmax(0, 1.03fr) minmax(0, 0.97fr);
+    align-items: center;
+    gap: clamp(36px, 4.5vw, 70px);
+    padding-bottom: clamp(48px, 7vw, 92px);
+  }
+
+  .hero__copy {
+    position: relative;
+    z-index: 1;
+    max-width: 620px;
+  }
+
+  .hero__title {
+    display: grid;
+    margin-top: 24px;
+    font-size: clamp(2.9rem, 5.2vw, 4.55rem);
+    line-height: 0.93;
+    letter-spacing: -0.042em;
+  }
+
+  .hero__title > span {
+    display: block;
+  }
+
+  .hero__title-accent {
+    margin-top: 0.16em;
+    color: var(--accent-deep);
+    font-size: 0.64em;
+    letter-spacing: -0.035em;
+  }
+
+  .hero__lede {
+    max-width: 47ch;
+    margin-top: 26px;
+    color: var(--ink-soft);
+    font-size: clamp(1.02rem, 1.28vw, 1.15rem);
+    line-height: 1.66;
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 30px;
+  }
+
+  .hero__points {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 22px;
+    margin-top: 28px;
+    color: var(--ink-soft);
+    font-size: 0.83rem;
+    font-weight: 600;
+  }
+
+  .hero__points li {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+  }
+
+  .tick {
+    display: grid;
+    place-items: center;
+    width: 18px;
+    height: 18px;
+    flex: none;
+    border-radius: 50%;
+    color: #1d6b3a;
+    background: rgba(76, 194, 116, 0.2);
+    box-shadow: inset 0 0 0 1px rgba(47, 174, 99, 0.12);
+  }
+
+  .hero__visual {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    justify-items: end;
+    gap: 14px;
+  }
+
+  .hero__caption {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding-right: 14px;
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.06em;
+  }
+
+  .hero__caption-line {
+    width: 20px;
+    height: 1px;
+    background: var(--hairline-strong);
+  }
+
+  .hero__orb {
+    top: clamp(150px, 19vh, 210px);
+    right: -60px;
+    width: clamp(150px, 17vw, 250px);
+    height: clamp(150px, 17vw, 250px);
+    opacity: 0.75;
+    animation: drift 14s ease-in-out infinite;
+  }
+
+  .hero__ring {
+    left: -160px;
+    bottom: 86px;
+    width: 430px;
+    height: 210px;
+    opacity: 0.7;
+  }
+
+  @media (max-width: 1040px) {
+    .hero__inner {
+      grid-template-columns: 1fr;
+      justify-items: center;
+      gap: 52px;
+    }
+
+    .hero__copy {
+      max-width: 660px;
+      justify-self: start;
+    }
+
+    .hero__lede {
+      max-width: 58ch;
+    }
+
+    .hero__visual {
+      width: min(100%, 640px);
+      justify-self: center;
+      justify-items: center;
+    }
+
+    .hero__caption {
+      justify-self: start;
+    }
+
+    .hero__orb {
+      top: 420px;
+      right: -80px;
+    }
+
+    .hero__ring {
+      bottom: 220px;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .hero {
+      padding-top: 118px;
+    }
+
+    .hero__inner {
+      gap: 44px;
+      padding-bottom: 56px;
+    }
+
+    .hero__title {
+      margin-top: 20px;
+      font-size: clamp(2.65rem, 11vw, 3.9rem);
+    }
+
+    .hero__lede {
+      margin-top: 20px;
+    }
+
+    .hero__actions {
+      margin-top: 24px;
+    }
+
+    .hero__actions .btn {
+      flex: 1 1 auto;
+    }
+
+    .hero__points {
+      gap: 9px 16px;
+      margin-top: 22px;
+      font-size: 0.79rem;
+    }
+
+    .hero__orb {
+      width: 160px;
+      height: 160px;
+      top: 520px;
+      right: -90px;
+    }
+
+    .hero__ring {
+      display: none;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .hero__title {
+      font-size: clamp(2.4rem, 12.4vw, 3.2rem);
+    }
+
+    .hero__actions {
+      display: grid;
+      grid-template-columns: 1fr;
+    }
+
+    .hero__points {
+      display: grid;
+      gap: 8px;
+    }
+  }
+</style>

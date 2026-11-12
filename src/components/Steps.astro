@@ -1,0 +1,141 @@
+---
+const steps = [
+  {
+    num: '01',
+    title: 'Crea tu club',
+    text: 'Invita a entrenadores y atletas. Cada grupo con sus zonas, sus tests y sus permisos.',
+  },
+  {
+    num: '02',
+    title: 'Escribe y asigna',
+    text: 'Planifica el mes con el lenguaje de siempre. Sifos calcula la carga y la deja en el calendario de cada atleta.',
+  },
+  {
+    num: '03',
+    title: 'Entrena y compara',
+    text: 'El atleta registra su RPE e importa la sesión. Los dos veis lo planificado frente a lo vivido.',
+  },
+];
+---
+
+<section class="section section--tight steps" id="como-funciona" aria-labelledby="steps-title">
+  <div class="container">
+    <div class="steps__head">
+      <div class="reveal">
+        <p class="eyebrow">04 — Cómo funciona</p>
+        <h2 id="steps-title">De la libreta a la decisión, en tres pasos.</h2>
+      </div>
+      <p class="steps__note reveal">Tu próximo mes ya puede estar aquí dentro.</p>
+    </div>
+
+    <ol class="steps__list glass reveal">
+      {steps.map((step) => (
+        <li class="step">
+          <span class="step__num">{step.num}</span>
+          <h3>{step.title}</h3>
+          <p>{step.text}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .steps {
+    padding-top: clamp(34px, 4vw, 56px);
+  }
+
+  .steps__head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 30px;
+  }
+
+  .steps__head h2 {
+    max-width: 16ch;
+    margin-top: 18px;
+    font-size: clamp(2rem, 3.6vw, 3.2rem);
+  }
+
+  .steps__note {
+    flex: none;
+    padding-bottom: 7px;
+    color: var(--ink-soft);
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .steps__list {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin-top: clamp(30px, 4vw, 46px);
+    overflow: hidden;
+    counter-reset: step;
+  }
+
+  .step {
+    position: relative;
+    padding: clamp(22px, 2.8vw, 32px);
+  }
+
+  .step + .step {
+    border-left: 1px solid var(--hairline-soft);
+  }
+
+  .step__num {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border: 1px solid var(--hairline);
+    border-radius: 50%;
+    color: var(--accent-deep);
+    background: rgba(255, 255, 255, 0.44);
+    box-shadow: inset 0 1px 0 #fff;
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+  }
+
+  .step h3 {
+    margin-top: 24px;
+    font-size: clamp(1.32rem, 1.9vw, 1.56rem);
+  }
+
+  .step p {
+    max-width: 34ch;
+    margin-top: 10px;
+    color: var(--ink-soft);
+    font-size: 0.86rem;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 820px) {
+    .steps__head {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .steps__note {
+      padding-bottom: 0;
+    }
+
+    .steps__list {
+      grid-template-columns: 1fr;
+    }
+
+    .step + .step {
+      border-top: 1px solid var(--hairline-soft);
+      border-left: 0;
+    }
+
+    .step h3 {
+      margin-top: 16px;
+    }
+  }
+</style>

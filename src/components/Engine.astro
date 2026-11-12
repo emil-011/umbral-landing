@@ -1,0 +1,629 @@
+---
+const blocks = [
+  { label: "15′ Z2 · calentamiento", eco: '22', width: 44, zone: 'z2' },
+  { label: "8 × 400 m Z4 + 8 × 1′ Z1", eco: '46', width: 88, zone: 'z4' },
+  { label: "10′ Z1 · vuelta a la calma", eco: '8', width: 18, zone: 'z1' },
+];
+
+const principles = [
+  {
+    icon: 'zones',
+    num: '01',
+    title: 'Tus zonas, tu criterio',
+    text: 'Zonas por entrenador y disciplina, con pivote y factor de carga propios. El método del club, no el del fabricante.',
+  },
+  {
+    icon: 'phases',
+    num: '02',
+    title: 'Tres fases, una lectura',
+    text: 'Cada zona se mapea a la fase 1, 2 o 3. La carga se puede leer por intensidad metabólica, no solo por zona.',
+  },
+  {
+    icon: 'honest',
+    num: '03',
+    title: 'Si falta un dato, lo dice',
+    text: 'Sifos no inventa. Si un bloque no se puede calcular, lo marca como parcial en vez de dar un número falso.',
+  },
+];
+---
+
+<section class="engine is-deep" id="motor" aria-labelledby="engine-title">
+  <div class="engine__ring aero-ring" aria-hidden="true"></div>
+
+  <div class="container">
+    <div class="engine__head">
+      <div class="reveal">
+        <p class="eyebrow">01 — El motor</p>
+        <h2 id="engine-title">
+          Escribe como entrenas.<br />
+          <span class="engine__soft">Sifos entiende el resto.</span>
+        </h2>
+      </div>
+      <p class="lede engine__lede reveal">
+        El motor ECO lee el entrenamiento tal y como lo escribirías en tu libreta —«8 × 400 m UA /
+        1′ ALL»— y calcula la carga de cada bloque a partir de tus zonas, tus ritmos y la
+        disciplina.
+      </p>
+    </div>
+
+    <div class="demo glass reveal">
+      <div class="demo__bar">
+        <span class="demo__status">
+          <span class="dot" aria-hidden="true"></span>
+          Motor ECO
+        </span>
+        <span class="pill">Cálculo completo</span>
+      </div>
+
+      <div class="demo__grid">
+        <div class="editor">
+          <div class="editor__head">
+            <span class="mono">Entreno del día</span>
+            <span class="editor__sport">
+              <span class="dot" aria-hidden="true"></span>
+              Carrera
+            </span>
+          </div>
+
+          <div class="editor__body">
+            <p class="editor__line">
+              <span class="editor__ln">01</span>
+              <span>Calentamiento <mark class="token token--z2">15′ ALMED</mark></span>
+            </p>
+            <p class="editor__line">
+              <span class="editor__ln">02</span>
+              <span><mark class="token token--z4">8 × 400 m UA</mark> / <mark class="token token--z1">1′ ALL</mark></span>
+            </p>
+            <p class="editor__line">
+              <span class="editor__ln">03</span>
+              <span>Vuelta a la calma <mark class="token token--z1">10′ ALL</mark></span>
+            </p>
+          </div>
+
+          <div class="editor__foot">
+            <span class="mono">Texto libre · sintaxis del entrenador</span>
+            <span class="editor__cursor" aria-hidden="true"></span>
+          </div>
+        </div>
+
+        <div class="result">
+          <div class="result__head">
+            <div>
+              <span class="mono">Sifos interpreta</span>
+              <strong class="result__total">76<small>ECO</small></strong>
+            </div>
+            <span class="result__tag">Completo</span>
+          </div>
+
+          <div class="result__blocks">
+            {blocks.map((block) => (
+              <div class="block">
+                <div class="block__row">
+                  <span class="block__label">{block.label}</span>
+                  <span class="block__eco">{block.eco}</span>
+                </div>
+                <span class="block__bar" aria-hidden="true">
+                  <span class:list={['block__fill', `block__fill--${block.zone}`]} style={`--w:${block.width}%`}></span>
+                </span>
+              </div>
+            ))}
+          </div>
+
+          <div class="result__formula">
+            <span>minutos</span>
+            <span aria-hidden="true">×</span>
+            <span>factor de zona</span>
+            <span aria-hidden="true">×</span>
+            <span>disciplina</span>
+            <span class="result__eq" aria-hidden="true">=</span>
+            <strong>ECO</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="engine__principles">
+      {principles.map((item) => (
+        <article class="principle glass reveal">
+          <div class="principle__top">
+            <span class="principle__icon" aria-hidden="true">
+              {item.icon === 'zones' && (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 15c3.6-8.8 12.4-8.8 16 0"></path>
+                  <path d="M6.6 12h10.8M8 9h8M9.4 6h5.2"></path>
+                </svg>
+              )}
+              {item.icon === 'phases' && (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 18V9M10 18V5M16 18v-6M22 18V3"></path>
+                  <path d="M2 21h20"></path>
+                </svg>
+              )}
+              {item.icon === 'honest' && (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="9"></circle>
+                  <path d="M12 8v5M12 16.5v.01"></path>
+                </svg>
+              )}
+            </span>
+            <span class="principle__num">{item.num}</span>
+          </div>
+          <h3>{item.title}</h3>
+          <p>{item.text}</p>
+        </article>
+      ))}
+    </div>
+
+    <p class="engine__note reveal">
+      <span class="mono">Filosofía</span>
+      «Ayuda, no obliga». El plan se escribe como siempre; la medida es lo que cambia.
+    </p>
+  </div>
+</section>
+
+<style>
+  .engine {
+    padding-block: clamp(84px, 10vw, 148px);
+    border-block: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .engine__ring {
+    top: 40px;
+    right: -140px;
+    width: 420px;
+    height: 200px;
+    border-color: rgba(255, 255, 255, 0.2);
+    opacity: 0.75;
+  }
+
+  .engine__head {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    align-items: end;
+    gap: clamp(28px, 5vw, 70px);
+  }
+
+  .engine__head h2 {
+    margin-top: 18px;
+    font-size: clamp(2.3rem, 4.5vw, 4.1rem);
+  }
+
+  .engine__soft {
+    color: var(--navy-soft);
+  }
+
+  .engine__lede {
+    max-width: 44ch;
+    color: var(--navy-soft);
+    font-size: 1rem;
+  }
+
+  /* ---------- Demo ---------- */
+
+  .demo {
+    margin-top: clamp(38px, 5vw, 64px);
+    padding: 10px;
+    border-radius: 30px;
+  }
+
+  .demo__bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 8px 12px 16px;
+  }
+
+  .demo__status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--navy-soft);
+    font-family: var(--font-mono);
+    font-size: 0.63rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .demo__status .dot {
+    color: var(--accent-light);
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.35;
+    }
+  }
+
+  .demo__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.02fr) minmax(0, 0.98fr);
+    gap: 10px;
+  }
+
+  .editor,
+  .result {
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 21px;
+    background: rgba(2, 17, 26, 0.5);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  }
+
+  .editor {
+    display: flex;
+    flex-direction: column;
+    padding: 18px;
+  }
+
+  .editor__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+  }
+
+  .editor__head .mono {
+    color: var(--muted);
+    font-size: 0.58rem;
+  }
+
+  .editor__sport {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #ffc194;
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .editor__sport .dot {
+    color: var(--run);
+  }
+
+  .editor__body {
+    display: grid;
+    gap: 15px;
+    padding: 26px 2px 30px;
+  }
+
+  .editor__line {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    color: #e9f8ff;
+    font-family: var(--font-mono);
+    font-size: clamp(0.8rem, 1.2vw, 0.92rem);
+    line-height: 1.8;
+  }
+
+  .editor__ln {
+    flex: none;
+    color: rgba(255, 255, 255, 0.38);
+    font-size: 0.56rem;
+    letter-spacing: 0.06em;
+  }
+
+  .token {
+    padding: 1px 5px;
+    border-radius: 5px;
+    background: transparent;
+    font-weight: 500;
+  }
+
+  .token--z1 {
+    color: #a9d8ff;
+    background: rgba(99, 170, 242, 0.14);
+  }
+
+  .token--z2 {
+    color: #9be7b4;
+    background: rgba(76, 194, 116, 0.14);
+  }
+
+  .token--z4 {
+    color: #ffc194;
+    background: rgba(242, 146, 74, 0.16);
+  }
+
+  .editor__foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: auto;
+    padding-top: 14px;
+    border-top: 1px solid rgba(255, 255, 255, 0.09);
+  }
+
+  .editor__foot .mono {
+    color: rgba(255, 255, 255, 0.62);
+    font-size: 0.54rem;
+  }
+
+  .editor__cursor {
+    width: 2px;
+    height: 14px;
+    background: var(--accent-light);
+    animation: blink 1.4s step-end infinite;
+  }
+
+  @keyframes blink {
+    50% {
+      opacity: 0;
+    }
+  }
+
+  .result {
+    display: flex;
+    flex-direction: column;
+    padding: 18px;
+  }
+
+  .result__head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 14px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+  }
+
+  .result__head .mono {
+    color: var(--muted);
+    font-size: 0.58rem;
+  }
+
+  .result__total {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    margin-top: 4px;
+    color: var(--ink);
+    font-family: var(--font-display);
+    font-size: clamp(2.4rem, 3.6vw, 3.2rem);
+    font-weight: 600;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .result__total small {
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.56rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+  }
+
+  .result__tag {
+    padding: 5px 8px;
+    border: 1px solid rgba(76, 194, 116, 0.3);
+    border-radius: 999px;
+    color: #9be7b4;
+    background: rgba(76, 194, 116, 0.1);
+    font-family: var(--font-mono);
+    font-size: 0.52rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .result__blocks {
+    display: grid;
+    gap: 17px;
+    padding: 22px 0 24px;
+  }
+
+  .block__row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 14px;
+  }
+
+  .block__label {
+    color: #d9eef6;
+    font-size: 0.78rem;
+    line-height: 1.35;
+  }
+
+  .block__eco {
+    flex: none;
+    color: var(--ink);
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    font-weight: 600;
+  }
+
+  .block__bar {
+    display: block;
+    height: 5px;
+    margin-top: 8px;
+    overflow: hidden;
+    border-radius: 99px;
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  .block__fill {
+    display: block;
+    width: var(--w);
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, rgba(111, 224, 255, 0.55), var(--accent-light));
+  }
+
+  .block__fill--z1 {
+    background: linear-gradient(90deg, rgba(99, 170, 242, 0.4), #9ed2ff);
+  }
+
+  .block__fill--z2 {
+    background: linear-gradient(90deg, rgba(76, 194, 116, 0.4), #7fe0a5);
+  }
+
+  .block__fill--z4 {
+    background: linear-gradient(90deg, rgba(242, 146, 74, 0.4), #ffb27a);
+  }
+
+  .result__formula {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    margin-top: auto;
+    padding-top: 14px;
+    border-top: 1px solid rgba(255, 255, 255, 0.09);
+    color: rgba(255, 255, 255, 0.65);
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    letter-spacing: 0.02em;
+  }
+
+  .result__formula strong {
+    color: var(--accent-light);
+    font-weight: 600;
+  }
+
+  .result__eq {
+    margin-left: auto;
+    color: rgba(255, 255, 255, 0.32);
+  }
+
+  /* ---------- Principios ---------- */
+
+  .engine__principles {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+    margin-top: 16px;
+  }
+
+  .principle {
+    padding: 22px;
+  }
+
+  .principle__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .principle__icon {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 12px;
+    color: var(--accent-light);
+    background: rgba(255, 255, 255, 0.06);
+  }
+
+  .principle__num {
+    color: rgba(255, 255, 255, 0.3);
+    font-family: var(--font-mono);
+    font-size: 0.56rem;
+    letter-spacing: 0.12em;
+  }
+
+  .principle h3 {
+    margin-top: 20px;
+    font-size: 1.25rem;
+    line-height: 1.08;
+  }
+
+  .principle p {
+    margin-top: 10px;
+    color: var(--navy-soft);
+    font-size: 0.85rem;
+    line-height: 1.6;
+  }
+
+  .engine__note {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 14px;
+    margin-top: 34px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--navy-soft);
+    font-family: var(--font-display);
+    font-size: clamp(1.1rem, 1.7vw, 1.35rem);
+    letter-spacing: -0.02em;
+  }
+
+  .engine__note .mono {
+    color: var(--accent-light);
+    font-size: 0.56rem;
+  }
+
+  @media (max-width: 900px) {
+    .engine__head {
+      grid-template-columns: 1fr;
+      align-items: start;
+    }
+
+    .engine__lede {
+      max-width: 56ch;
+    }
+
+    .demo__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .engine__principles {
+      grid-template-columns: 1fr;
+    }
+
+    .principle h3 {
+      margin-top: 16px;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .demo {
+      padding: 7px;
+      border-radius: 24px;
+    }
+
+    .demo__bar {
+      padding: 7px 8px 12px;
+    }
+
+    .demo__bar .pill {
+      font-size: 0.5rem;
+    }
+
+    .editor,
+    .result {
+      padding: 15px;
+      border-radius: 17px;
+    }
+
+    .editor__body {
+      padding: 20px 0 24px;
+      gap: 12px;
+    }
+
+    .editor__line {
+      font-size: 0.75rem;
+      gap: 10px;
+    }
+
+    .block__label {
+      font-size: 0.72rem;
+    }
+
+    .result__formula {
+      font-size: 0.47rem;
+    }
+  }
+</style>
