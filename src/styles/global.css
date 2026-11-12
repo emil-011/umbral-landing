@@ -187,6 +187,10 @@ body::after {
   outline-offset: 3px;
 }
 
+.is-deep :focus-visible {
+  outline-color: var(--accent-light);
+}
+
 h1,
 h2,
 h3,
