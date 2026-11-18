@@ -1,5 +1,6 @@
 ---
 import Logo from './Logo.astro';
+import { APP_LOGIN_URL } from '../lib/app';
 
 const links = [
   { href: '#club', label: 'El club' },
@@ -22,6 +23,7 @@ const links = [
     </nav>
 
     <div class="u-nav__actions">
+      <a class="u-btn u-btn--sm u-btn--ghost u-nav__login" href={APP_LOGIN_URL}>Entrar</a>
       <a class="u-btn u-btn--sm u-nav__cta" href="#acceso">
         <span class="u-dot" aria-hidden="true"></span>
         Pedir acceso
@@ -46,6 +48,7 @@ const links = [
       {links.map((link) => <a href={link.href}>{link.label}</a>)}
     </nav>
     <div class="u-nav__mobile-actions">
+      <a class="u-btn u-btn--ghost" href={APP_LOGIN_URL}>Entrar</a>
       <a class="u-btn" href="#acceso">
         <span class="u-dot" aria-hidden="true"></span>
         Pedir acceso

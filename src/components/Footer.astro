@@ -1,5 +1,6 @@
 ---
 import Logo from './Logo.astro';
+import { APP_LOGIN_URL } from '../lib/app';
 
 const columns = [
   {
@@ -29,6 +30,7 @@ const columns = [
     links: [
       { label: 'Preguntas', href: '#preguntas' },
       { label: 'Acceso anticipado', href: '#acceso' },
+      { label: 'Entrar en la app', href: APP_LOGIN_URL },
     ],
   },
 ];

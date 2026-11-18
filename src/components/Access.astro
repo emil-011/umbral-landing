@@ -1,4 +1,6 @@
 ---
+import { APP_LOGIN_URL } from '../lib/app';
+
 const badges = [
   'Clubes y entrenadores',
   'Datos en servidores propios · España',
@@ -71,7 +73,8 @@ const badges = [
       </div>
 
       <p class="u-access__hint">
-        Solo te escribiremos cuando haya una plaza. El acceso se abre por invitación.
+        Solo te escribiremos cuando haya una plaza. Si ya tienes cuenta,
+        <a href={APP_LOGIN_URL}>entra en la app</a>.
       </p>
     </div>
   </div>

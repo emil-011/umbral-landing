@@ -1,4 +1,5 @@
 import { defineMiddleware } from 'astro:middleware';
+import { APP_URL } from './lib/app';
 
 /**
  * La app (app.umbrallab.es) deja una cookie de sesión en `.umbrallab.es` al iniciar
@@ -8,10 +9,6 @@ import { defineMiddleware } from 'astro:middleware';
  * La cookie es solo una pista (HttpOnly, sin datos de sesión). La app sigue siendo
  * la que valida el token; si ya caducó, allí se pide login con normalidad.
  */
-const APP_URL =
-  (import.meta.env.APP_URL as string | undefined) ??
-  process.env.APP_URL ??
-  'https://app.umbrallab.es';
 const SESSION_COOKIE = 'umbral_session';
 
 export const onRequest = defineMiddleware((context, next) => {
