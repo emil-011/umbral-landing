@@ -1,16 +1,15 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Sifos">
-  <defs>
-    <linearGradient id="sky" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#c9f7ff"></stop>
-      <stop offset="0.55" stop-color="#8fe3f5"></stop>
-      <stop offset="1" stop-color="#38b3e5"></stop>
-    </linearGradient>
-  </defs>
-  <rect width="64" height="64" rx="15" fill="url(#sky)"></rect>
-  <g fill="none" stroke="#0b3b52" stroke-width="4.6" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M6 55 58 27"></path>
-    <circle cx="36" cy="25" r="13.6" fill="#0b3b52" stroke="none"></circle>
-    <path d="M10 61 28 52"></path>
-    <path d="M36 49 57 38"></path>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1177 1177" role="img" aria-label="Umbral">
+  <style>
+    path { fill: #191a18; }
+    @media (prefers-color-scheme: dark) {
+      path { fill: #f0ede5; }
+    }
+  </style>
+  <g transform="translate(0 250.5)">
+    <path
+      fill="#191a18"
+      fill-rule="evenodd"
+      d="M 588 0 L 0 676 L 1177 676 Z M 238 676 L 588 275 L 938 676 L 797 676 L 588 437 L 379 676 Z"
+    />
   </g>
 </svg>

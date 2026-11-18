@@ -1,0 +1,234 @@
+---
+import Logo from './Logo.astro';
+
+const links = [
+  { href: '#club', label: 'El club' },
+  { href: '#disciplinas', label: 'Deportes' },
+  { href: '#ficha', label: 'La ficha' },
+  { href: '#plan', label: 'El plan' },
+  { href: '#seguimiento', label: 'Seguimiento' },
+  { href: '#carga', label: 'Carga' },
+  { href: '#preguntas', label: 'Preguntas' },
+];
+
+---
+
+<header class="u-nav" id="top" data-nav>
+  <div class="u-wrap u-nav__inner">
+    <Logo class="u-nav__logo" label="Umbral, inicio" />
+
+    <nav class="u-nav__links" aria-label="Principal">
+      {links.map((link) => <a href={link.href} data-nav-link>{link.label}</a>)}
+    </nav>
+
+    <div class="u-nav__actions">
+      <a class="u-btn u-btn--sm u-nav__cta" href="#acceso">
+        <span class="u-dot" aria-hidden="true"></span>
+        Pedir acceso
+      </a>
+    </div>
+
+    <button
+      class="u-nav__toggle"
+      type="button"
+      aria-expanded="false"
+      aria-controls="u-menu"
+      aria-label="Abrir menú"
+      data-nav-toggle
+    >
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </button>
+  </div>
+
+  <div class="u-nav__mobile" id="u-menu" data-nav-menu hidden>
+    <nav class="u-nav__mobile-links" aria-label="Principal, móvil">
+      {links.map((link) => <a href={link.href}>{link.label}</a>)}
+    </nav>
+    <div class="u-nav__mobile-actions">
+      <a class="u-btn" href="#acceso">
+        <span class="u-dot" aria-hidden="true"></span>
+        Pedir acceso
+      </a>
+    </div>
+  </div>
+</header>
+
+<style>
+  .u-nav {
+    position: sticky;
+    top: 0;
+    z-index: 80;
+    border-bottom: 1px solid transparent;
+    background: color-mix(in srgb, var(--ivory) 92%, transparent);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    transition: border-color 240ms var(--ease);
+  }
+
+  .u-nav.is-scrolled {
+    border-color: var(--line);
+  }
+
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .u-nav {
+      background: var(--ivory);
+    }
+  }
+
+  .u-nav__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    min-height: 72px;
+  }
+
+  .u-nav__logo {
+    flex: none;
+    font-size: 19px;
+  }
+
+  .u-nav__links {
+    display: flex;
+    align-items: center;
+    gap: clamp(18px, 2.2vw, 30px);
+    margin-inline: auto;
+  }
+
+  .u-nav__links a {
+    position: relative;
+    padding-block: 6px;
+    color: var(--ink-soft);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    transition: color 180ms var(--ease);
+  }
+
+  .u-nav__links a::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 1px;
+    background: var(--signal);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 260ms var(--ease);
+  }
+
+  .u-nav__links a:hover,
+  .u-nav__links a.is-active {
+    color: var(--ink);
+  }
+
+  .u-nav__links a:hover::after,
+  .u-nav__links a.is-active::after {
+    transform: scaleX(1);
+  }
+
+  .u-nav__actions {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    flex: none;
+  }
+
+  .u-nav__toggle {
+    display: none;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  .u-nav__toggle span {
+    display: block;
+    width: 15px;
+    height: 1px;
+    margin: 4px auto;
+    background: var(--ink);
+    transition: transform 240ms var(--ease);
+  }
+
+  .u-nav__toggle[aria-expanded='true'] span:first-child {
+    transform: translateY(2.5px) rotate(45deg);
+  }
+
+  .u-nav__toggle[aria-expanded='true'] span:last-child {
+    transform: translateY(-2.5px) rotate(-45deg);
+  }
+
+  .u-nav__mobile {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    left: 0;
+    padding: 18px var(--u-gutter) 24px;
+    border-bottom: 1px solid var(--line);
+    background: var(--ivory);
+    box-shadow: 0 22px 40px -30px rgba(25, 26, 24, 0.5);
+  }
+
+  .u-nav__mobile-links {
+    display: grid;
+    gap: 2px;
+  }
+
+  .u-nav__mobile-links a {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--line-soft);
+    color: var(--ink);
+    font-family: var(--display);
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+  }
+
+  .u-nav__mobile-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 18px;
+  }
+
+  .u-nav__mobile-actions .u-btn {
+    flex: 1;
+  }
+
+  @media (max-width: 1080px) {
+    .u-nav__links {
+      display: none;
+    }
+
+    .u-nav__toggle {
+      display: block;
+    }
+
+    .u-nav__inner {
+      justify-content: flex-start;
+    }
+
+    .u-nav__actions {
+      margin-left: auto;
+    }
+  }
+
+  @media (max-width: 620px) {
+    .u-nav__actions {
+      display: none;
+    }
+
+    .u-nav__toggle {
+      margin-left: auto;
+    }
+
+    .u-nav__inner {
+      min-height: 64px;
+    }
+  }
+</style>

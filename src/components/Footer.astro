@@ -1,0 +1,187 @@
+---
+import Logo from './Logo.astro';
+
+const columns = [
+  {
+    title: 'Producto',
+    links: [
+      { label: 'El club', href: '#club' },
+      { label: 'La ficha', href: '#ficha' },
+      { label: 'El plan', href: '#plan' },
+      { label: 'Seguimiento', href: '#seguimiento' },
+      { label: 'Carga', href: '#carga' },
+      { label: 'Cómo funciona', href: '#como' },
+    ],
+  },
+  {
+    title: 'Deportes',
+    links: [
+      { label: 'Triatlón', href: '#triatlon' },
+      { label: 'Atletismo', href: '#atletismo' },
+      { label: 'Natación', href: '#natacion' },
+      { label: 'Ciclismo', href: '#ciclismo' },
+      { label: 'Duatlón', href: '#duatlon' },
+      { label: 'Aquatlón', href: '#aquatlon' },
+    ],
+  },
+  {
+    title: 'Recursos',
+    links: [
+      { label: 'Preguntas', href: '#preguntas' },
+      { label: 'Acceso anticipado', href: '#acceso' },
+    ],
+  },
+];
+---
+
+<footer class="u-footer">
+  <div class="u-wrap">
+    <div class="u-footer__top">
+      <div class="u-footer__brand">
+        <Logo class="u-footer__logo" />
+        <p class="u-footer__tagline">
+          Entrena con tus marcas.<br />
+          La app que empieza en tus tests, no en una fórmula.
+        </p>
+        <p class="u-footer__successor">
+          <span class="u-dot" aria-hidden="true"></span>
+          La nueva identidad de tritrain
+        </p>
+      </div>
+
+      <div class="u-footer__columns">
+        {columns.map((column) => (
+          <div class="u-footer__column">
+            <p class="u-mono">{column.title}</p>
+            <ul>
+              {column.links.map((link) => (
+                <li><a href={link.href}>{link.label}</a></li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <div class="u-footer__bottom">
+      <p class="u-mono">© 2026 Umbral · tritrain</p>
+      <p class="u-mono">España · ES</p>
+      <a class="u-footer__up" href="#top">
+        Volver arriba
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 19V5M6 11l6-6 6 6" />
+        </svg>
+      </a>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .u-footer {
+    padding-block: clamp(48px, 6vw, 76px) 28px;
+    border-top: 1px solid var(--line);
+    background: var(--ivory);
+  }
+
+  .u-footer__top {
+    display: flex;
+    justify-content: space-between;
+    gap: 48px;
+  }
+
+  .u-footer__logo {
+    font-size: 20px;
+  }
+
+  .u-footer__tagline {
+    margin-top: 18px;
+    color: var(--ink-soft);
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  .u-footer__successor {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    margin-top: 18px;
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .u-footer__columns {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(108px, 1fr));
+    gap: clamp(28px, 3.4vw, 48px);
+  }
+
+  .u-footer__column .u-mono {
+    color: var(--muted);
+    font-size: 8px;
+  }
+
+  .u-footer__column ul {
+    display: grid;
+    gap: 8px;
+    margin-top: 14px;
+  }
+
+  .u-footer__column a {
+    color: var(--ink-soft);
+    font-size: 13px;
+    transition: color 160ms var(--ease);
+  }
+
+  .u-footer__column a:hover {
+    color: var(--ink);
+  }
+
+  .u-footer__bottom {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: clamp(40px, 5vw, 64px);
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+  }
+
+  .u-footer__bottom .u-mono {
+    font-size: 7px;
+  }
+
+  .u-footer__up {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-left: auto;
+    color: var(--ink-soft);
+    font-family: var(--mono);
+    font-size: 8px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .u-footer__up:hover {
+    color: var(--ink);
+  }
+
+  @media (max-width: 760px) {
+    .u-footer__top {
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .u-footer__columns {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px;
+    }
+
+    .u-footer__bottom {
+      flex-wrap: wrap;
+    }
+  }
+</style>

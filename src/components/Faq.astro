@@ -1,64 +1,94 @@
 ---
-const questions = [
+const faqs = [
   {
-    q: '¿Sifos es solo para triatlón?',
-    a: 'No. Nace en el triatlón, pero cubre duatlón, aquatlón, carrera, natación, bici y el trabajo de fuerza asociado. Cada disciplina tiene sus zonas, sus ritmos y su forma de calcular la carga.',
+    q: '¿Qué es Umbral y qué relación tiene con tritrain?',
+    a: 'Umbral es la nueva identidad de <strong>tritrain</strong>: la app de entrenamiento para clubes, entrenadores y atletas de triatlón, atletismo, natación y ciclismo. Reúne tests, zonas propias, planes en texto libre y carga ECO/ECS. La app sigue disponible para los clubes que ya tienen acceso.',
+    open: true,
   },
   {
     q: '¿Tengo que cambiar cómo escribo los planes?',
-    a: 'No. Escribes el entrenamiento como lo harías en tu libreta. El motor ECO interpreta el texto libre y calcula la carga de cada bloque; no hay formularios bloque a bloque ni plantillas rígidas.',
+    a: "No. Escribes la sesión como lo harías en tu libreta — <code>20' Z2</code>, <code>4x(4' Z4 / 3' Z1)</code>, <code>resto Z1</code>— y Umbral busca distancias, series, zonas y descansos. Lo que no cuadra se ignora: no te obliga a rellenar un formulario bloque a bloque.",
   },
   {
-    q: '¿Qué es exactamente el ECO?',
-    a: 'Una medida objetiva de la carga planificada: minutos × factor de zona × multiplicador de disciplina. Se compara con el ECS, que es el RPE que registra el atleta de 1 a 10. Dos números, dos miradas al mismo esfuerzo.',
+    q: '¿Qué es el umbral en el entrenamiento?',
+    a: 'El umbral es la intensidad a partir de la cual el esfuerzo cuesta sostenerlo: el lactato se acumula más rápido de lo que se elimina y la respiración se dispara. Cada disciplina y cada atleta tienen el suyo. Umbral no impone una fórmula: los tests de cada atleta fijan esa referencia y las zonas se construyen alrededor de ella.',
   },
   {
-    q: '¿Y si falta un dato en el entrenamiento?',
-    a: 'Sifos no inventa. Si un bloque no se puede calcular porque falta una zona, un factor o un ritmo, el resultado se marca como parcial en lugar de dar un número falso.',
+    q: '¿De dónde salen los ritmos y las zonas de entrenamiento?',
+    a: 'De los tests activos de cada atleta. En carrera y bici hay un test de referencia; en natación puedes tener varios activos, uno por distancia, y la curva se construye con ellos. El entrenador define los porcentajes, colores y factores de carga de sus zonas. Al activar una marca nueva, los ritmos se recalculan con ella.',
   },
   {
-    q: '¿Puedo usar Sifos con todo mi club?',
-    a: 'Sí. Sifos está pensado para clubes: grupos, invitaciones y roles de entrenador y atleta. Cada persona ve lo que le toca y cada entrenador trabaja con los suyos.',
+    q: '¿Cómo se calcula la carga?',
+    a: 'El <strong>ECO</strong> es la carga planificada: minutos o volumen × factor de zona × peso de la disciplina (natación 0,75 · bici 0,50 · carrera 1,00). El <strong>ECS</strong> es el RPE de 1 a 10 que registra el atleta. Además se calcula el <strong>TSS</strong> estándar con las referencias del perfil. Si falta un dato, el bloque se marca parcial.',
   },
   {
     q: '¿De dónde salen las actividades?',
-    a: 'De Garmin, COROS, Wahoo y Polar, en formato FIT. Sifos guarda las vueltas y las gráficas de cada sesión para que el entrenador pueda revisarla junto al plan. El atleta decide qué comparte y puede desconectar la integración cuando quiera.',
+    a: 'De Garmin, Polar y Wahoo, con conexión de solo lectura, o subiendo un FIT/ZIP. Llegan con vueltas, frecuencia cardiaca, potencia y registros; el detalle incluye gráficas y mapa. COROS, Suunto e iGPSPORT están en camino. Cada atleta conecta y desconecta cuando quiere.',
   },
   {
-    q: '¿Sifos es lo mismo que tritrain?',
-    a: 'Sí. Sifos es la nueva identidad de tritrain: la misma plataforma, la misma idea y un nombre que habla de subir la cuesta.',
+    q: '¿Puedo usar Umbral con todo mi club de triatlón o atletismo?',
+    a: 'Sí. El club tiene grupos, un enlace de invitación y roles de entrenador y atleta. El entrenador ve los miembros, abre la ficha de cada atleta y consulta sus actividades y estadísticas. El atleta ve lo suyo, sin compararse con la tabla de nadie.',
   },
   {
-    q: '¿Cómo consigo acceso?',
-    a: 'Estamos abriendo plazas para clubes y entrenadores. Déjanos tu correo y te escribimos cuando haya hueco, con tiempo para preparar tu primer mes.',
+    q: '¿Umbral sirve para triatlón, atletismo, natación y ciclismo?',
+    a: 'Sí. Nace en el triatlón, pero cubre natación, ciclismo, carrera y atletismo, duatlón, aquatlón y el trabajo de fuerza asociado. Cada disciplina tiene sus tests, sus zonas, sus ritmos y su cálculo de carga.',
+  },
+  {
+    q: '¿Dónde están mis datos?',
+    a: 'En servidores propios, en España. La conexión con los relojes es de solo lectura y se puede desconectar; las actividades ya importadas se conservan. No vendemos ni compartimos los datos. La política de privacidad está publicada en la app.',
+  },
+  {
+    q: '¿Cómo entro?',
+    a: 'Estamos abriendo las primeras plazas para clubes y entrenadores. Déjanos tu correo y te escribimos para preparar el primer mes. Si ya tienes cuenta, entra desde el enlace privado que te enviamos.',
   },
 ];
+
+/* El schema se construye con las mismas preguntas visibles: Google exige que
+   el marcado coincida con el contenido de la página. */
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.q,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: faq.a.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim(),
+    },
+  })),
+};
+
+const faqSchemaJson = JSON.stringify(faqSchema).replace(/</g, '\\u003c');
 ---
 
-<section class="section faq" id="preguntas" aria-labelledby="faq-title">
-  <div class="container faq__grid">
-    <div class="faq__intro reveal">
-      <p class="eyebrow">06 — Preguntas</p>
-      <h2 id="faq-title">Lo que suele preguntarse antes de empezar.</h2>
-      <p class="lede">
-        Si te queda algo en el aire, escríbenos cuando pidas acceso. Contestamos personas, no un
-        formulario automático.
+<section class="u-section" id="preguntas" aria-labelledby="u-faq-title">
+  <script type="application/ld+json" is:inline set:html={faqSchemaJson} />
+  <div class="u-wrap u-faq">
+    <div class="u-faq__intro">
+      <p class="u-kicker">10 / Preguntas</p>
+      <h2 class="u-title" id="u-faq-title" data-split>
+        Lo que suele<br />{' '}<span class="soft">preguntarse.</span>
+      </h2>
+      <p class="u-faq__note">
+        Si te queda algo en el aire, escríbenos al pedir acceso. Contestamos personas, no un
+        formulario.
       </p>
-
-      <div class="faq__aside">
-        <span class="faq__aside-num">08</span>
-        <span>preguntas<br />y una cuesta</span>
-      </div>
+      <a class="u-link" href="#acceso">
+        Pedir acceso
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M7 17 17 7M8 7h9v9" />
+        </svg>
+      </a>
     </div>
 
-    <div class="faq__list glass reveal">
-      {questions.map((item, index) => (
-        <details class="faq__item" open={index === 0}>
+    <div class="u-faq__list" data-reveal>
+      {faqs.map((faq) => (
+        <details class="u-faq__item" open={faq.open}>
           <summary>
-            <span class="faq__q">{item.q}</span>
-            <span class="faq__toggle" aria-hidden="true"></span>
+            {faq.q}
+            <span class="u-faq__toggle" aria-hidden="true"></span>
           </summary>
-          <p class="faq__a">{item.a}</p>
+          <div class="u-faq__a" set:html={faq.a} />
         </details>
       ))}
     </div>
@@ -66,166 +96,143 @@ const questions = [
 </section>
 
 <style>
-  .faq {
-    padding-top: clamp(54px, 7vw, 94px);
-  }
-
-  .faq__grid {
+  .u-faq {
     display: grid;
-    grid-template-columns: minmax(0, 0.4fr) minmax(0, 0.6fr);
+    grid-template-columns: minmax(0, 0.78fr) minmax(0, 1.22fr);
+    gap: clamp(32px, 6vw, 92px);
     align-items: start;
-    gap: clamp(34px, 6vw, 90px);
   }
 
-  .faq__intro {
+  .u-faq__intro {
     position: sticky;
-    top: 112px;
+    top: 104px;
   }
 
-  .faq__intro h2 {
-    max-width: 14ch;
-    margin-top: 18px;
-    font-size: clamp(2rem, 3.5vw, 3.1rem);
+  .u-faq__note {
+    max-width: 32ch;
+    margin-top: 22px;
+    color: var(--ink-soft);
+    font-size: 14px;
+    line-height: 1.6;
   }
 
-  .faq__intro .lede {
-    margin-top: 18px;
-    font-size: 0.92rem;
+  .u-faq__intro .u-link {
+    margin-top: 22px;
   }
 
-  .faq__aside {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-top: 34px;
-    padding-top: 18px;
-    border-top: 1px solid var(--hairline-soft);
-    color: var(--muted);
-    font-family: var(--font-mono);
-    font-size: 0.58rem;
-    letter-spacing: 0.06em;
-    line-height: 1.5;
-    text-transform: uppercase;
+  .u-faq__list {
+    border-top: 1px solid var(--line);
   }
 
-  .faq__aside-num {
-    color: var(--accent-deep);
-    font-family: var(--font-display);
-    font-size: 2.4rem;
-    font-weight: 600;
-    letter-spacing: -0.04em;
-    line-height: 1;
+  .u-faq__item {
+    border-bottom: 1px solid var(--line);
   }
 
-  .faq__list {
-    overflow: hidden;
-  }
-
-  .faq__item + .faq__item {
-    border-top: 1px solid var(--hairline-soft);
-  }
-
-  .faq__item summary {
+  .u-faq__item summary {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 18px;
-    padding: 20px clamp(18px, 2.4vw, 26px);
-    cursor: pointer;
+    gap: 24px;
+    padding: 20px 0;
+    color: var(--ink);
+    font-family: var(--display);
+    font-size: clamp(1rem, 1.35vw, 1.12rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.3;
     list-style: none;
+    cursor: pointer;
   }
 
-  .faq__item summary::-webkit-details-marker {
+  .u-faq__item summary::-webkit-details-marker {
     display: none;
   }
 
-  .faq__q {
-    color: var(--ink);
-    font-family: var(--font-display);
-    font-size: clamp(1rem, 1.3vw, 1.12rem);
-    font-weight: 600;
-    letter-spacing: -0.015em;
-    line-height: 1.25;
+  .u-faq__item summary:focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 3px;
+    border-radius: 8px;
   }
 
-  .faq__toggle {
+  .u-faq__toggle {
     position: relative;
-    width: 22px;
-    height: 22px;
+    width: 30px;
+    height: 30px;
     flex: none;
-    border: 1px solid var(--hairline);
+    border: 1px solid var(--line);
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.4);
-    transition: transform 220ms var(--ease);
+    transition:
+      background-color 200ms var(--ease),
+      border-color 200ms var(--ease);
   }
 
-  .faq__toggle::before,
-  .faq__toggle::after {
+  .u-faq__toggle::before,
+  .u-faq__toggle::after {
     content: '';
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 8px;
-    height: 1.5px;
-    border-radius: 2px;
-    background: var(--ink-soft);
+    width: 10px;
+    height: 1px;
+    background: var(--ink);
     transform: translate(-50%, -50%);
   }
 
-  .faq__toggle::after {
+  .u-faq__toggle::after {
     transform: translate(-50%, -50%) rotate(90deg);
   }
 
-  .faq__item[open] .faq__toggle {
-    transform: rotate(45deg);
+  .u-faq__item[open] .u-faq__toggle {
+    border-color: var(--ink);
+    background: var(--ink);
   }
 
-  .faq__a {
-    max-width: 64ch;
-    padding: 0 clamp(18px, 2.4vw, 26px) 22px;
+  .u-faq__item[open] .u-faq__toggle::before,
+  .u-faq__item[open] .u-faq__toggle::after {
+    background: var(--ivory);
+  }
+
+  .u-faq__item[open] .u-faq__toggle::after {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+
+  .u-faq__a {
+    max-width: 62ch;
+    padding: 0 48px 22px 0;
     color: var(--ink-soft);
-    font-size: 0.9rem;
-    line-height: 1.65;
-    animation: answer-in 220ms var(--ease) both;
+    font-size: 13.5px;
+    line-height: 1.7;
   }
 
-  @keyframes answer-in {
-    from {
-      opacity: 0;
-      transform: translateY(-4px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+  .u-faq__a code {
+    padding: 2px 5px;
+    border: 1px solid var(--line);
+    border-radius: 5px;
+    color: var(--ink);
+    background: var(--card);
+    font-family: var(--mono);
+    font-size: 0.85em;
+  }
+
+  .u-faq__a a {
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-color: var(--signal);
+    text-underline-offset: 3px;
+  }
+
+  .u-faq__a strong {
+    color: var(--ink);
+    font-weight: 600;
   }
 
   @media (max-width: 900px) {
-    .faq__grid {
+    .u-faq {
       grid-template-columns: 1fr;
     }
 
-    .faq__intro {
+    .u-faq__intro {
       position: static;
-    }
-
-    .faq__intro h2 {
-      max-width: 18ch;
-    }
-
-    .faq__aside {
-      display: none;
-    }
-  }
-
-  @media (max-width: 520px) {
-    .faq__item summary {
-      padding: 16px;
-    }
-
-    .faq__a {
-      padding: 0 16px 18px;
-      font-size: 0.86rem;
     }
   }
 </style>

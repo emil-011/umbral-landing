@@ -1,0 +1,285 @@
+---
+const badges = [
+  'Clubes y entrenadores',
+  'Datos en servidores propios · España',
+  'Solo lectura con los relojes',
+  'Garmin · Polar · Wahoo',
+];
+---
+
+<section class="u-band u-section u-access" id="acceso" aria-labelledby="u-access-title">
+  <div class="u-wrap u-access__grid">
+    <div class="u-access__copy">
+      <p class="u-kicker">Acceso anticipado</p>
+      <h2 class="u-title" id="u-access-title" data-split>
+        Lleva tu club<br />{' '}a su <em>umbral<span class="u-access__period">.</span></em>
+      </h2>
+      <p class="u-lead">
+        Estamos abriendo las primeras plazas para clubes y entrenadores. Déjanos tu correo y te
+        escribimos con tiempo para preparar el primer mes.
+      </p>
+
+      <ul class="u-access__badges">
+        {badges.map((badge) => <li>{badge}</li>)}
+      </ul>
+    </div>
+
+    <div class="u-access__card" data-reveal>
+      <p class="u-mono">Pide tu plaza</p>
+
+      <form class="u-access__form" novalidate data-waitlist>
+        <label class="u-access__field">
+          <span class="visually-hidden">Correo electrónico</span>
+          <input
+            class="u-access__input"
+            type="email"
+            name="email"
+            placeholder="correo@tuclub.com"
+            autocomplete="email"
+            required
+            aria-describedby="u-access-error"
+          />
+        </label>
+
+        <label class="u-access__field u-access__field--role">
+          <span class="visually-hidden">Soy</span>
+          <select class="u-access__select" name="role" aria-label="Soy">
+            <option value="club">Soy un club</option>
+            <option value="trainer">Soy entrenador/a</option>
+            <option value="athlete">Soy atleta</option>
+          </select>
+        </label>
+
+        <div class="u-access__trap" aria-hidden="true">
+          <label>No rellenar <input type="text" name="website" tabindex="-1" autocomplete="off" /></label>
+        </div>
+
+        <button class="u-btn u-access__submit" type="submit">
+          <span class="u-dot" aria-hidden="true"></span>
+          <span data-submit-label>Pedir acceso</span>
+        </button>
+      </form>
+
+      <p class="u-access__error" id="u-access-error" role="alert" data-form-error hidden></p>
+
+      <div class="u-access__done" data-form-done hidden role="status">
+        <span class="u-dot u-dot--pulse" aria-hidden="true"></span>
+        <div>
+          <strong>Apuntado.</strong>
+          <p>Te escribiremos cuando haya una plaza.</p>
+        </div>
+      </div>
+
+      <p class="u-access__hint">
+        Solo te escribiremos cuando haya una plaza. El acceso se abre por invitación.
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .u-access__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    align-items: center;
+    gap: clamp(32px, 5vw, 72px);
+  }
+
+  .u-access__period {
+    color: var(--signal);
+  }
+
+  .u-access .u-title {
+    max-width: 14ch;
+  }
+
+  .u-access .u-lead {
+    max-width: 46ch;
+    margin-top: 22px;
+  }
+
+  .u-access__badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 28px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line-dark);
+  }
+
+  .u-access__badges li {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 9px;
+    border: 1px solid var(--line-dark);
+    border-radius: 999px;
+    color: #cbc8bf;
+    font-family: var(--mono);
+    font-size: 7px;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+  }
+
+  .u-access__badges li::before {
+    content: '';
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--signal);
+  }
+
+  .u-access__card {
+    padding: clamp(24px, 2.8vw, 32px);
+    border-radius: clamp(30px, 3.2vw, 38px);
+    color: var(--ink);
+    background: var(--ivory);
+  }
+
+  .u-access__card > .u-mono {
+    color: var(--muted);
+    font-size: 8px;
+  }
+
+  .u-access__form {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 8px;
+    margin-top: 16px;
+  }
+
+  .u-access__form > .u-access__field:first-child {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .u-access__trap {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  .u-access__field {
+    min-width: 0;
+  }
+
+  .u-access__field--role {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+
+  .u-access__submit {
+    grid-column: 2;
+    grid-row: 1;
+    min-height: 50px;
+    padding: 0 20px;
+  }
+
+  .u-access__input,
+  .u-access__select {
+    width: 100%;
+    min-height: 50px;
+    padding: 0 16px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    color: var(--ink);
+    background: #fffdf8;
+    font-family: var(--sans);
+    font-size: 13px;
+    outline: none;
+    transition:
+      border-color 180ms var(--ease),
+      box-shadow 180ms var(--ease);
+  }
+
+  .u-access__input::placeholder {
+    color: var(--muted);
+  }
+
+  .u-access__input:focus,
+  .u-access__select:focus {
+    border-color: var(--signal);
+    box-shadow: 0 0 0 4px var(--signal-soft);
+  }
+
+  .u-access__select {
+    padding-right: 38px;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236a6962' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    cursor: pointer;
+  }
+
+  .u-access__error {
+    margin-top: 10px;
+    color: var(--run);
+    font-size: 11px;
+    line-height: 1.4;
+  }
+
+  .u-access__done {
+    display: flex;
+    align-items: flex-start;
+    gap: 11px;
+    margin-top: 16px;
+    padding: 14px 15px;
+    border: 1px solid color-mix(in srgb, var(--signal) 45%, var(--line));
+    border-radius: 18px;
+    background: var(--signal-soft);
+  }
+
+  .u-access__done .u-dot {
+    margin-top: 5px;
+  }
+
+  .u-access__done strong {
+    color: var(--ink);
+    font-family: var(--display);
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  .u-access__done p {
+    margin-top: 2px;
+    color: var(--ink-soft);
+    font-size: 12px;
+    line-height: 1.45;
+  }
+
+  .u-access__hint {
+    margin-top: 14px;
+    color: var(--muted);
+    font-size: 10px;
+    line-height: 1.5;
+  }
+
+  .u-access__hint a {
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-color: var(--signal);
+    text-underline-offset: 2px;
+  }
+
+  @media (max-width: 900px) {
+    .u-access__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 1120px) {
+    .u-access__form {
+      grid-template-columns: 1fr;
+    }
+
+    .u-access__form > .u-access__field:first-child,
+    .u-access__field--role,
+    .u-access__submit {
+      grid-column: auto;
+      grid-row: auto;
+    }
+  }
+</style>

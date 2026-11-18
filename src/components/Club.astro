@@ -1,0 +1,623 @@
+---
+const groups = [
+  {
+    name: 'Élite',
+    members: [
+      { name: 'Marta López', nickname: 'marta', initials: 'ML', role: 'Atleta' },
+      { name: 'Iván Ríos', nickname: 'ivan', initials: 'IR', role: 'Atleta' },
+      { name: 'Carla Serra', nickname: 'carla', initials: 'CS', role: 'Atleta' },
+      { name: 'Dani Puig', nickname: 'dani', initials: 'DP', role: 'Atleta' },
+      { name: 'Javi Mena', nickname: 'javi', initials: 'JM', role: 'Entrenador' },
+    ],
+  },
+  {
+    name: 'Juvenil',
+    members: [
+      { name: 'Noa Vidal', nickname: 'noa', initials: 'NV', role: 'Atleta' },
+      { name: 'Hugo Mas', nickname: 'hugo', initials: 'HM', role: 'Atleta' },
+      { name: 'Lía Costa', nickname: 'lia', initials: 'LC', role: 'Atleta' },
+    ],
+  },
+  {
+    name: 'Iniciación',
+    members: [
+      { name: 'Pablo Ayala', nickname: 'pablo', initials: 'PA', role: 'Atleta' },
+      { name: 'Sara Gil', nickname: 'sara', initials: 'SG', role: 'Atleta' },
+    ],
+  },
+];
+
+const members = groups.flatMap((group) =>
+  group.members.map((member) => ({ ...member, group: group.name })),
+);
+const memberCount = members.length;
+---
+
+<section class="u-section" id="club" aria-labelledby="u-club-title">
+  <div class="u-wrap">
+    <header class="u-head">
+      <div>
+        <p class="u-kicker">03 / El club</p>
+        <h2 class="u-title" id="u-club-title" data-split>
+          Un club.<br />{' '}<span class="soft">Su estructura.</span>
+        </h2>
+      </div>
+      <p class="u-head__note">
+        Grupos, invitaciones y roles. <strong>Cada atleta entra con un enlace y cada entrenador
+        trabaja con los suyos</strong>, sin pedir listados ni compartir contraseñas.
+      </p>
+    </header>
+
+    <div class="u-club">
+      <div class="u-club__header u-club-panel" data-reveal>
+        <div class="u-club__identity">
+          <span class="u-club__avatar" aria-hidden="true">CT</span>
+          <div class="u-club__id">
+            <p class="u-club__tech">Umbral / club</p>
+            <p class="u-club__name">Club Triatlón Élite</p>
+            <p class="u-club__meta">
+              <span>{memberCount} miembros</span>
+              <span aria-hidden="true">·</span>
+              <span>{groups.length} grupos</span>
+              <span aria-hidden="true">·</span>
+              <span>Entrenador: Javi Mena</span>
+            </p>
+          </div>
+        </div>
+
+        <span class="u-btn u-btn--sm u-club__invite" aria-hidden="true">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 5v14M5 12h14" />
+          </svg>
+          Invitar
+        </span>
+      </div>
+
+      <div class="u-club__body">
+        <div class="u-club__groups" data-reveal>
+          <div class="u-club__section-head">
+            <h3>Grupos</h3>
+            <span class="u-mono">{groups.length}</span>
+          </div>
+
+          <div class="u-club__group-list">
+            {groups.map((group, index) => (
+              <details class="u-group u-club-panel" open={index === 0}>
+                <summary>
+                  <span class="u-group__avatar" aria-hidden="true">{group.name.slice(0, 1)}</span>
+                  <span class="u-group__label">
+                    <strong>{group.name}</strong>
+                    <small>{group.members.length} atletas</small>
+                  </span>
+                  <svg class="u-group__chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="m9 6 6 6-6 6" />
+                  </svg>
+                </summary>
+
+                <div class="u-group__body">
+                  {group.members.map((member) => (
+                    <div class="u-group__member">
+                      <span class="u-avatar u-avatar--sm" aria-hidden="true">{member.initials}</span>
+                      <span class="u-group__member-name">{member.name}</span>
+                      {member.role === 'Entrenador' && (
+                        <span class="u-club__chip is-trainer">Entrenador</span>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </details>
+            ))}
+          </div>
+        </div>
+
+        <aside class="u-club__members" data-reveal aria-label="Miembros del club">
+          <div class="u-club__section-head">
+            <h3>Miembros</h3>
+            <span class="u-mono">{memberCount}</span>
+          </div>
+
+          <div class="u-club__member-list">
+            {members.map((member) => (
+              <div class="u-member u-club-panel">
+                <span class="u-avatar" aria-hidden="true">{member.initials}</span>
+                <span class="u-member__id">
+                  <strong>{member.name}</strong>
+                  <small>@{member.nickname}</small>
+                </span>
+                <span class="u-member__chips">
+                  <span class="u-club__chip">{member.group}</span>
+                  <span class:list={['u-club__chip', member.role === 'Entrenador' && 'is-trainer']}>
+                    {member.role}
+                  </span>
+                </span>
+              </div>
+            ))}
+          </div>
+        </aside>
+      </div>
+
+      <p class="u-note u-club__note">Datos de ejemplo · vista de entrenador</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .u-club {
+    display: grid;
+    gap: 12px;
+  }
+
+  .u-club-panel {
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    background: var(--card);
+  }
+
+  @supports (corner-shape: squircle) {
+    .u-club-panel {
+      corner-shape: squircle;
+    }
+  }
+
+  /* ===================== Cabecera del club ===================== */
+
+  .u-club__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 16px 18px;
+  }
+
+  .u-club__identity {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-width: 0;
+  }
+
+  .u-club__avatar {
+    display: grid;
+    width: 52px;
+    height: 52px;
+    flex: none;
+    place-items: center;
+    border-radius: 16px;
+    color: var(--ivory);
+    background: var(--ink);
+    font-family: var(--display);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  .u-club__id {
+    min-width: 0;
+  }
+
+  .u-club__tech {
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    line-height: 1.3;
+    text-transform: uppercase;
+  }
+
+  .u-club__name {
+    margin-top: 2px;
+    overflow: hidden;
+    color: var(--ink);
+    font-family: var(--display);
+    font-size: clamp(1.45rem, 2.2vw, 1.9rem);
+    font-weight: 700;
+    letter-spacing: -0.045em;
+    line-height: 1.05;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .u-club__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 3px 8px;
+    margin-top: 4px;
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.02em;
+    line-height: 1.4;
+  }
+
+  .u-club__invite {
+    flex: none;
+    gap: 8px;
+    cursor: default;
+  }
+
+  /* Es una pieza visual de la demo: no copia ni abre nada. */
+  .u-club__invite:hover,
+  .u-club__invite:active {
+    border-color: var(--ink);
+    background: var(--ink);
+    transform: none;
+  }
+
+  /* ===================== Cuerpo: grupos y miembros ===================== */
+
+  .u-club__body {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    align-items: start;
+    gap: 12px;
+  }
+
+  .u-club__groups,
+  .u-club__members {
+    display: grid;
+    gap: 8px;
+    min-width: 0;
+  }
+
+  .u-club__section-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 2px 4px;
+  }
+
+  .u-club__section-head h3 {
+    color: var(--ink);
+    font-family: var(--display);
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.2;
+  }
+
+  .u-club__section-head .u-mono {
+    color: var(--muted);
+  }
+
+  .u-club__group-list,
+  .u-club__member-list {
+    display: grid;
+    gap: 8px;
+  }
+
+  /* ===================== Grupos ===================== */
+
+  .u-group {
+    overflow: hidden;
+  }
+
+  .u-group summary {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 13px;
+    list-style: none;
+    cursor: pointer;
+  }
+
+  .u-group summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .u-group summary:focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: -2px;
+    border-radius: 20px;
+  }
+
+  .u-group__avatar {
+    display: grid;
+    width: 38px;
+    height: 38px;
+    flex: none;
+    place-items: center;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    color: var(--ink);
+    background: var(--surface);
+    font-family: var(--display);
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  .u-group__label {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    min-width: 0;
+  }
+
+  .u-group__label strong {
+    color: var(--ink);
+    font-family: var(--display);
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.2;
+  }
+
+  .u-group__label small {
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .u-group__chev {
+    flex: none;
+    margin-left: auto;
+    color: var(--muted);
+    transition: transform 240ms var(--ease);
+  }
+
+  .u-group[open] .u-group__chev {
+    transform: rotate(90deg);
+  }
+
+  .u-group__body {
+    display: grid;
+    gap: 2px;
+    padding: 10px 13px 13px;
+    border-top: 1px solid var(--line-soft);
+  }
+
+  .u-group__member {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 4px 2px;
+  }
+
+  .u-group__member-name {
+    overflow: hidden;
+    color: var(--ink);
+    font-size: 12.5px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .u-group__member .u-club__chip {
+    margin-left: auto;
+  }
+
+  /* ===================== Miembros ===================== */
+
+  .u-member {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 9px 11px;
+    transition:
+      background-color 160ms var(--ease),
+      border-color 160ms var(--ease);
+  }
+
+  .u-member:hover {
+    border-color: var(--stone);
+    background: var(--ivory);
+  }
+
+  .u-member__id {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .u-member__id strong {
+    overflow: hidden;
+    color: var(--ink);
+    font-family: var(--display);
+    font-size: 13.5px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .u-member__id small {
+    margin-top: 1px;
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.02em;
+    line-height: 1.3;
+  }
+
+  .u-member__chips {
+    display: flex;
+    flex: none;
+    align-items: center;
+    gap: 4px;
+  }
+
+  /* ===================== Avatares y chips ===================== */
+
+  .u-avatar {
+    display: grid;
+    width: 30px;
+    height: 30px;
+    flex: none;
+    place-items: center;
+    border-radius: 50%;
+    color: var(--ink);
+    background: var(--surface);
+    font-family: var(--sans);
+    font-size: 8px;
+    font-weight: 600;
+  }
+
+  .u-avatar--sm {
+    width: 24px;
+    height: 24px;
+    font-size: 7.5px;
+  }
+
+  .u-club__chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 8px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 9.5px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    line-height: 1;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .u-club__chip.is-trainer {
+    border-color: var(--ink);
+    color: var(--ink);
+    background: var(--signal-soft);
+  }
+
+  .u-club__note {
+    margin-top: 2px;
+  }
+
+  @media (max-width: 980px) {
+    .u-club__body {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 620px) {
+    .u-club__header {
+      align-items: flex-start;
+      flex-wrap: wrap;
+    }
+
+    .u-club__identity {
+      width: 100%;
+    }
+
+    .u-club__invite {
+      width: 100%;
+    }
+
+    .u-club__name {
+      white-space: normal;
+    }
+
+    .u-member {
+      flex-wrap: wrap;
+      row-gap: 6px;
+    }
+
+    .u-member__id {
+      flex-basis: calc(100% - 42px);
+    }
+
+    .u-member__chips {
+      width: 100%;
+      padding-left: 39px;
+    }
+  }
+
+  @media (min-width: 1500px) {
+    .u-club__header {
+      padding: 18px 20px;
+    }
+
+    .u-club__avatar {
+      width: 56px;
+      height: 56px;
+      font-size: 15px;
+    }
+
+    .u-club__name {
+      font-size: 2.05rem;
+    }
+
+    .u-club__tech {
+      font-size: 11px;
+    }
+
+    .u-club__meta {
+      font-size: 10.5px;
+    }
+
+    .u-club__section-head h3 {
+      font-size: 1.2rem;
+    }
+
+    .u-group summary {
+      gap: 14px;
+      padding: 13px 15px;
+    }
+
+    .u-group__avatar {
+      width: 40px;
+      height: 40px;
+      font-size: 15px;
+    }
+
+    .u-group__label strong {
+      font-size: 16px;
+    }
+
+    .u-group__label small {
+      font-size: 10px;
+    }
+
+    .u-group__body {
+      padding: 12px 15px 15px;
+    }
+
+    .u-group__member {
+      padding: 5px 2px;
+    }
+
+    .u-group__member-name {
+      font-size: 13px;
+    }
+
+    .u-member {
+      gap: 10px;
+      padding: 11px 13px;
+    }
+
+    .u-member__id strong {
+      font-size: 14.5px;
+    }
+
+    .u-member__id small {
+      font-size: 9.5px;
+    }
+
+    .u-avatar {
+      width: 32px;
+      height: 32px;
+      font-size: 9px;
+    }
+
+    .u-avatar--sm {
+      width: 26px;
+      height: 26px;
+      font-size: 8px;
+    }
+
+    .u-club__chip {
+      padding: 3px 8px;
+      font-size: 10px;
+    }
+
+    .u-club__note {
+      font-size: 10px;
+    }
+  }
+</style>

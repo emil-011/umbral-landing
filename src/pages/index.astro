@@ -1,34 +1,52 @@
 ---
+// La home se renderiza en cada petición para que el middleware pueda leer la
+// cookie de sesión y redirigir a la app si el visitante ya está dentro.
+export const prerender = false;
+
 import Layout from '../layouts/Layout.astro';
-import NavBar from '../components/NavBar.astro';
+import Nav from '../components/Nav.astro';
 import Hero from '../components/Hero.astro';
-import Problem from '../components/Problem.astro';
-import Engine from '../components/Engine.astro';
-import Product from '../components/Product.astro';
-import Audience from '../components/Audience.astro';
-import Steps from '../components/Steps.astro';
-import Integrations from '../components/Integrations.astro';
-import Manifesto from '../components/Manifesto.astro';
+import Disciplinas from '../components/Disciplinas.astro';
+import Roles from '../components/Roles.astro';
+import Club from '../components/Club.astro';
+import AthleteFile from '../components/AthleteFile.astro';
+import PlanDemo from '../components/PlanDemo.astro';
+import Tracking from '../components/Tracking.astro';
+import Load from '../components/Load.astro';
+import Idea from '../components/Idea.astro';
+import Method from '../components/Method.astro';
 import Faq from '../components/Faq.astro';
-import Cta from '../components/Cta.astro';
-import SiteFooter from '../components/SiteFooter.astro';
+import Access from '../components/Access.astro';
+import Footer from '../components/Footer.astro';
+
+const title = 'Umbral - App de entrenamiento para triatlón y atletismo';
+const description =
+  'App de entrenamiento para clubes, entrenadores y atletas de triatlón, atletismo, natación y ciclismo. Tests, zonas propias, planes y carga ECO/ECS.';
 ---
 
-<Layout>
-  <NavBar />
+<Layout title={title} description={description}>
+  <div class="u-page">
+    <Nav />
 
-  <main id="contenido">
-    <Hero />
-    <Problem />
-    <Engine />
-    <Product />
-    <Audience />
-    <Steps />
-    <Integrations />
-    <Manifesto />
-    <Faq />
-    <Cta />
-  </main>
+    <main id="contenido" tabindex="-1">
+      <Hero />
+      <Roles />
+      <Disciplinas />
+      <Club />
+      <AthleteFile />
+      <PlanDemo />
+      <Tracking />
+      <Load />
+      <Idea />
+      <Method />
+      <Faq />
+      <Access />
+    </main>
 
-  <SiteFooter />
+    <Footer />
+  </div>
+
+  <script>
+    import '../scripts/app';
+  </script>
 </Layout>

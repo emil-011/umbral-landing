@@ -1,0 +1,235 @@
+---
+const steps = [
+  {
+    n: '01',
+    label: 'Tests',
+    title: 'Cada atleta hace sus tests.',
+    text: 'Natación a varias distancias, carrera y bici. Sus marcas, no la estimación de una tabla. La referencia es su test activo.',
+  },
+  {
+    n: '02',
+    label: 'Plan',
+    title: 'El entrenador escribe el plan.',
+    text: 'En texto libre, como en su libreta. Umbral interpreta distancias, series, zonas y descansos, y calcula el ECO de cada bloque.',
+  },
+  {
+    n: '03',
+    label: 'Seguimiento',
+    title: 'Lo hecho vuelve a la ficha.',
+    text: 'Las actividades llegan del reloj con sus vueltas y registros. Se cruzan con el plan y se leen en tiempo y carga.',
+  },
+];
+
+const equations = [
+  {
+    label: 'ECO',
+    sub: 'Carga planificada',
+    formula: 'min × factor de zona × peso',
+    detail: 'Natación ×0,75 · Bici ×0,50 · Carrera ×1,00',
+  },
+  {
+    label: 'ECS',
+    sub: 'Carga percibida',
+    formula: 'RPE 1–10',
+    detail: 'Lo que el atleta sintió después de la sesión',
+  },
+  {
+    label: 'TSS',
+    sub: 'Escala estándar',
+    formula: 'horas × IF² × 100',
+    detail: 'Potencia, ritmo o FC frente a la referencia del perfil',
+  },
+];
+---
+
+<section class="u-section" id="como" aria-labelledby="u-method-title">
+  <div class="u-wrap">
+    <header class="u-head">
+      <div>
+        <p class="u-kicker">09 / Cómo funciona</p>
+        <h2 class="u-title" id="u-method-title" data-split>
+          Del test al club,<br />{' '}<span class="soft">sin hojas de cálculo.</span>
+        </h2>
+      </div>
+      <p class="u-head__note">
+        Tres pasos. <strong>Ninguno te pide cambiar cómo entrenas ni cómo escribes tus planes.</strong>{' '}
+        Solo pone un número donde antes había una intuición.
+      </p>
+    </header>
+
+    <div class="u-steps">
+      {steps.map((step, index) => (
+        <article class="u-step-card" data-reveal>
+          <span class="u-step-card__n">{step.n}</span>
+          <p class="u-mono">{step.label}</p>
+          <h3>{step.title}</h3>
+          <p>{step.text}</p>
+          {index < steps.length - 1 && <span class="u-step-card__connector" aria-hidden="true"></span>}
+        </article>
+      ))}
+    </div>
+
+    <div class="u-eqs">
+      {equations.map((eq) => (
+        <div class="u-eq" data-reveal>
+          <div class="u-eq__top">
+            <span class="u-eq__label">{eq.label}</span>
+            <span class="u-mono">{eq.sub}</span>
+          </div>
+          <code>{eq.formula}</code>
+          <p>{eq.detail}</p>
+        </div>
+      ))}
+    </div>
+
+    <p class="u-method__note" data-reveal>
+      <span class="u-dot" aria-hidden="true"></span>
+      Si falta una zona, un factor o una referencia, el bloque se marca parcial. Preferimos un ECO
+      parcial a un número falso.
+    </p>
+  </div>
+</section>
+
+<style>
+  .u-steps {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .u-step-card {
+    position: relative;
+    padding: 26px 26px 28px;
+    border: 1px solid var(--line);
+    border-radius: var(--u-radius-sm);
+    background: var(--card);
+  }
+
+  .u-step-card__n {
+    display: inline-grid;
+    width: 34px;
+    height: 34px;
+    place-items: center;
+    border: 1px solid var(--ink);
+    border-radius: 50%;
+    color: var(--ink);
+    font-family: var(--mono);
+    font-size: 9px;
+    font-weight: 500;
+  }
+
+  .u-step-card > .u-mono {
+    margin-top: 20px;
+    color: var(--muted);
+    font-size: 8px;
+  }
+
+  .u-step-card h3 {
+    margin-top: 8px;
+    color: var(--ink);
+    font-family: var(--display);
+    font-size: clamp(1.15rem, 1.7vw, 1.4rem);
+    font-weight: 700;
+    letter-spacing: -0.035em;
+    line-height: 1.12;
+  }
+
+  .u-step-card > p {
+    margin-top: 10px;
+    color: var(--ink-soft);
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  .u-step-card__connector {
+    position: absolute;
+    top: 42px;
+    right: -17px;
+    width: 18px;
+    height: 1px;
+    background: var(--line);
+  }
+
+  .u-eqs {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+    margin-top: 16px;
+  }
+
+  .u-eq {
+    padding: 22px 24px;
+    border: 1px solid var(--line-soft);
+    border-radius: var(--u-radius-sm);
+    background: var(--surface);
+  }
+
+  .u-eq__top {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .u-eq__label {
+    color: var(--ink);
+    font-family: var(--display);
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .u-eq__top .u-mono {
+    color: var(--muted);
+    font-size: 7px;
+    text-align: right;
+  }
+
+  .u-eq code {
+    display: block;
+    margin-top: 16px;
+    padding: 10px 12px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    color: var(--ink);
+    background: var(--ivory);
+    font-family: var(--mono);
+    font-size: 10px;
+    line-height: 1.4;
+  }
+
+  .u-eq p {
+    margin-top: 10px;
+    color: var(--ink-soft);
+    font-size: 11px;
+    line-height: 1.5;
+  }
+
+  .u-method__note {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-top: 22px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.6;
+  }
+
+  .u-method__note .u-dot {
+    margin-top: 5px;
+  }
+
+  @media (max-width: 900px) {
+    .u-steps,
+    .u-eqs {
+      grid-template-columns: 1fr;
+    }
+
+    .u-step-card__connector {
+      display: none;
+    }
+  }
+</style>

@@ -1,0 +1,151 @@
+---
+---
+
+<section class="u-band u-section u-idea" aria-labelledby="u-idea-title">
+  <div class="u-wrap u-idea__grid">
+    <div class="u-idea__copy">
+      <p class="u-kicker">08 / La idea</p>
+      <h2 class="u-title" id="u-idea-title" data-split>
+        El umbral no es una meta.<br />{' '}
+        Es el punto en que<br />{' '}
+        <em>el esfuerzo cambia</em>.
+      </h2>
+      <p class="u-lead">
+        Medimos para saber cuándo lo cruza cada atleta, cuánto aguanta al otro lado y qué hacer
+        después. Sin estimaciones de tabla: con sus marcas y su respuesta.
+      </p>
+
+      <div class="u-idea__phases">
+        <span><i class="is-p1"></i>Fase 1 · aeróbica</span>
+        <span><i class="is-p2"></i>Fase 2 · transición</span>
+        <span><i class="is-p3"></i>Fase 3 · acumulación</span>
+      </div>
+    </div>
+
+    <div class="u-idea__visual" aria-hidden="true">
+      <svg viewBox="0 0 360 300" class="u-idea__svg" focusable="false">
+        <defs>
+          <path id="u-idea-arc" d="M50 258 V150 A130 130 0 0 1 310 150 V258" />
+        </defs>
+
+        <use
+          href="#u-idea-arc"
+          fill="none"
+          stroke="#f0ede5"
+          stroke-opacity="0.32"
+          stroke-width="1.1"
+          stroke-dasharray="2 6"
+        />
+        <line x1="22" y1="258" x2="338" y2="258" stroke="#f0ede5" stroke-opacity="0.24" />
+        <line x1="50" y1="258" x2="50" y2="246" stroke="#f0ede5" stroke-opacity="0.24" />
+        <line x1="310" y1="258" x2="310" y2="246" stroke="#f0ede5" stroke-opacity="0.24" />
+
+        <text x="50" y="282" fill="#b8b5ad" font-family="IBM Plex Mono, monospace" font-size="8" text-anchor="middle" letter-spacing="1.5">F1</text>
+        <text x="180" y="282" fill="#b8b5ad" font-family="IBM Plex Mono, monospace" font-size="8" text-anchor="middle" letter-spacing="1.5">F2</text>
+        <text x="310" y="282" fill="#b8b5ad" font-family="IBM Plex Mono, monospace" font-size="8" text-anchor="middle" letter-spacing="1.5">F3</text>
+
+        <g class="u-idea__marker">
+          <circle class="u-idea__dot" cx="180" cy="20" r="4.6" data-idea-dot />
+        </g>
+      </svg>
+
+      <p class="u-idea__caption">El punto verde recorre el arco: el instante en que el esfuerzo cambia de significado.</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .u-idea__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    align-items: center;
+    gap: clamp(32px, 5vw, 72px);
+  }
+
+  .u-idea .u-title {
+    max-width: 24ch;
+    font-size: clamp(2.2rem, 3.9vw, 3.6rem);
+  }
+
+  .u-idea .u-title em {
+    color: var(--signal);
+  }
+
+  .u-idea .u-lead {
+    max-width: 46ch;
+    margin-top: 22px;
+  }
+
+  .u-idea__phases {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+    margin-top: 26px;
+    padding-top: 18px;
+    border-top: 1px solid var(--line-dark);
+  }
+
+  .u-idea__phases span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--stone);
+    font-family: var(--mono);
+    font-size: 7px;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+  }
+
+  .u-idea__phases i {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+  }
+
+  .is-p1 {
+    background: #3f9b63;
+  }
+
+  .is-p2 {
+    background: #d19f2a;
+  }
+
+  .is-p3 {
+    background: #cf4053;
+  }
+
+  .u-idea__visual {
+    justify-self: end;
+    width: min(100%, 380px);
+  }
+
+  .u-idea__svg {
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+
+  .u-idea__dot {
+    fill: var(--signal);
+    filter: drop-shadow(0 0 7px rgba(32, 212, 88, 0.55));
+  }
+
+  .u-idea__caption {
+    max-width: 34ch;
+    margin-top: 14px;
+    color: var(--stone);
+    font-size: 10px;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 860px) {
+    .u-idea__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .u-idea__visual {
+      justify-self: start;
+      width: min(100%, 320px);
+    }
+  }
+</style>

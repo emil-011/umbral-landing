@@ -1,0 +1,1478 @@
+---
+import DiscIcon from './DiscIcon.astro';
+
+const clock = (seconds: number) => {
+  const whole = Math.round(seconds);
+  return `${Math.floor(whole / 60)}:${String(whole % 60).padStart(2, '0')}`;
+};
+
+const toSeconds = (pace: string) => {
+  const [minutes, seconds] = pace.split(':').map(Number);
+  return minutes * 60 + seconds;
+};
+
+const zoneNames = ['Recuperación', 'Aeróbico', 'Tempo', 'Umbral', 'VO₂ máx.'];
+const swimDistances = [50, 100, 200, 400, 800];
+
+const athlete = {
+  name: 'Marta López',
+  nickname: 'marta',
+  initials: 'ML',
+  group: 'Élite',
+  club: 'Club Triatlón Élite',
+  tests: {
+    swim: [
+      { dist: 50, time: 35, date: '14 may', active: false },
+      { dist: 100, time: 76, date: '14 may', active: false },
+      { dist: 200, time: 168, date: '02 may', active: false },
+      { dist: 400, time: 352, date: '02 may', active: true },
+      { dist: 800, time: 750, date: '18 abr', active: false },
+    ],
+    run: [
+      { dist: 5000, time: 1215, date: '10 may', active: true },
+      { dist: 10000, time: 2580, date: '22 mar', active: false },
+    ],
+    bike: [
+      { power: 285, time: 1200, ftp: 271, date: '05 may', active: true },
+      { power: 272, time: 1200, ftp: 258, date: '15 feb', active: false },
+    ],
+  },
+  zones: ['1:47', '1:42', '1:37', '1:32', '1:26'],
+  runPaces: ['5:45', '5:12', '4:48', '4:24', '4:02'],
+  ftp: 271,
+  watts: [190, 216, 244, 271, 298],
+  stats: {
+    kpis: [
+      { label: 'Sesiones', value: '12' },
+      { label: 'Tiempo', value: '8 h 40' },
+      { label: 'Distancia', value: '68 km' },
+      { label: 'Desnivel', value: '1.240 m' },
+      { label: 'TSS estimado', value: '410' },
+    ],
+    weeks: [
+      [18, 42, 25], [20, 50, 30], [16, 38, 22], [24, 55, 34], [22, 48, 28], [20, 52, 32],
+      [18, 44, 26], [26, 58, 36], [22, 50, 30], [24, 56, 34], [20, 46, 28], [28, 62, 40],
+    ],
+    disciplines: [
+      { name: 'Natación', sessions: 4, time: '2 h 10', distance: '6,2 km' },
+      { name: 'Ciclismo', sessions: 4, time: '3 h 30', distance: '82 km' },
+      { name: 'Carrera', sessions: 4, time: '3 h 00', distance: '32 km' },
+    ],
+  },
+};
+
+const slides = [
+  { feature: 'ritmos', aria: 'ritmos de entrenamiento' },
+  { feature: 'stats', aria: 'estadísticas del atleta' },
+  { feature: 'tests', aria: 'tests del atleta' },
+];
+
+const swim400 = athlete.tests.swim.find((test) => test.dist === 400);
+const swimPace = swim400 ? clock(swim400.time / (swim400.dist / 100)) : '—';
+const maxWeek = Math.max(...athlete.stats.weeks.map(([swim, bike, run]) => swim + bike + run));
+const heatWeeks = Array.from({ length: 12 }, (_, week) =>
+  Array.from({ length: 7 }, (_, day) => (week * 3 + day * 2 + (week * day) % 5) % 5),
+);
+const activeWeeks = heatWeeks.filter((week) => week.some((level) => level > 0)).length;
+---
+
+<section class="u-section" id="ficha" aria-labelledby="u-ficha-title">
+  <div class="u-wrap">
+    <header class="u-head">
+      <div>
+        <p class="u-kicker">04 / La ficha</p>
+        <h2 class="u-title" id="u-ficha-title" data-split>
+          Cada atleta,<br />{' '}<span class="soft">con sus marcas.</span>
+        </h2>
+      </div>
+    </header>
+
+    <div class="u-fiche-carousel" data-fiche-carousel role="group" aria-roledescription="carrusel" aria-label="Pantallas de la ficha de atleta">
+      <div class="u-fiche-carousel__ui">
+        <span class="u-mono" data-fiche-count aria-hidden="true">01 / {String(slides.length).padStart(2, '0')}</span>
+        <span class="u-fiche-carousel__progress" aria-hidden="true">
+          <i class="u-fiche-carousel__bar" data-fiche-progress></i>
+        </span>
+        <span class="u-fiche-carousel__dots">
+          {slides.map((slide, index) => (
+            <button
+              class:list={['u-fiche-dot', index === 0 && 'is-active']}
+              type="button"
+              data-fiche-dot={index}
+              aria-label={`Ir a ${slide.aria}`}
+              aria-current={index === 0 ? 'true' : 'false'}
+            ></button>
+          ))}
+        </span>
+        <button class="u-fiche-carousel__toggle" type="button" data-fiche-toggle aria-label="Pausar el carrusel" aria-pressed="false">
+          <svg class="is-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <rect x="6" y="4" width="4" height="16" rx="1" />
+            <rect x="14" y="4" width="4" height="16" rx="1" />
+          </svg>
+          <svg class="is-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M8 5v14l11-7z" />
+          </svg>
+        </button>
+      </div>
+
+      <div class="u-fiche-stage">
+        <div class="u-fiche-viewport" data-fiche-viewport>
+          <div class="u-fiche-track" data-fiche-track>
+            {slides.map((slide, index) => (
+              <article
+                class:list={['u-fiche-slide', index === 0 && 'is-active']}
+                data-fiche-slide={index}
+                role="group"
+                aria-roledescription="diapositiva"
+                aria-label={slide.aria}
+                aria-hidden={index === 0 ? 'false' : 'true'}
+              >
+                <div class="u-fiche-slide__card">
+                  {slide.feature === 'tests' && (
+                    <>
+                      <header class="u-profile-head u-slide-anim">
+                        <span class="u-profile-avatar" aria-hidden="true">{athlete.initials}</span>
+                        <div class="u-profile-who">
+                          <p class="u-profile-eyebrow">Perfil del atleta</p>
+                          <h3>{athlete.name}</h3>
+                          <p class="u-profile-meta">@{athlete.nickname} · {athlete.club}</p>
+                        </div>
+                        <span class="u-btn u-btn--sm u-btn--ghost u-profile-back" aria-hidden="true">Volver al club</span>
+                      </header>
+
+                      <div class="u-profile-tests u-slide-anim">
+                        <section class="u-app-panel u-test-block">
+                          <div class="u-test-block__head">
+                            <span class="u-dot-disc is-run" aria-hidden="true"></span>
+                            <h4>Tests de carrera</h4>
+                          </div>
+                          <div class="u-test-rows">
+                            {athlete.tests.run.map((test) => (
+                              <div class:list={['u-test-row', test.active && 'is-active']}>
+                                <span class="u-test-date">{test.date}</span>
+                                <strong>{test.dist / 1000} km</strong>
+                                <span class="u-test-value">{clock(test.time)}</span>
+                                <span class="u-test-pace">{clock(test.time / (test.dist / 1000))}<small>/km</small></span>
+                                <span class="u-test-state">{test.active && <span class="u-chip is-active">Activo</span>}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </section>
+
+                        <section class="u-app-panel u-test-block">
+                          <div class="u-test-block__head">
+                            <span class="u-dot-disc is-bike" aria-hidden="true"></span>
+                            <h4>Tests de bici</h4>
+                          </div>
+                          <div class="u-test-rows">
+                            {athlete.tests.bike.map((test) => (
+                              <div class:list={['u-test-row', test.active && 'is-active']}>
+                                <span class="u-test-date">{test.date}</span>
+                                <strong>{test.power} W</strong>
+                                <span class="u-test-value">{clock(test.time)}</span>
+                                <span class="u-test-pace">{test.ftp}<small>W FTP</small></span>
+                                <span class="u-test-state">{test.active && <span class="u-chip is-active">Activo</span>}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </section>
+
+                        <section class="u-app-panel u-test-block">
+                          <div class="u-test-block__head">
+                            <span class="u-dot-disc is-swim" aria-hidden="true"></span>
+                            <h4>Tests de natación</h4>
+                          </div>
+                          <div class="u-test-rows">
+                            {athlete.tests.swim.map((test) => (
+                              <div class:list={['u-test-row', test.active && 'is-active']}>
+                                <span class="u-test-date">{test.date}</span>
+                                <strong>{test.dist} m</strong>
+                                <span class="u-test-value">{clock(test.time)}</span>
+                                <span class="u-test-pace">{clock(test.time / (test.dist / 100))}<small>/100 m</small></span>
+                                <span class="u-test-state">{test.active && <span class="u-chip is-active">Activo</span>}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </section>
+                      </div>
+
+                      <p class="u-fiche-slide__foot u-note">
+                        El test activo fija la referencia de cada disciplina.
+                      </p>
+                    </>
+                  )}
+
+                  {slide.feature === 'ritmos' && (
+                    <>
+                      <header class="u-profile-head u-slide-anim">
+                        <span class="u-profile-avatar" aria-hidden="true">{athlete.initials}</span>
+                        <div class="u-profile-who">
+                          <p class="u-profile-eyebrow">Perfil del atleta</p>
+                          <h3>{athlete.name}</h3>
+                          <p class="u-profile-meta">@{athlete.nickname} · {athlete.club}</p>
+                        </div>
+                        <span class="u-btn u-btn--sm u-btn--ghost u-profile-back" aria-hidden="true">Volver al club</span>
+                      </header>
+
+                      <section class="u-app-panel u-paces-panel u-slide-anim">
+                        <div class="u-paces-head">
+                          <h4>Ritmos de entrenamiento</h4>
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="m6 9 6 6 6-6" />
+                          </svg>
+                        </div>
+
+                        <div class="u-pace-group">
+                          <div class="u-pace-group__head">
+                            <span class="u-disc u-disc--run"><DiscIcon disc="RUN" />Carrera</span>
+                            <span class="u-pace-current">{athlete.runPaces[3]}<small>/km</small></span>
+                          </div>
+                          <div class="u-zone-chips">
+                            {athlete.runPaces.map((pace, zoneIndex) => (
+                              <span class:list={['u-zone-chip', zoneIndex === 3 && 'is-pivot']} style={`--zc: var(--z${zoneIndex + 1})`} title={zoneNames[zoneIndex]}>
+                                <span class="u-zone-chip__dot" aria-hidden="true"></span>
+                                <span class="u-zone-chip__short">Z{zoneIndex + 1}</span>
+                                <span class="u-zone-chip__value">{pace}<small>/km</small></span>
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+
+                        <div class="u-pace-group">
+                          <div class="u-pace-group__head">
+                            <span class="u-disc u-disc--bike"><DiscIcon disc="BIKE" />Bici</span>
+                            <span class="u-pace-current">{athlete.ftp}<small>W FTP</small></span>
+                          </div>
+                          <div class="u-zone-chips">
+                            {athlete.watts.map((watts, zoneIndex) => (
+                              <span class:list={['u-zone-chip', zoneIndex === 3 && 'is-pivot']} style={`--zc: var(--z${zoneIndex + 1})`} title={zoneNames[zoneIndex]}>
+                                <span class="u-zone-chip__dot" aria-hidden="true"></span>
+                                <span class="u-zone-chip__short">Z{zoneIndex + 1}</span>
+                                <span class="u-zone-chip__value">{watts}<small>W</small></span>
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+
+                        <div class="u-pace-group">
+                          <div class="u-pace-group__head">
+                            <span class="u-disc u-disc--swim"><DiscIcon disc="SWIM" />Natación</span>
+                            <span class="u-pace-current">{swimPace}<small>/100 m</small></span>
+                          </div>
+                          <div class="u-swim-matrix" style={`grid-template-columns: 58px repeat(${swimDistances.length}, minmax(0, 1fr))`}>
+                            <span></span>
+                            {swimDistances.map((distance) => (
+                              <span class="u-swim-matrix__distance">{distance} m</span>
+                            ))}
+                            {athlete.zones.map((pace, zoneIndex) => {
+                              const paceSeconds = toSeconds(pace);
+                              return (
+                                <>
+                                  <span class="u-swim-matrix__zone" style={`--zc: var(--z${zoneIndex + 1})`}>
+                                    <i aria-hidden="true"></i>Z{zoneIndex + 1}
+                                  </span>
+                                  {swimDistances.map((distance) => (
+                                    <span class="u-swim-matrix__cell">
+                                      <b>{clock((paceSeconds * distance) / 100)}</b>
+                                      <small>{pace}</small>
+                                    </span>
+                                  ))}
+                                </>
+                              );
+                            })}
+                          </div>
+                          <p class="u-swim-matrix__note">Tiempo total (arriba) y ritmo por 100 m (abajo).</p>
+                        </div>
+                      </section>
+
+                      <p class="u-fiche-slide__foot u-note">
+                        Los ritmos se recalculan al cambiar el test activo.
+                      </p>
+                    </>
+                  )}
+
+                  {slide.feature === 'stats' && (
+                    <>
+                      <header class="u-stats-head u-slide-anim">
+                        <p class="u-stats-tech">Umbral / análisis</p>
+                        <h3>Estadísticas</h3>
+                        <p class="u-stats-lead">
+                          Qué has entrenado, cuánta carga has acumulado y dónde has puesto el tiempo.
+                          Tres lecturas separadas para no mezclar volumen con intensidad.
+                        </p>
+                      </header>
+
+                      <div class="u-stats-toolbar u-slide-anim">
+                        <div class="u-stats-tabs" aria-hidden="true">
+                          <span class="is-active">Resumen</span>
+                          <span>Carga</span>
+                          <span>Distribución</span>
+                        </div>
+                        <span class="u-stats-filter" aria-hidden="true">
+                          <span>Atleta</span>
+                          <b>{athlete.name}</b>
+                          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="m6 9 6 6 6-6" />
+                          </svg>
+                        </span>
+                      </div>
+
+                      <div class="u-stats-kpis u-slide-anim">
+                        {athlete.stats.kpis.map((kpi) => (
+                          <div class="u-app-panel u-stats-kpi">
+                            <span class="u-mono">{kpi.label}</span>
+                            <b>{kpi.value}</b>
+                          </div>
+                        ))}
+                      </div>
+
+                      <div class="u-stats-grid u-slide-anim">
+                        <section class="u-app-panel u-stats-panel">
+                          <div class="u-stats-panel__head">
+                            <div>
+                              <span class="u-mono">Volumen</span>
+                              <h4>Horas por disciplina</h4>
+                            </div>
+                            <span class="u-stats-unit" aria-hidden="true"><b>Horas</b><span>Km</span></span>
+                          </div>
+                          <div class="u-chart" aria-hidden="true">
+                            {athlete.stats.weeks.map(([swim, bike, run]) => {
+                              const total = swim + bike + run;
+                              return (
+                                <span class="u-chart__col" style={`--h:${((total / maxWeek) * 100).toFixed(1)}%`}>
+                                  <i class="is-swim" style={`flex:${swim}`}></i>
+                                  <i class="is-bike" style={`flex:${bike}`}></i>
+                                  <i class="is-run" style={`flex:${run}`}></i>
+                                </span>
+                              );
+                            })}
+                          </div>
+                          <div class="u-chart__labels">
+                            {athlete.stats.weeks.map((_, weekIndex) => (
+                              <span>S{weekIndex + 1}</span>
+                            ))}
+                          </div>
+                          <div class="u-chart__legend">
+                            <span><i class="is-swim"></i>Natación</span>
+                            <span><i class="is-bike"></i>Bici</span>
+                            <span><i class="is-run"></i>Carrera</span>
+                          </div>
+                          <p class="u-stats-note">Barras apiladas: la altura total es el volumen de la semana.</p>
+                        </section>
+
+                        <section class="u-app-panel u-stats-panel">
+                          <div class="u-stats-panel__head">
+                            <div>
+                              <span class="u-mono">Detalle</span>
+                              <h4>Por disciplina</h4>
+                            </div>
+                          </div>
+                          <table class="u-table">
+                            <thead>
+                              <tr>
+                                <th>Disciplina</th>
+                                <th>Sesiones</th>
+                                <th>Tiempo</th>
+                                <th>Distancia</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {athlete.stats.disciplines.map((row) => (
+                                <tr>
+                                  <td><strong>{row.name}</strong></td>
+                                  <td class="is-mono">{row.sessions}</td>
+                                  <td class="is-mono">{row.time}</td>
+                                  <td class="is-mono">{row.distance}</td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </section>
+                      </div>
+
+                      <section class="u-app-panel u-stats-panel u-consistency u-slide-anim">
+                        <div class="u-stats-panel__head">
+                          <div>
+                            <span class="u-mono">Constancia</span>
+                            <h4>Cómo de regular eres</h4>
+                          </div>
+                          <span class="u-mono">{activeWeeks} de 12 semanas activas</span>
+                        </div>
+                        <div class="u-heat" aria-hidden="true">
+                          {heatWeeks.map((week) => (
+                            <span class="u-heat__week">
+                              {week.map((level) => (
+                                <i class={`u-heat__cell u-heat__cell--${level}`}></i>
+                              ))}
+                            </span>
+                          ))}
+                        </div>
+                        <div class="u-heat__footer">
+                          <span class="u-mono">Cada columna es una semana; cada fila, un día.</span>
+                          <span class="u-heat__legend" aria-hidden="true">
+                            <span>Menos</span>
+                            <i class="u-heat__cell u-heat__cell--1"></i>
+                            <i class="u-heat__cell u-heat__cell--2"></i>
+                            <i class="u-heat__cell u-heat__cell--3"></i>
+                            <i class="u-heat__cell u-heat__cell--4"></i>
+                            <span>Más</span>
+                          </span>
+                        </div>
+                      </section>
+
+                      <p class="u-fiche-slide__foot u-note">
+                        Resumen de las últimas 12 semanas.
+                      </p>
+                    </>
+                  )}
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+
+        <button class="u-fiche-arrow is-prev" type="button" data-fiche-prev aria-label="Pantalla anterior">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="m15 6-6 6 6 6" />
+          </svg>
+        </button>
+        <button class="u-fiche-arrow is-next" type="button" data-fiche-next aria-label="Pantalla siguiente">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="m9 6 6 6-6 6" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="u-fiche__foot">
+      <span class="u-note">Datos de ejemplo · pantallas de la app</span>
+      <span class="u-note">Tests reales · zonas propias · carga estimada</span>
+    </div>
+  </div>
+</section>
+
+<style>
+  .u-fiche-carousel { position: relative; }
+  .u-fiche-stage { position: relative; }
+
+  .u-fiche-viewport {
+    overflow: hidden;
+  }
+
+  .u-fiche-track {
+    position: relative;
+    display: flex;
+    align-items: stretch;
+    gap: 18px;
+  }
+
+  .u-fiche-slide {
+    flex: 0 0 82%;
+    min-width: 0;
+    opacity: 0;
+    transition: opacity 500ms var(--ease);
+  }
+
+  .u-fiche-slide.is-active { opacity: 1; }
+
+  .u-fiche-slide__card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 470px;
+    padding: 20px 22px;
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    background: var(--ivory);
+  }
+
+  @supports (corner-shape: squircle) {
+    .u-fiche-slide__card,
+    .u-app-panel { corner-shape: squircle; }
+  }
+
+  .u-app-panel {
+    min-width: 0;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    background: var(--card);
+  }
+
+  /* ===================== Perfil ===================== */
+
+  .u-profile-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px 14px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .u-profile-avatar {
+    display: grid;
+    width: 52px;
+    height: 52px;
+    flex: none;
+    place-items: center;
+    border-radius: 50%;
+    color: var(--ink);
+    background: var(--surface);
+    font-family: var(--display);
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  .u-profile-who { min-width: 0; }
+
+  .u-profile-eyebrow {
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+  }
+
+  .u-profile-who h3 {
+    margin-top: 2px;
+    color: var(--ink);
+    font-family: var(--display);
+    font-size: clamp(1.5rem, 2.2vw, 1.85rem);
+    font-weight: 700;
+    letter-spacing: -0.045em;
+    line-height: 1.05;
+  }
+
+  .u-profile-meta {
+    margin-top: 3px;
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 9px;
+  }
+
+  .u-profile-back {
+    flex: none;
+    margin-left: auto;
+    cursor: default;
+  }
+
+  .u-profile-back:hover,
+  .u-profile-back:active {
+    border-color: var(--line);
+    background: transparent;
+    transform: none;
+  }
+
+  .u-profile-tests {
+    display: grid;
+    gap: 10px;
+    margin-top: 14px;
+  }
+
+  .u-test-block { padding: 13px 14px; }
+
+  .u-test-block__head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--line-soft);
+  }
+
+  .u-test-block__head h4 {
+    color: var(--ink);
+    font-family: var(--display);
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+  }
+
+  .u-test-rows { display: grid; }
+
+  .u-test-row {
+    display: grid;
+    grid-template-columns: 60px 62px 58px minmax(0, 1fr) 58px;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 2px;
+    border-top: 1px solid var(--line-soft);
+  }
+
+  .u-test-row:first-child { border-top: 0; }
+
+  .u-test-row.is-active {
+    padding-inline: 8px;
+    border-radius: 8px;
+    background: var(--ivory);
+  }
+
+  .u-test-date,
+  .u-test-value,
+  .u-test-pace {
+    color: var(--ink-soft);
+    font-family: var(--mono);
+    font-size: 10px;
+    white-space: nowrap;
+  }
+
+  .u-test-row strong {
+    color: var(--ink);
+    font-family: var(--mono);
+    font-size: 10.5px;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  .u-test-pace { color: var(--ink); }
+  .u-test-pace small { margin-left: 2px; color: var(--muted); font-size: 7px; }
+  .u-test-state { display: flex; justify-content: flex-end; }
+  .u-test-state .u-chip { min-height: 20px; padding: 2px 7px; font-size: 7.5px; }
+
+  .u-dot-disc {
+    width: 9px;
+    height: 9px;
+    flex: none;
+    border-radius: 3px;
+  }
+
+  .u-dot-disc.is-swim { background: var(--swim); }
+  .u-dot-disc.is-bike { background: var(--bike); }
+  .u-dot-disc.is-run { background: var(--run); }
+
+  /* ===================== Ritmos ===================== */
+
+  .u-paces-panel {
+    margin-top: 14px;
+    padding: 14px 16px;
+  }
+
+  .u-paces-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding-bottom: 9px;
+    border-bottom: 1px solid var(--line-soft);
+  }
+
+  .u-paces-head h4 {
+    color: var(--ink);
+    font-family: var(--display);
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+  }
+
+  .u-paces-head svg { color: var(--muted); }
+
+  .u-pace-group + .u-pace-group {
+    margin-top: 13px;
+    padding-top: 13px;
+    border-top: 1px solid var(--line-soft);
+  }
+
+  .u-pace-group__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 7px;
+  }
+
+  .u-pace-current {
+    color: var(--ink);
+    font-family: var(--mono);
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: -0.03em;
+  }
+
+  .u-pace-current small {
+    margin-left: 3px;
+    color: var(--muted);
+    font-size: 8px;
+    font-weight: 500;
+    letter-spacing: 0;
+  }
+
+  .u-zone-chips {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 5px;
+  }
+
+  .u-zone-chip {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 2px 5px;
+    min-width: 0;
+    padding: 6px 7px;
+    border: 1px solid transparent;
+    border-radius: 9px;
+    background: color-mix(in srgb, var(--zc) 8%, var(--card));
+  }
+
+  .u-zone-chip.is-pivot {
+    border-color: color-mix(in srgb, var(--zc) 35%, var(--line));
+  }
+
+  .u-zone-chip__dot {
+    width: 6px;
+    height: 6px;
+    align-self: center;
+    border-radius: 50%;
+    background: var(--zc);
+  }
+
+  .u-zone-chip__short {
+    color: var(--ink);
+    font-family: var(--mono);
+    font-size: 8.5px;
+    font-weight: 700;
+  }
+
+  .u-zone-chip__value {
+    grid-column: 1 / -1;
+    overflow: hidden;
+    color: var(--ink);
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .u-zone-chip__value small {
+    margin-left: 2px;
+    color: var(--muted);
+    font-size: 7px;
+    font-weight: 500;
+  }
+
+  .u-swim-matrix {
+    display: grid;
+    gap: 3px;
+    align-items: center;
+    overflow-x: auto;
+  }
+
+  .u-swim-matrix__distance {
+    padding-bottom: 2px;
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 8px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  .u-swim-matrix__zone {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 5px;
+    border: 1px solid color-mix(in srgb, var(--zc) 35%, transparent);
+    border-radius: 6px;
+    color: var(--ink);
+    background: color-mix(in srgb, var(--zc) 10%, transparent);
+    font-family: var(--mono);
+    font-size: 8.5px;
+    font-weight: 500;
+  }
+
+  .u-swim-matrix__zone i {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--zc);
+  }
+
+  .u-swim-matrix__cell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1px;
+    padding: 4px 2px;
+    border: 1px solid var(--line-soft);
+    border-radius: 6px;
+    background: var(--surface);
+  }
+
+  .u-swim-matrix__cell b {
+    color: var(--ink);
+    font-family: var(--mono);
+    font-size: 9.5px;
+    font-weight: 500;
+  }
+
+  .u-swim-matrix__cell small {
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 7px;
+  }
+
+  .u-swim-matrix__note {
+    margin-top: 6px;
+    color: var(--muted);
+    font-size: 9px;
+  }
+
+  /* ===================== Estadísticas ===================== */
+
+  .u-stats-head {
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .u-stats-tech {
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .u-stats-head h3 {
+    margin-top: 4px;
+    color: var(--ink);
+    font-family: var(--display);
+    font-size: clamp(1.6rem, 2.5vw, 2rem);
+    font-weight: 700;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .u-stats-lead {
+    max-width: 66ch;
+    margin-top: 7px;
+    color: var(--ink-soft);
+    font-size: 11.5px;
+    line-height: 1.5;
+  }
+
+  .u-stats-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 12px;
+  }
+
+  .u-stats-tabs {
+    display: inline-flex;
+    gap: 3px;
+    padding: 3px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--surface);
+  }
+
+  .u-stats-tabs span {
+    padding: 5px 11px;
+    border-radius: 999px;
+    color: var(--ink-soft);
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 1;
+    cursor: default;
+  }
+
+  .u-stats-tabs .is-active {
+    color: var(--ivory);
+    background: var(--ink);
+  }
+
+  .u-stats-filter {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 10px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 8.5px;
+    letter-spacing: 0.03em;
+    cursor: default;
+  }
+
+  .u-stats-filter b { color: var(--ink); font-weight: 500; }
+
+  .u-stats-kpis {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 7px;
+    margin-top: 12px;
+  }
+
+  .u-stats-kpi { padding: 10px 11px; }
+
+  .u-stats-kpi .u-mono { color: var(--muted); font-size: 8px; }
+
+  .u-stats-kpi b {
+    display: block;
+    margin-top: 4px;
+    color: var(--ink);
+    font-family: var(--display);
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 1;
+  }
+
+  .u-stats-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  .u-stats-panel { padding: 12px 14px; }
+
+  .u-stats-panel__head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--line-soft);
+  }
+
+  .u-stats-panel__head .u-mono { color: var(--muted); font-size: 7.5px; }
+
+  .u-stats-panel__head h4 {
+    margin-top: 2px;
+    color: var(--ink);
+    font-family: var(--display);
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.2;
+  }
+
+  .u-stats-unit {
+    display: inline-flex;
+    gap: 6px;
+    padding: 3px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 7.5px;
+  }
+
+  .u-stats-unit b {
+    padding: 2px 5px;
+    border-radius: 999px;
+    color: var(--ivory);
+    background: var(--ink);
+    font-weight: 500;
+  }
+
+  .u-stats-unit span { padding: 2px 5px; }
+
+  .u-chart {
+    display: flex;
+    align-items: flex-end;
+    gap: 4px;
+    height: 120px;
+    padding-top: 9px;
+  }
+
+  .u-chart__col {
+    display: flex;
+    flex: 1;
+    flex-direction: column-reverse;
+    height: var(--h);
+    min-width: 0;
+    overflow: hidden;
+    border-radius: 3px;
+  }
+
+  .u-chart__col i { display: block; min-height: 0; }
+
+  .u-chart__col .is-swim,
+  .u-chart__legend .is-swim { background: var(--swim); }
+
+  .u-chart__col .is-bike,
+  .u-chart__legend .is-bike { background: var(--bike); }
+
+  .u-chart__col .is-run,
+  .u-chart__legend .is-run { background: var(--run); }
+
+  .u-chart__labels {
+    display: flex;
+    gap: 4px;
+    margin-top: 5px;
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 6.5px;
+  }
+
+  .u-chart__labels span { flex: 1; text-align: center; }
+
+  .u-chart__legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+    margin-top: 7px;
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 7px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .u-chart__legend span { display: inline-flex; align-items: center; gap: 4px; }
+  .u-chart__legend i { width: 5px; height: 5px; border-radius: 2px; }
+
+  .u-stats-note {
+    margin-top: 7px;
+    color: var(--muted);
+    font-size: 8.5px;
+    line-height: 1.4;
+  }
+
+  .u-stats-panel .u-table { margin-top: 3px; }
+  .u-stats-panel .u-table th { padding: 6px 5px; font-size: 7px; }
+  .u-stats-panel .u-table td { padding: 7px 5px; font-size: 10px; }
+
+  .u-consistency { margin-top: 10px; }
+
+  .u-heat {
+    display: flex;
+    gap: 3px;
+    margin-top: 9px;
+    overflow-x: auto;
+  }
+
+  .u-heat__week {
+    display: flex;
+    flex: 0 0 14px;
+    width: 14px;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .u-heat__cell {
+    display: block;
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    background: var(--surface);
+  }
+
+  .u-heat__cell--0 { background: var(--surface); }
+  .u-heat__cell--1 { background: color-mix(in srgb, var(--ink) 16%, transparent); }
+  .u-heat__cell--2 { background: color-mix(in srgb, var(--ink) 28%, transparent); }
+  .u-heat__cell--3 { background: color-mix(in srgb, var(--ink) 44%, transparent); }
+  .u-heat__cell--4 { background: var(--ink); }
+
+  .u-heat__footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-top: 7px;
+  }
+
+  .u-heat__footer .u-mono { color: var(--muted); font-size: 7.5px; }
+
+  .u-heat__legend {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 7px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .u-heat__legend .u-heat__cell { width: 8px; height: 8px; }
+  .u-heat__legend span:first-child { margin-right: 3px; }
+  .u-heat__legend span:last-child { margin-left: 3px; }
+
+  .u-fiche-slide__foot {
+    margin-top: auto;
+    padding-top: 14px;
+    color: var(--muted);
+  }
+
+  /* ===================== UI del carrusel ===================== */
+
+  .u-fiche-carousel__ui {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin-bottom: 12px;
+  }
+
+  .u-fiche-carousel__ui .u-mono {
+    color: var(--muted);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+  }
+
+  .u-fiche-carousel__progress {
+    width: min(240px, 34vw);
+    height: 1px;
+    overflow: hidden;
+    background: var(--line);
+  }
+
+  .u-fiche-carousel__bar {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: var(--ink);
+    transform: scaleX(0);
+    transform-origin: left center;
+  }
+
+  .u-fiche-carousel__dots { display: inline-flex; align-items: center; gap: 0; }
+
+  .u-fiche-dot {
+    display: grid;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    border: 0;
+    place-items: center;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  .u-fiche-dot::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--line);
+    transition: background-color 200ms var(--ease);
+  }
+
+  .u-fiche-dot.is-active::before { background: var(--ink); }
+
+  .u-fiche-carousel__toggle {
+    display: grid;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    place-items: center;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    color: var(--muted);
+    background: transparent;
+    cursor: pointer;
+    transition:
+      border-color 160ms var(--ease),
+      color 160ms var(--ease);
+  }
+
+  .u-fiche-carousel__toggle:hover { border-color: var(--ink); color: var(--ink); }
+  .u-fiche-carousel__toggle svg { width: 10px; height: 10px; }
+  .u-fiche-carousel__toggle .is-play { display: none; }
+  .u-fiche-carousel__toggle.is-paused .is-pause { display: none; }
+  .u-fiche-carousel__toggle.is-paused .is-play { display: block; }
+  :global(html:not(.motion)) .u-fiche-carousel__toggle { display: none; }
+
+  .u-fiche-arrow {
+    position: absolute;
+    top: 50%;
+    z-index: 3;
+    display: grid;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    place-items: center;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    color: var(--ink);
+    background: var(--card);
+    cursor: pointer;
+    transform: translateY(-50%);
+    transition:
+      border-color 160ms var(--ease),
+      background-color 160ms var(--ease);
+  }
+
+  .u-fiche-arrow:hover { border-color: var(--ink); }
+  .u-fiche-arrow svg { width: 14px; height: 14px; }
+  .u-fiche-arrow.is-prev { left: 6px; }
+  .u-fiche-arrow.is-next { right: 6px; }
+
+  .u-fiche__foot {
+    display: flex;
+    justify-content: space-between;
+    gap: 14px;
+    margin-top: 12px;
+  }
+
+  .u-fiche__foot .u-note { font-size: 9px; }
+
+  @media (max-width: 1050px) {
+    .u-fiche-slide { flex-basis: 88%; }
+    .u-stats-kpis { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+
+  @media (max-width: 900px) {
+    .u-fiche-slide { flex-basis: 92%; }
+
+    .u-stats-grid { grid-template-columns: 1fr; }
+
+    .u-stats-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+
+  @media (max-width: 720px) {
+    .u-fiche-slide { flex-basis: 100%; }
+
+    .u-fiche-slide__card {
+      min-height: 0;
+      padding: 16px 14px;
+    }
+
+    .u-profile-back { display: none; }
+
+    .u-test-row {
+      grid-template-columns: 54px 58px 54px minmax(0, 1fr) 54px;
+      gap: 5px;
+    }
+
+    .u-zone-chips { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+    .u-fiche-arrow { display: none; }
+
+    .u-fiche__foot span:last-child { display: none; }
+  }
+
+  @media (min-width: 1500px) {
+    .u-fiche-slide__card {
+      min-height: 520px;
+      padding: 24px 26px;
+    }
+
+    .u-profile-avatar {
+      width: 58px;
+      height: 58px;
+      font-size: 15px;
+    }
+
+    .u-profile-eyebrow {
+      font-size: 10px;
+    }
+
+    .u-profile-who h3 {
+      font-size: 2.05rem;
+    }
+
+    .u-profile-meta {
+      font-size: 10px;
+    }
+
+    .u-profile-tests {
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .u-test-block {
+      padding: 15px 16px;
+    }
+
+    .u-test-block__head h4 {
+      font-size: 1.05rem;
+    }
+
+    .u-test-row {
+      grid-template-columns: 66px 68px 64px minmax(0, 1fr) 64px;
+      gap: 10px;
+      padding: 9px 2px;
+    }
+
+    .u-test-date,
+    .u-test-value,
+    .u-test-pace {
+      font-size: 11.5px;
+    }
+
+    .u-test-row strong {
+      font-size: 12px;
+    }
+
+    .u-test-pace small {
+      font-size: 8px;
+    }
+
+    .u-paces-panel {
+      padding: 16px 18px;
+    }
+
+    .u-paces-head h4 {
+      font-size: 1.1rem;
+    }
+
+    .u-pace-group__head {
+      margin-bottom: 9px;
+    }
+
+    .u-pace-current {
+      font-size: 1.15rem;
+    }
+
+    .u-zone-chips {
+      gap: 7px;
+    }
+
+    .u-zone-chip {
+      padding: 8px 9px;
+    }
+
+    .u-zone-chip__short {
+      font-size: 9.5px;
+    }
+
+    .u-zone-chip__value {
+      font-size: 12.5px;
+    }
+
+    .u-swim-matrix {
+      gap: 4px;
+    }
+
+    .u-swim-matrix__distance {
+      font-size: 9px;
+    }
+
+    .u-swim-matrix__zone {
+      padding: 4px 6px;
+      font-size: 9.5px;
+    }
+
+    .u-swim-matrix__cell {
+      padding: 5px 3px;
+    }
+
+    .u-swim-matrix__cell b {
+      font-size: 10.5px;
+    }
+
+    .u-swim-matrix__cell small {
+      font-size: 8px;
+    }
+
+    .u-swim-matrix__note {
+      font-size: 10px;
+    }
+
+    .u-stats-tech {
+      font-size: 10px;
+    }
+
+    .u-stats-head h3 {
+      font-size: 2.2rem;
+    }
+
+    .u-stats-lead {
+      font-size: 12.5px;
+    }
+
+    .u-stats-tabs span {
+      padding: 6px 13px;
+      font-size: 11px;
+    }
+
+    .u-stats-filter {
+      padding: 6px 12px;
+      font-size: 9.5px;
+    }
+
+    .u-stats-kpi {
+      padding: 12px 13px;
+    }
+
+    .u-stats-kpi .u-mono {
+      font-size: 9px;
+    }
+
+    .u-stats-kpi b {
+      font-size: 1.35rem;
+    }
+
+    .u-stats-panel {
+      padding: 14px 16px;
+    }
+
+    .u-stats-panel__head h4 {
+      font-size: 1.05rem;
+    }
+
+    .u-chart {
+      height: 140px;
+    }
+
+    .u-chart__labels {
+      font-size: 7px;
+    }
+
+    .u-chart__legend {
+      font-size: 8px;
+    }
+
+    .u-stats-note {
+      font-size: 9.5px;
+    }
+
+    .u-stats-panel .u-table th {
+      font-size: 8px;
+    }
+
+    .u-stats-panel .u-table td {
+      font-size: 11px;
+    }
+
+    .u-heat__week {
+      flex-basis: 16px;
+      width: 16px;
+    }
+
+    .u-heat__cell {
+      width: 16px;
+      height: 16px;
+    }
+
+    .u-heat__footer .u-mono {
+      font-size: 8.5px;
+    }
+
+    .u-fiche-slide__foot {
+      font-size: 10px;
+    }
+
+    .u-fiche-carousel__ui .u-mono {
+      font-size: 10px;
+    }
+
+    .u-fiche-carousel__progress {
+      width: 280px;
+    }
+
+    .u-fiche-dot {
+      width: 24px;
+      height: 24px;
+    }
+
+    .u-fiche-carousel__toggle {
+      width: 26px;
+      height: 26px;
+    }
+
+    .u-fiche-arrow {
+      width: 38px;
+      height: 38px;
+    }
+  }
+</style>

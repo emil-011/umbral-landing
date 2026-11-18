@@ -1,0 +1,232 @@
+---
+import DiscIcon from './DiscIcon.astro';
+
+const disciplines = [
+  {
+    id: 'triatlon',
+    n: '01',
+    disc: 'MULTI',
+    tone: 'multi',
+    title: 'Triatlón',
+    text: 'Natación, bici y carrera con los tests y las zonas de cada atleta. Un plan, tres disciplinas y la carga de cada bloque en el mismo panel.',
+    points: ['Tests por disciplina y zonas propias', 'ECO, ECS y TSS de cada sesión'],
+  },
+  {
+    id: 'atletismo',
+    n: '02',
+    disc: 'RUN',
+    tone: 'run',
+    title: 'Atletismo',
+    text: 'Carrera con los ritmos que salen de sus marcas, no de una tabla. El entrenador escribe la sesión y ve el RPE y la carga de cada atleta.',
+    points: ['Tests de carrera y ritmos por zona', 'RPE y estadísticas por atleta'],
+  },
+  {
+    id: 'natacion',
+    n: '03',
+    disc: 'SWIM',
+    tone: 'swim',
+    title: 'Natación',
+    text: 'Varios tests activos por distancia y una curva propia. Series, descansos y zonas de ritmo escritos tal y como se dicen en la piscina.',
+    points: ['Tests por distancia', 'Series, descansos y zonas'],
+  },
+  {
+    id: 'ciclismo',
+    n: '04',
+    disc: 'BIKE',
+    tone: 'bike',
+    title: 'Ciclismo',
+    text: 'Vatios, frecuencia cardiaca y ritmo frente a la referencia de cada perfil. La salida llega del reloj con sus vueltas, sus gráficas y su mapa.',
+    points: ['Zonas de potencia y de FC', 'Actividades de Garmin, Polar y Wahoo'],
+  },
+  {
+    id: 'duatlon',
+    n: '05',
+    disc: 'RUN',
+    tone: 'run',
+    title: 'Duatlón',
+    text: 'Carrera, bici y carrera con la carga de cada bloque y el plan del club. Sin cambiar de herramienta entre segmentos ni entre atletas.',
+    points: ['Plan por bloques y seguimiento', 'Carga y seguimiento del club'],
+  },
+  {
+    id: 'aquatlon',
+    n: '06',
+    disc: 'SWIM',
+    tone: 'swim',
+    title: 'Aquatlón',
+    text: 'Natación y carrera con tests independientes, zonas propias y el mismo seguimiento que el resto del club. También el trabajo de fuerza asociado.',
+    points: ['Tests de natación y carrera', 'Ficha y estadísticas del atleta'],
+  },
+];
+---
+
+<section class="u-section u-section--tight u-discs-section" id="disciplinas" aria-labelledby="u-disc-title">
+  <div class="u-wrap">
+    <header class="u-head">
+      <div>
+        <p class="u-kicker">02 / Disciplinas</p>
+        <h2 class="u-title u-title--md" id="u-disc-title">
+          Entrenamiento de triatlón,<br />
+          atletismo, natación <span class="soft">y ciclismo.</span>
+        </h2>
+      </div>
+
+      <div class="u-discs__aside">
+        <p class="u-head__note">
+          <strong>Umbral es la app de entrenamiento de tritrain</strong> para clubes, entrenadores y
+          atletas. Cada deporte tiene sus tests, sus zonas y su carga; el club los ve todos en el
+          mismo sitio.
+        </p>
+        <p class="u-note">También duatlón, aquatlón y fuerza</p>
+      </div>
+    </header>
+
+    <div class="u-discs">
+      {disciplines.map((discipline) => (
+        <article class="u-disc-card" id={discipline.id} data-reveal>
+          <div class="u-disc-card__top">
+            <span class:list={['u-disc-card__icon', `is-${discipline.tone}`]} aria-hidden="true">
+              <DiscIcon disc={discipline.disc} />
+            </span>
+            <span class="u-mono">{discipline.n}</span>
+          </div>
+
+          <h3>{discipline.title}</h3>
+          <p>{discipline.text}</p>
+
+          <ul>
+            {discipline.points.map((point) => <li>{point}</li>)}
+          </ul>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .u-discs__aside {
+    display: grid;
+    gap: 14px;
+    max-width: 44ch;
+  }
+
+  .u-discs {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  .u-disc-card {
+    display: flex;
+    flex-direction: column;
+    padding: clamp(22px, 2.2vw, 30px);
+    border: 1px solid var(--line);
+    border-radius: var(--u-radius-sm);
+    background: var(--card);
+    transition:
+      transform 380ms var(--ease),
+      border-color 300ms var(--ease);
+  }
+
+  .u-disc-card:hover {
+    transform: translateY(-4px);
+    border-color: color-mix(in srgb, var(--signal) 70%, var(--line));
+  }
+
+  .u-disc-card__top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    color: var(--muted);
+  }
+
+  .u-disc-card__icon {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    background: var(--ivory);
+  }
+
+  .u-disc-card__icon :global(svg) {
+    width: 20px;
+    height: 20px;
+  }
+
+  .u-disc-card__icon.is-swim {
+    color: var(--swim);
+  }
+
+  .u-disc-card__icon.is-bike {
+    color: var(--bike);
+  }
+
+  .u-disc-card__icon.is-run {
+    color: var(--run);
+  }
+
+  .u-disc-card__icon.is-multi {
+    color: var(--ink);
+  }
+
+  .u-disc-card h3 {
+    margin-top: 26px;
+    font-family: var(--display);
+    font-size: clamp(1.32rem, 1.75vw, 1.6rem);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 1.05;
+  }
+
+  .u-disc-card p {
+    margin-top: 10px;
+    color: var(--ink-soft);
+    font-size: 13.5px;
+    line-height: 1.6;
+  }
+
+  .u-disc-card ul {
+    display: grid;
+    gap: 7px;
+    margin-top: 18px;
+    padding-top: 15px;
+    border-top: 1px solid var(--line);
+    color: var(--ink-soft);
+    font-size: 11.5px;
+  }
+
+  .u-disc-card li {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    line-height: 1.4;
+  }
+
+  .u-disc-card li::before {
+    content: '';
+    width: 5px;
+    height: 5px;
+    flex: none;
+    margin-top: 5px;
+    border-radius: 50%;
+    background: var(--signal);
+  }
+
+  @media (max-width: 980px) {
+    .u-discs {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 620px) {
+    .u-discs {
+      grid-template-columns: 1fr;
+    }
+
+    .u-discs__aside {
+      max-width: none;
+    }
+  }
+</style>

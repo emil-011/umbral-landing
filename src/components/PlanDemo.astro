@@ -1,0 +1,1269 @@
+---
+import DiscIcon from './DiscIcon.astro';
+
+const plans = [
+  {
+    id: 'bike',
+    tab: 'Bici',
+    disc: 'BIKE',
+    title: 'Bici · martes 17',
+    meta: 'Grupo Élite · Base aeróbica',
+    doc: "1h carretera: 15' Z1 + 4x(4' Z3 / 3' Z1) + resto Z1",
+    eco: 46,
+    volume: '1 h',
+    phase1: 73,
+    phase2: 27,
+    phase3: 0,
+    chips: [
+      { value: "15'", zone: 'Z1', level: 'z1' },
+      { value: "4 × 4'", zone: 'Z3', level: 'z3' },
+      { value: "4 × 3'", zone: 'Z1', level: 'z1' },
+      { value: "29'", zone: 'Z1', level: 'z1' },
+    ],
+  },
+  {
+    id: 'run',
+    tab: 'Carrera',
+    disc: 'RUN',
+    title: 'Carrera · jueves 19',
+    meta: 'Grupo Élite · Base aeróbica',
+    doc: "8 km: movilizaciones + 5 × 100 m Z5 + carrera continua Z1–Z2",
+    eco: 90,
+    volume: '8 km',
+    phase1: 95,
+    phase2: 0,
+    phase3: 5,
+    chips: [
+      { value: '5 × 100 m', zone: 'Z5', level: 'z5' },
+      { value: "~42'", zone: 'Z1–Z2', level: 'z2' },
+    ],
+  },
+  {
+    id: 'swim',
+    tab: 'Natación',
+    disc: 'SWIM',
+    title: 'Natación · miércoles 18',
+    meta: 'Grupo Élite · Base aeróbica',
+    doc: '1.000 m: 300 m Z1 + 4 × 50 m Z4 / 20" + 100 m Z1 + resto Z1',
+    eco: 20,
+    volume: '1.000 m',
+    phase1: 90,
+    phase2: 10,
+    phase3: 0,
+    chips: [
+      { value: '300 m', zone: 'Z1', level: 'z1' },
+      { value: '4 × 50 m', zone: 'Z4', level: 'z4' },
+      { value: '100 m', zone: 'Z1', level: 'z1' },
+      { value: 'resto', zone: 'Z1', level: 'z1' },
+    ],
+  },
+];
+
+const entry = plans[0];
+const zonePattern = /(Z[1-5](?:–Z[1-5])?)/g;
+const zoneLevel = (zone: string) => {
+  const matches = zone.match(/Z[1-5]/g);
+  return matches ? matches[matches.length - 1].toLowerCase() : 'z1';
+};
+const docParts = entry.doc
+  .split(zonePattern)
+  .filter(Boolean)
+  .map((part) =>
+    /^Z[1-5]/.test(part)
+      ? { text: '', zone: part, level: zoneLevel(part) }
+      : { text: part, zone: '', level: '' },
+  );
+
+const plan = {
+  month: 'junio 2026',
+  name: 'Base aeróbica',
+  group: 'Élite',
+  mesocycle: 'Base',
+  objective: 'Ironman 70.3 Vitoria',
+  notes: 'Semana de carga. Test de 400 m el miércoles.',
+  week: 'Semana 1',
+  range: '16–22 jun',
+  weeks: 4,
+  previousMonth: 'mayo',
+  volumes: [
+    { label: 'Natación', value: '1.000 m', delta: '+200 m', trend: 'up' },
+    { label: 'Ciclismo', value: '1 h', delta: '+0,2 h', trend: 'up' },
+    { label: 'Atletismo', value: '8 km', delta: '−0,5 km', trend: 'down' },
+  ],
+  phases: [
+    { label: 'F1', percent: 60, color: '#3f9b63' },
+    { label: 'F2', percent: 30, color: '#d19f2a' },
+    { label: 'F3', percent: 10, color: '#cf4053' },
+  ],
+};
+
+const disciplines = [
+  { key: 'SWIM', label: 'Natación', color: 'var(--swim)', icon: 'SWIM' },
+  { key: 'BIKE', label: 'Ciclismo', color: 'var(--bike)', icon: 'BIKE' },
+  { key: 'RUN', label: 'Atletismo', color: 'var(--run)', icon: 'RUN' },
+  { key: 'TRIATHLON', label: 'Triatlón', color: 'var(--swim)', icon: 'MULTI' },
+  { key: 'DUATHLON', label: 'Duatlón', color: 'var(--bike)', icon: 'MULTI' },
+] as const;
+
+const weekDays = [
+  { weekday: 'LUN', day: '16', hasEntry: false },
+  { weekday: 'MAR', day: '17', hasEntry: true },
+  { weekday: 'MIÉ', day: '18', hasEntry: false },
+  { weekday: 'JUE', day: '19', hasEntry: false },
+  { weekday: 'VIE', day: '20', hasEntry: false },
+  { weekday: 'SÁB', day: '21', hasEntry: false },
+  { weekday: 'DOM', day: '22', hasEntry: false },
+];
+
+const entryPhases = [
+  { label: 'F1', percent: entry.phase1, color: '#3f9b63' },
+  { label: 'F2', percent: entry.phase2, color: '#d19f2a' },
+  { label: 'F3', percent: entry.phase3, color: '#cf4053' },
+];
+---
+
+<section class="u-section" id="plan" aria-labelledby="u-plan-title">
+  <div class="u-wrap">
+    <header class="u-head">
+      <div>
+        <p class="u-kicker">05 / El plan</p>
+        <h2 class="u-title" id="u-plan-title" data-split>
+          Se escribe.<br />{' '}<span class="soft">No se rellena.</span>
+        </h2>
+      </div>
+      <p class="u-head__note">
+        <strong>Umbral interpreta distancias,
+        series, zonas y descansos</strong> y calcula el ECO de cada bloque.
+      </p>
+    </header>
+
+    <div class="u-plan">
+      <div class="u-plan__copy" data-reveal>
+        <p>
+          Sin plantillas bloque a bloque. Sin cambiar la forma de escribir. El plan del mes se
+          reparte por grupos, se puede copiar del mes anterior y convive con la tabla de fuerza.
+        </p>
+
+        <ul class="u-plan__list">
+          <li>
+            <span class="u-plan__num">01</span>
+            <div>
+              <strong>Texto libre, de verdad</strong>
+              <span>Distancias, repeticiones, zonas, descansos.</span>
+            </div>
+          </li>
+          <li>
+            <span class="u-plan__num">02</span>
+            <div>
+              <strong>ECO por bloque y por mes</strong>
+              <span>El volumen y la carga se recalculan mientras escribes.</span>
+            </div>
+          </li>
+          <li>
+            <span class="u-plan__num">03</span>
+            <div>
+              <strong>Reparto por fases</strong>
+              <span>Fase 1, 2 y 3 cientificas sobre tus zonas, y comparación con el volumen del mes anterior.</span>
+            </div>
+          </li>
+          <li>
+            <span class="u-plan__num">04</span>
+            <div>
+              <strong>Fuerza y copias</strong>
+              <span>Tabla de fuerza por semanas y planes que se copian de un mes a otro.</span>
+            </div>
+          </li>
+        </ul>
+
+        <p class="u-plan__syntax">
+          <span class="u-mono">Sintaxis real</span>
+          <code>20' Z2</code>
+          <code>4x(4' Z4 / 3' Z1)</code>
+          <code>resto Z1</code>
+          <code>4x500m VO2max</code>
+        </p>
+      </div>
+
+      <div class="u-creator" data-reveal>
+        <p class="u-creator__crumb">
+          Umbral / <span class="is-link">entrenos</span> / creador · {plan.month}
+        </p>
+
+        <div class="u-creator__head">
+          <p class="u-creator__eyebrow">Creador de entrenos</p>
+          <div class="u-creator__actions">
+            <span class="u-action">¿Cómo escribir?</span>
+            <span class="u-action">Volver</span>
+            <span class="u-action u-action--danger">Borrar</span>
+            <span class="u-action u-action--primary">Guardar plan</span>
+          </div>
+        </div>
+
+        <div class="u-creator__seg" aria-hidden="true">
+          <span class="is-active">Entrenamientos</span>
+          <span>Fuerza</span>
+        </div>
+
+        <section class="u-app-panel u-plan-data">
+          <label class="u-field u-field--name">
+            <span class="u-field__label">Nombre del plan</span>
+            <span class="u-field__value u-field__value--name">{plan.name}</span>
+          </label>
+
+          <div class="u-fields">
+            <div class="u-field">
+              <span class="u-field__label">Grupo</span>
+              <span class="u-field__value">
+                {plan.group}
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="m6 9 6 6 6-6" />
+                </svg>
+              </span>
+            </div>
+            <div class="u-field">
+              <span class="u-field__label">Mesociclo</span>
+              <span class="u-field__value">{plan.mesocycle}</span>
+            </div>
+            <div class="u-field u-field--wide">
+              <span class="u-field__label">Objetivo</span>
+              <span class="u-field__value">{plan.objective}</span>
+            </div>
+            <div class="u-field u-field--wide">
+              <span class="u-field__label">Notas</span>
+              <span class="u-field__value u-field__value--notes">{plan.notes}</span>
+            </div>
+          </div>
+
+          <div class="u-volume">
+            <div class="u-volume__head">
+              <span class="u-mono">Volumen del plan</span>
+              <span class="u-volume__hint">Se calcula con los entrenos</span>
+            </div>
+            <div class="u-volume__cards">
+              {plan.volumes.map((volume) => (
+                <div class="u-vol-card">
+                  <span class="u-mono">{volume.label}</span>
+                  <b>{volume.value}</b>
+                  <small class:list={['u-vol-delta', volume.trend === 'up' ? 'is-up' : 'is-down']}>
+                    {volume.delta}
+                  </small>
+                </div>
+              ))}
+            </div>
+            <div class="u-phase-preview">
+              <div class="u-phase-preview__head">
+                <span class="u-phase-preview__title">Reparto objetivo por fase</span>
+                <span class="u-phase-preview__hint">Orientativo</span>
+              </div>
+              <div class="u-phase-preview__row">
+                {plan.phases.map((phase) => (
+                  <span class="u-phase-preview__item">
+                    <i class="u-phase-dot" style={`background:${phase.color}`} aria-hidden="true"></i>
+                    <strong>{phase.percent}%</strong>
+                    <span>{phase.label}</span>
+                  </span>
+                ))}
+              </div>
+              <p class="u-phase-preview__note">
+                Se calcula con tus zonas y referencias; cada atleta puede variar.
+              </p>
+              <p class="u-phase-preview__note">
+                Diferencia con el volumen de {plan.previousMonth}.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <div class="u-week-controls" aria-hidden="true">
+          <span class="u-week-group">
+            <span class="u-week-arrow">‹</span>
+            <span class="u-week-note">1ª: {plan.range}</span>
+            <span class="u-week-arrow">›</span>
+          </span>
+          <span class="u-week-group">
+            <span class="u-week-arrow">−</span>
+            <span class="u-week-note">{plan.weeks} semanas</span>
+            <span class="u-week-arrow">+</span>
+          </span>
+        </div>
+
+        <section class="u-app-panel u-week-panel">
+          <div class="u-week-panel__head">
+            <h3>{plan.week}</h3>
+            <span class="u-mono">{plan.range}</span>
+          </div>
+
+          <div class="u-week-days">
+            {weekDays.map((day) => (
+              <div class:list={['u-day', day.hasEntry && 'is-filled']}>
+                <div class="u-day__date">
+                  <span class="u-day__weekday">{day.weekday}</span>
+                  <strong>{day.day}</strong>
+                </div>
+
+                <div class="u-day__body">
+                  {day.hasEntry ? (
+                    <div class="u-entry">
+                      <div class="u-entry__pills">
+                        {disciplines.map((discipline) => (
+                          <span
+                            class:list={['u-dpill', discipline.key === entry.disc && 'is-selected']}
+                            style={`--dc:${discipline.color}`}
+                          >
+                            <DiscIcon disc={discipline.icon} />
+                            {discipline.label}
+                          </span>
+                        ))}
+                        <span class="u-entry__remove" aria-hidden="true">×</span>
+                      </div>
+
+                      <div class="u-entry__field">{entry.doc}</div>
+
+                      <div class="u-entry__preview">
+                        {docParts.map((part) =>
+                          part.zone ? (
+                            <mark class={`u-zontag u-zontag--${part.level}`}>{part.zone}</mark>
+                          ) : (
+                            <span>{part.text}</span>
+                          ),
+                        )}
+                      </div>
+
+                      <div class="u-eco">
+                        {entry.chips.map((chip) => (
+                          <span class="u-eco__block">
+                            <b>{chip.zone}</b>
+                            <span>{chip.value}</span>
+                          </span>
+                        ))}
+                        <span class="u-eco__total" data-plan-eco={entry.eco}>ECO {entry.eco}</span>
+                      </div>
+
+                      <div class="u-entry__phases">
+                        {entryPhases.map((phase) => (
+                          <span>
+                            <i class="u-phase-dot" style={`background:${phase.color}`} aria-hidden="true"></i>
+                            <strong>{phase.percent}%</strong>
+                            {phase.label}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  ) : (
+                    <span class="u-add-entry">+ Añadir entreno</span>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <p class="u-note u-plan__note">Datos de ejemplo · plan de una semana</p>
+  </div>
+</section>
+
+<style>
+  .u-plan {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    align-items: start;
+    gap: clamp(28px, 4.4vw, 64px);
+  }
+
+  .u-plan__copy > p {
+    max-width: 38ch;
+    color: var(--ink-soft);
+    font-size: 15px;
+    line-height: 1.65;
+  }
+
+  @media (min-width: 981px) {
+    .u-plan__copy {
+      position: sticky;
+      top: 96px;
+    }
+  }
+
+  .u-plan__list {
+    display: grid;
+    gap: 0;
+    margin-top: 24px;
+    border-top: 1px solid var(--line);
+  }
+
+  .u-plan__list li {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .u-plan__num {
+    padding-top: 2px;
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 8px;
+    letter-spacing: 0.08em;
+  }
+
+  .u-plan__list strong {
+    display: block;
+    color: var(--ink);
+    font-family: var(--display);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+  }
+
+  .u-plan__list div span {
+    display: block;
+    margin-top: 3px;
+    color: var(--ink-soft);
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  .u-plan__syntax {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    margin-top: 20px;
+  }
+
+  .u-plan__syntax .u-mono {
+    flex-basis: 100%;
+    margin-right: 4px;
+    color: var(--muted);
+    font-size: 8px;
+  }
+
+  .u-plan__syntax code {
+    padding: 4px 7px;
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    color: var(--ink-soft);
+    background: var(--card);
+    font-family: var(--mono);
+    font-size: 9px;
+  }
+
+  .u-plan__note {
+    margin-top: 20px;
+  }
+
+  /* ===================== Creador ===================== */
+
+  .u-creator {
+    padding: 16px 18px 18px;
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    background: var(--ivory);
+  }
+
+  @supports (corner-shape: squircle) {
+    .u-creator,
+    .u-app-panel {
+      corner-shape: squircle;
+    }
+  }
+
+  .u-creator__crumb {
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 8.5px;
+    letter-spacing: 0.04em;
+  }
+
+  .u-creator__crumb .is-link {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .u-creator__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  .u-creator__eyebrow {
+    color: var(--signal-deep);
+    font-family: var(--mono);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .u-creator__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  .u-action {
+    display: inline-flex;
+    align-items: center;
+    min-height: 28px;
+    padding: 0 9px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    color: var(--ink-soft);
+    background: transparent;
+    font-size: 9px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .u-action--primary {
+    border-color: var(--ink);
+    color: var(--ivory);
+    background: var(--ink);
+  }
+
+  .u-action--danger {
+    border-color: color-mix(in srgb, var(--run) 35%, var(--line));
+    color: var(--run);
+  }
+
+  .u-creator__seg {
+    display: inline-flex;
+    gap: 3px;
+    margin-top: 12px;
+    padding: 3px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--surface);
+  }
+
+  .u-creator__seg span {
+    padding: 5px 11px;
+    border-radius: 999px;
+    color: var(--ink-soft);
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 1;
+  }
+
+  .u-creator__seg .is-active {
+    color: var(--ivory);
+    background: var(--ink);
+  }
+
+  .u-app-panel {
+    min-width: 0;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    background: var(--card);
+  }
+
+  /* ===================== Datos del plan ===================== */
+
+  .u-plan-data {
+    margin-top: 10px;
+    padding: 14px 15px;
+  }
+
+  .u-field {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+  }
+
+  .u-field__label {
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 8px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .u-field__value {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    min-height: 30px;
+    padding: 6px 9px;
+    border: 1px solid var(--line);
+    border-radius: 9px;
+    color: var(--ink);
+    background: var(--ivory);
+    font-size: 10.5px;
+    line-height: 1.3;
+  }
+
+  .u-field__value svg {
+    flex: none;
+    color: var(--muted);
+  }
+
+  .u-field__value--name {
+    min-height: 38px;
+    font-family: var(--display);
+    font-size: 1.35rem;
+    font-weight: 700;
+    letter-spacing: -0.04em;
+  }
+
+  .u-field__value--notes {
+    min-height: 46px;
+    align-items: flex-start;
+    color: var(--ink-soft);
+    font-size: 10px;
+    line-height: 1.4;
+  }
+
+  .u-fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 10px;
+  }
+
+  .u-field--wide {
+    grid-column: 1 / -1;
+  }
+
+  /* ===================== Volumen / fases ===================== */
+
+  .u-volume {
+    margin-top: 12px;
+    padding: 11px;
+    border: 1px solid var(--line-soft);
+    border-radius: 13px;
+    background: var(--surface);
+  }
+
+  .u-volume__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 4px;
+  }
+
+  .u-volume__head .u-mono {
+    color: var(--ink);
+    font-size: 8px;
+  }
+
+  .u-volume__hint {
+    color: var(--muted);
+    font-size: 8.5px;
+  }
+
+  .u-volume__cards {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+    margin-top: 8px;
+  }
+
+  .u-vol-card {
+    padding: 8px 9px;
+    border: 1px solid var(--line-soft);
+    border-radius: 10px;
+    background: var(--card);
+  }
+
+  .u-vol-card .u-mono {
+    color: var(--muted);
+    font-size: 7.5px;
+  }
+
+  .u-vol-card b {
+    display: block;
+    margin-top: 3px;
+    color: var(--ink);
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+
+  .u-vol-delta {
+    display: block;
+    margin-top: 3px;
+    font-family: var(--mono);
+    font-size: 8px;
+    font-weight: 500;
+  }
+
+  .u-vol-delta.is-up {
+    color: var(--signal-deep);
+  }
+
+  .u-vol-delta.is-down {
+    color: var(--run);
+  }
+
+  .u-phase-preview {
+    margin-top: 9px;
+    padding-top: 8px;
+    border-top: 1px solid var(--line-soft);
+  }
+
+  .u-phase-preview__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 6px;
+  }
+
+  .u-phase-preview__title {
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 7.5px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .u-phase-preview__hint {
+    color: var(--muted);
+    font-size: 8px;
+    font-style: italic;
+  }
+
+  .u-phase-preview__row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px 11px;
+    margin-top: 5px;
+  }
+
+  .u-phase-preview__item {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--ink-soft);
+    font-family: var(--mono);
+    font-size: 8.5px;
+  }
+
+  .u-phase-preview__item strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  .u-phase-dot {
+    width: 5px;
+    height: 5px;
+    flex: none;
+    border-radius: 50%;
+  }
+
+  .u-phase-preview__note {
+    margin-top: 5px;
+    color: var(--muted);
+    font-size: 8.5px;
+    line-height: 1.4;
+  }
+
+  /* ===================== Semana ===================== */
+
+  .u-week-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 8px 18px;
+    margin-top: 12px;
+  }
+
+  .u-week-group {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .u-week-arrow {
+    display: grid;
+    width: 22px;
+    height: 22px;
+    place-items: center;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    color: var(--muted);
+    font-size: 11px;
+  }
+
+  .u-week-note {
+    min-width: 6.5rem;
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 8.5px;
+    text-align: center;
+  }
+
+  .u-week-panel {
+    margin-top: 10px;
+    padding: 14px 15px;
+  }
+
+  .u-week-panel__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--line-soft);
+  }
+
+  .u-week-panel__head h3 {
+    color: var(--ink);
+    font-family: var(--display);
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+  }
+
+  .u-week-panel__head .u-mono {
+    color: var(--muted);
+    font-size: 8px;
+  }
+
+  .u-week-days {
+    display: grid;
+  }
+
+  .u-day {
+    display: grid;
+    grid-template-columns: 42px minmax(0, 1fr);
+    gap: 9px;
+    padding: 8px 0;
+    border-top: 1px solid var(--line-soft);
+  }
+
+  .u-day:first-child {
+    border-top: 0;
+  }
+
+  .u-day__date {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1px;
+    padding-top: 2px;
+  }
+
+  .u-day__weekday {
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 7.5px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+  }
+
+  .u-day__date strong {
+    color: var(--ink);
+    font-family: var(--display);
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+
+  .u-day__body {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    min-width: 0;
+  }
+
+  .u-entry {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 8px;
+    border: 1px solid var(--line-soft);
+    border-radius: 12px;
+    background: var(--surface);
+  }
+
+  .u-entry__pills {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 3px;
+  }
+
+  .u-dpill {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 6px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    color: var(--muted);
+    font-size: 8px;
+    font-weight: 500;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  .u-dpill svg {
+    width: 11px;
+    height: 11px;
+    color: var(--dc);
+  }
+
+  .u-dpill.is-selected {
+    border-color: var(--dc);
+    color: var(--ivory);
+    background: var(--dc);
+  }
+
+  .u-dpill.is-selected svg {
+    color: var(--ivory);
+  }
+
+  .u-entry__remove {
+    display: grid;
+    width: 18px;
+    height: 18px;
+    margin-left: auto;
+    place-items: center;
+    border-radius: 50%;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1;
+  }
+
+  .u-entry__field {
+    padding: 7px 8px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    color: var(--ink);
+    background: var(--card);
+    font-family: var(--mono);
+    font-size: 9.5px;
+    line-height: 1.5;
+  }
+
+  .u-entry__preview {
+    padding: 6px 8px;
+    border: 1px solid var(--line-soft);
+    border-radius: 8px;
+    color: var(--ink);
+    background: var(--card);
+    font-family: var(--mono);
+    font-size: 9.5px;
+    line-height: 1.6;
+  }
+
+  .u-entry__preview .u-zontag {
+    font-size: 8.5px;
+  }
+
+  .u-eco {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .u-eco__block {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 3px;
+    padding: 2px 5px;
+    border-radius: 5px;
+    background: var(--card);
+    font-family: var(--mono);
+    font-size: 8px;
+  }
+
+  .u-eco__block b {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  .u-eco__block span {
+    color: var(--ink-soft);
+  }
+
+  .u-eco__total {
+    margin-left: auto;
+    color: var(--ink);
+    font-family: var(--mono);
+    font-size: 9px;
+    font-weight: 700;
+  }
+
+  .u-entry__phases {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 8px;
+  }
+
+  .u-entry__phases span {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .u-entry__phases strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  .u-add-entry {
+    align-self: flex-start;
+    padding: 5px 9px;
+    border: 1px dashed var(--line);
+    border-radius: 8px;
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 8.5px;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+
+  @media (max-width: 980px) {
+    .u-plan {
+      grid-template-columns: 1fr;
+    }
+
+    .u-plan__copy {
+      max-width: 640px;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .u-fields {
+      grid-template-columns: 1fr;
+    }
+
+    .u-field--wide {
+      grid-column: auto;
+    }
+
+    .u-volume__cards {
+      grid-template-columns: 1fr;
+    }
+
+    .u-creator {
+      padding: 14px 12px;
+    }
+
+    .u-day {
+      grid-template-columns: 34px minmax(0, 1fr);
+      gap: 7px;
+    }
+
+    .u-creator__actions {
+      width: 100%;
+    }
+
+    .u-action {
+      flex: 1 1 auto;
+      justify-content: center;
+    }
+  }
+
+  @media (min-width: 1500px) {
+    .u-plan__copy > p {
+      font-size: 16px;
+    }
+
+    .u-plan__list strong {
+      font-size: 15px;
+    }
+
+    .u-plan__list div span {
+      font-size: 13px;
+    }
+
+    .u-plan__syntax code {
+      padding: 5px 8px;
+      font-size: 10px;
+    }
+
+    .u-creator {
+      padding: 20px 22px 22px;
+    }
+
+    .u-creator__crumb {
+      font-size: 9.5px;
+    }
+
+    .u-creator__eyebrow {
+      font-size: 10px;
+    }
+
+    .u-action {
+      min-height: 32px;
+      padding: 0 12px;
+      font-size: 10px;
+    }
+
+    .u-creator__seg span {
+      padding: 6px 14px;
+      font-size: 11px;
+    }
+
+    .u-plan-data {
+      padding: 18px 20px;
+    }
+
+    .u-field__label {
+      font-size: 9px;
+    }
+
+    .u-field__value {
+      min-height: 36px;
+      padding: 8px 11px;
+      font-size: 12px;
+    }
+
+    .u-field__value--name {
+      min-height: 46px;
+      font-size: 1.55rem;
+    }
+
+    .u-field__value--notes {
+      min-height: 54px;
+      font-size: 11.5px;
+    }
+
+    .u-fields {
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .u-volume {
+      margin-top: 14px;
+      padding: 14px;
+    }
+
+    .u-volume__head .u-mono {
+      font-size: 9px;
+    }
+
+    .u-volume__hint {
+      font-size: 9.5px;
+    }
+
+    .u-volume__cards {
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .u-vol-card {
+      padding: 10px 12px;
+    }
+
+    .u-vol-card .u-mono {
+      font-size: 8.5px;
+    }
+
+    .u-vol-card b {
+      font-size: 15px;
+    }
+
+    .u-vol-delta {
+      font-size: 9px;
+    }
+
+    .u-phase-preview__title {
+      font-size: 8.5px;
+    }
+
+    .u-phase-preview__hint {
+      font-size: 9px;
+    }
+
+    .u-phase-preview__item {
+      font-size: 9.5px;
+    }
+
+    .u-phase-preview__note {
+      font-size: 9.5px;
+    }
+
+    .u-week-note {
+      font-size: 9.5px;
+    }
+
+    .u-week-arrow {
+      width: 24px;
+      height: 24px;
+      font-size: 12px;
+    }
+
+    .u-week-panel {
+      padding: 18px 20px;
+    }
+
+    .u-week-panel__head h3 {
+      font-size: 1.15rem;
+    }
+
+    .u-week-panel__head .u-mono {
+      font-size: 9px;
+    }
+
+    .u-day {
+      grid-template-columns: 48px minmax(0, 1fr);
+      gap: 12px;
+      padding: 10px 0;
+    }
+
+    .u-day__date strong {
+      font-size: 1.5rem;
+    }
+
+    .u-day__weekday {
+      font-size: 8.5px;
+    }
+
+    .u-entry {
+      gap: 8px;
+      padding: 10px;
+    }
+
+    .u-dpill {
+      padding: 3px 7px;
+      font-size: 9px;
+    }
+
+    .u-entry__field,
+    .u-entry__preview {
+      padding: 8px 10px;
+      font-size: 10.5px;
+    }
+
+    .u-eco__block {
+      padding: 3px 6px;
+      font-size: 9px;
+    }
+
+    .u-eco__total {
+      font-size: 10px;
+    }
+
+    .u-entry__phases {
+      font-size: 9px;
+    }
+
+    .u-add-entry {
+      padding: 6px 11px;
+      font-size: 9.5px;
+    }
+  }
+</style>

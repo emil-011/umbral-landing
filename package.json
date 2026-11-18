@@ -1,5 +1,5 @@
 {
-  "name": "sifos-landing",
+  "name": "umbral-landing",
   "type": "module",
   "version": "0.1.0",
   "engines": {
@@ -9,9 +9,14 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "start": "bun ./dist/server/entry.mjs",
+    "start:node": "node ./dist/server/entry.mjs"
   },
   "dependencies": {
-    "astro": "^7.4.11"
+    "@astrojs/node": "^11.1.13",
+    "astro": "^7.4.11",
+    "gsap": "^3.15.1",
+    "lenis": "^1.3.27"
   }
 }

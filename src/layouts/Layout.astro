@@ -1,15 +1,128 @@
 ---
-import '../styles/global.css';
+import '../styles/landing.css';
 
 interface Props {
   title?: string;
   description?: string;
+  /** URL canónica absoluta o ruta relativa. Por defecto, la URL actual. */
+  canonical?: string;
+  /** Para páginas que no deben indexarse (gracias, previsualizaciones…). */
+  noindex?: boolean;
 }
 
 const {
-  title = 'Sifos — Entrenamiento de resistencia con criterio',
-  description = 'Sifos es la plataforma de entrenamiento para clubes, entrenadores y atletas de resistencia: planes, zonas, carga ECO, calendario y estadísticas. Escribe el entreno como siempre; Sifos lo convierte en datos.',
+  title = 'Umbral - App de entrenamiento para triatlón y atletismo',
+  description = 'App de entrenamiento para clubes, entrenadores y atletas de triatlón, atletismo, natación y ciclismo. Tests, zonas propias, planes y carga ECO/ECS.',
+  canonical,
+  noindex = false,
 } = Astro.props;
+
+const site = Astro.site ?? new URL('https://umbrallab.es');
+const canonicalUrl = new URL(canonical ?? Astro.url.pathname, site).href;
+const ogImage = new URL('/og.png', site).href;
+const homeUrl = new URL('/', site).href;
+const organizationId = new URL('/#organization', site).href;
+const websiteId = new URL('/#website', site).href;
+const webpageId = new URL('/#webpage', site).href;
+const appId = new URL('/#app', site).href;
+
+/* Un solo @graph para que Organization, WebSite, WebPage y la app compartan
+   identidad y no se declaren como entidades sueltas. */
+const schema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Organization',
+      '@id': organizationId,
+      name: 'Umbral',
+      alternateName: ['Umbral app', 'tritrain', 'Umbral entrenamiento'],
+      url: homeUrl,
+      logo: {
+        '@type': 'ImageObject',
+        url: new URL('/brand/umbral-logo-512.png', site).href,
+        width: 512,
+        height: 512,
+      },
+      description:
+        'Umbral es la app de entrenamiento de tritrain para clubes, entrenadores y atletas de triatlón, atletismo, natación y ciclismo.',
+      address: {
+        '@type': 'PostalAddress',
+        addressCountry: 'ES',
+      },
+      areaServed: {
+        '@type': 'Country',
+        name: 'España',
+      },
+      knowsAbout: [
+        'Entrenamiento de triatlón',
+        'Entrenamiento de atletismo',
+        'Entrenamiento de natación',
+        'Entrenamiento de ciclismo',
+        'Zonas de entrenamiento',
+        'Carga de entrenamiento',
+        'Tests de umbral',
+      ],
+    },
+    {
+      '@type': 'WebSite',
+      '@id': websiteId,
+      url: homeUrl,
+      name: 'Umbral',
+      alternateName: ['Umbral app', 'tritrain'],
+      description,
+      inLanguage: 'es-ES',
+      publisher: { '@id': organizationId },
+    },
+    {
+      '@type': 'WebPage',
+      '@id': webpageId,
+      url: canonicalUrl,
+      name: title,
+      description,
+      isPartOf: { '@id': websiteId },
+      about: { '@id': appId },
+      inLanguage: 'es-ES',
+      primaryImageOfPage: {
+        '@type': 'ImageObject',
+        url: ogImage,
+        width: 1200,
+        height: 630,
+      },
+    },
+    {
+      '@type': 'WebApplication',
+      '@id': appId,
+      name: 'Umbral',
+      alternateName: 'tritrain',
+      url: homeUrl,
+      description:
+        'App de entrenamiento para clubes, entrenadores y atletas: tests y zonas propias, planes en texto libre, actividades de Garmin, Polar y Wahoo, y carga ECO/ECS.',
+      applicationCategory: 'SportsApplication',
+      applicationSubCategory: 'Entrenamiento deportivo',
+      operatingSystem: 'Web',
+      browserRequirements: 'Requiere JavaScript',
+      inLanguage: 'es-ES',
+      publisher: { '@id': organizationId },
+      audience: {
+        '@type': 'PeopleAudience',
+        audienceType: 'Atletas, entrenadores y clubes de triatlón, atletismo, natación y ciclismo',
+      },
+      featureList: [
+        'Tests y zonas propias por atleta',
+        'Planes de entrenamiento en texto libre',
+        'Carga ECO y ECS, TSS, CTL, ATL y TSB',
+        'Actividades de Garmin, Polar y Wahoo',
+        'Clubes, grupos, invitaciones y fichas de atleta',
+        'Natación, ciclismo, carrera, duatlón, aquatlón y fuerza',
+      ],
+    },
+  ],
+};
+
+const schemaJson = JSON.stringify(schema).replace(/</g, '\\u003c');
+const robots = noindex
+  ? 'noindex, nofollow'
+  : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1';
 ---
 
 <!doctype html>
@@ -19,21 +132,59 @@ const {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#8fe3f5" />
+    <meta name="robots" content={robots} />
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="alternate" hreflang="es" href={canonicalUrl} />
+    <link rel="alternate" hreflang="x-default" href={canonicalUrl} />
+    <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+    <meta name="theme-color" content="#f0ede5" />
     <meta name="color-scheme" content="light" />
+    <meta name="application-name" content="Umbral" />
+    <meta name="apple-mobile-web-app-title" content="Umbral" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="preload" href="/fonts/Chillax-Semibold.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/fonts/quicksand-latin.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/fonts/jetbrains-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="apple-touch-icon" href="/brand/umbral-logo-512.png" />
+
+    <link rel="preload" href="/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/ibm-plex-mono-500-latin.woff2" as="font" type="font/woff2" crossorigin />
 
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="es_ES" />
-    <meta property="og:site_name" content="Sifos" />
+    <meta property="og:site_name" content="Umbral" />
+    <meta property="og:url" content={canonicalUrl} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Umbral, app de entrenamiento para triatlón, atletismo, natación y ciclismo." />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content="Umbral, app de entrenamiento para triatlón, atletismo, natación y ciclismo." />
+
+    <script type="application/ld+json" is:inline set:html={schemaJson} />
+
+    <script is:inline>
+      // Las animaciones solo ocultan contenido si el JS ha arrancado de verdad.
+      (() => {
+        const root = document.documentElement;
+        const params = new URLSearchParams(location.search);
+        const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        if (params.has('static') || reduce) {
+          root.classList.add('static');
+          return;
+        }
+
+        root.classList.add('js');
+        window.setTimeout(() => {
+          if (!root.classList.contains('motion')) root.classList.remove('js');
+        }, 3000);
+      })();
+    </script>
   </head>
   <body>
     <a class="skip-link" href="#contenido">Saltar al contenido</a>

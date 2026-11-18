@@ -1,323 +1,1529 @@
 ---
-import WeekBoard from './WeekBoard.astro';
+import DiscIcon from './DiscIcon.astro';
+import Wordmark from './Wordmark.astro';
 
-const disciplines = [
-  'Triatlón',
-  'Duatlón',
-  'Aquatlón',
-  'Carrera',
-  'Bici',
+const days = [
+  {
+    weekday: 'LUN',
+    day: '16',
+    steps: [
+      {
+        disc: 'SWIM',
+        label: 'Natación',
+        value: '600m Z1 + 8x100m Z3',
+        rpe: null,
+      },
+    ],
+    eco: 42,
+    ecs: null,
+  },
+  {
+    weekday: 'MAR',
+    day: '17',
+    steps: [
+      {
+        disc: 'BIKE',
+        label: 'Ciclismo',
+        value: "15' Z1 + 3x12' Z4",
+        rpe: null,
+      },
+      { disc: 'RUN', label: 'Carrera', value: "40' Z2", rpe: 7 },
+    ],
+    eco: 124,
+    ecs: 7,
+  },
+  {
+    weekday: 'MIÉ',
+    day: '18',
+    steps: [
+      {
+        disc: 'SWIM',
+        label: 'Natación',
+        value: '400m Z1 + 8x100m Z4 / 20"',
+        rpe: null,
+      },
+    ],
+    eco: 46,
+    ecs: null,
+  },
+  {
+    weekday: 'JUE',
+    day: '19',
+    steps: [
+      {
+        disc: 'RUN',
+        label: 'Carrera',
+        value: '3 km Z1 + 8x1km Z4',
+        rpe: 5,
+      },
+    ],
+    eco: 38,
+    ecs: 5,
+  },
+  {
+    weekday: 'VIE',
+    day: '20',
+    steps: [
+      {
+        disc: 'BIKE',
+        label: 'Ciclismo',
+        value: "15' Z1 + 2x20' Z3",
+        rpe: null,
+      },
+    ],
+    eco: 51,
+    ecs: null,
+  },
+  {
+    weekday: 'SÁB',
+    day: '21',
+    steps: [
+      {
+        disc: 'RUN',
+        label: 'Carrera',
+        value: "20' Z1 + 60' Z2 + 10' Z1",
+        rpe: 6,
+      },
+    ],
+    eco: 45,
+    ecs: 6,
+  },
+  { weekday: 'DOM', day: '22', steps: [], eco: null, ecs: null },
+] as const;
+
+/* Convierte "400 m Z1 + 6 × 100 m Z3" en texto y pastillas de zona, igual que
+   el editor de planes de la app. Las zonas siguen siendo las de por defecto. */
+const parseValue = (value: string) =>
+  value.split(/(Z[1-5])/g).flatMap((part) => {
+    if (!part) return [];
+    if (/^Z[1-5]$/.test(part)) {
+      return [{ text: '', zone: part, level: part.toLowerCase() }];
+    }
+    const text = part.trim();
+    return text ? [{ text, zone: null, level: null }] : [];
+  });
+
+/* El dial del hero: las cinco zonas giran alrededor del ritmo umbral. */
+const gaugeZones = [
+  { level: 'z1', rotate: -90 },
+  { level: 'z2', rotate: -18 },
+  { level: 'z3', rotate: 54 },
+  { level: 'z4', rotate: 126 },
+  { level: 'z5', rotate: 198 },
+];
+
+const chips = [
+  { label: 'ECOs', value: 346, note: 'carga semanal', pos: '1', decimals: 0 },
+  { label: 'TSS', value: 412, note: 'estimado', pos: '2', decimals: 0 },
+  { label: 'FC máx.', value: 172, note: 'ppm', pos: '3', decimals: 0 },
+  { label: 'RPE', value: 7, note: 'sesión', pos: '4', decimals: 0 },
+];
+
+const ticker = [
   'Natación',
-  'Fuerza',
-  'Clubes',
+  'Bici',
+  'Carrera',
+  'Tests',
+  'Ritmos',
+  'Zonas',
+  'Plan en texto libre',
+  'ECO',
+  'ECS',
+  'TSS',
+  'CTL',
+  'ATL',
+  'TSB',
 ];
 ---
 
-<section class="hero" id="inicio">
-  <div class="bokeh" aria-hidden="true"></div>
-  <div class="hero__orb aero-orb" aria-hidden="true"></div>
-  <div class="hero__ring aero-ring" aria-hidden="true"></div>
+<section class="u-hero" aria-labelledby="u-hero-title">
+  <div class="u-hero__stage">
+    <div class="u-hero__grid-lines" aria-hidden="true"></div>
+    <div class="u-hero__glow" aria-hidden="true"></div>
 
-  <div class="container hero__inner">
-    <div class="hero__copy hero-rise">
-      <p class="eyebrow">Entrenamiento de resistencia · antes tritrain</p>
+    <div class="u-wrap u-hero__grid">
+      <div class="u-hero__copy">
+        <p class="u-kicker" data-reveal>App de entrenamiento · clubes, entrenadores y atletas</p>
 
-      <h1 class="hero__title">
-        <span>Entrenar es</span>
-        <span>subir la cuesta.</span>
-        <span class="hero__title-accent">Sifos la mide.</span>
-      </h1>
+        <h1 class="u-hero__title" id="u-hero-title" data-hero-title>
+          <span class="u-hero__line">Todo tu club</span>{' '}
+          <span class="u-hero__line u-hero__line--soft">
+            en su <em><span class="visually-hidden">umbral</span><Wordmark class="u-hero__wordmark" /><span class="u-hero__period">.</span></em>
+          </span>
+        </h1>
 
-      <p class="hero__lede">
-        La plataforma donde entrenadores y atletas comparten algo más que un plan: zonas, carga
-        real, calendario y estadísticas. Escribe el entreno como siempre; Sifos hace el resto.
-      </p>
+        <p class="u-hero__lead" data-reveal>
+          Umbral es la app de entrenamiento de triatlón, atletismo, natación y ciclismo. Los tests
+          de cada atleta fijan sus ritmos, el plan se escribe como siempre y lo que de verdad ha
+          hecho aparece al lado. Todo en un solo sitio.
+        </p>
 
-      <div class="hero__actions">
-        <a class="btn btn-primary" href="#acceso">
-          Pedir acceso
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M5 12h14M13 6l6 6-6 6"></path>
-          </svg>
-        </a>
-        <a class="btn btn-ghost" href="#motor">
-          Ver el motor ECO
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M12 5v14M6 13l6 6 6-6"></path>
-          </svg>
-        </a>
+        <div class="u-hero__actions" data-reveal>
+          <a class="u-btn" href="#acceso">
+            <span class="u-dot" aria-hidden="true"></span>
+            Pedir acceso para mi club
+          </a>
+          <a class="u-btn u-btn--dark-ghost" href="#ficha">
+            Ver la ficha de un atleta
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M5 12h14M13 6l6 6-6 6" />
+            </svg>
+          </a>
+        </div>
+
+        <ul class="u-hero__proof" data-reveal>
+          <li>Tests por atleta</li>
+          <li>Plan en texto libre</li>
+          <li>Garmin · Polar · Wahoo</li>
+        </ul>
       </div>
 
-      <ul class="hero__points">
-        <li>
-          <span class="tick" aria-hidden="true">
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M20 6 9 17l-5-5"></path>
-            </svg>
-          </span>
-          Sin hojas de cálculo
-        </li>
-        <li>
-          <span class="tick" aria-hidden="true">
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M20 6 9 17l-5-5"></path>
-            </svg>
-          </span>
-          Todo el club, en orden
-        </li>
-        <li>
-          <span class="tick" aria-hidden="true">
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M20 6 9 17l-5-5"></path>
-            </svg>
-          </span>
-          Del reloj al análisis
-        </li>
-      </ul>
+      <div class="u-hero__visual">
+        <div class="u-hero__gauge-wrap" data-hero-gauge>
+          <svg class="u-hero__gauge" viewBox="0 0 560 560" aria-hidden="true" focusable="false">
+            <defs>
+              <radialGradient id="u-hero-core-glow" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#20d458" stop-opacity="0.34" />
+                <stop offset="55%" stop-color="#20d458" stop-opacity="0.07" />
+                <stop offset="100%" stop-color="#20d458" stop-opacity="0" />
+              </radialGradient>
+            </defs>
+
+            <circle class="u-hero__core-halo" cx="280" cy="280" r="122" fill="url(#u-hero-core-glow)" data-hero-core />
+
+            <circle class="u-hero__ring is-ticks" cx="280" cy="280" r="262" pathLength="100" />
+            <circle class="u-hero__ring is-outer" cx="280" cy="280" r="248" />
+            <circle class="u-hero__ring is-inner" cx="280" cy="280" r="132" />
+            <circle class="u-hero__ring is-core" cx="280" cy="280" r="104" />
+
+            <g class="u-hero__zones" data-hero-zones>
+              {gaugeZones.map((zone) => (
+                <circle
+                  class={`u-hero__zone-arc is-${zone.level}`}
+                  cx="280"
+                  cy="280"
+                  r="232"
+                  pathLength="100"
+                  stroke-dasharray="14 86"
+                  transform={`rotate(${zone.rotate} 280 280)`}
+                />
+              ))}
+            </g>
+
+            <g class="u-hero__arc is-swim" data-hero-arc="swim">
+              <circle
+                cx="280"
+                cy="280"
+                r="196"
+                pathLength="100"
+                stroke-dasharray="23 77"
+                stroke-dashoffset="0"
+              />
+            </g>
+            <g class="u-hero__arc is-bike" data-hero-arc="bike">
+              <circle
+                cx="280"
+                cy="280"
+                r="176"
+                pathLength="100"
+                stroke-dasharray="19 81"
+                stroke-dashoffset="-36"
+              />
+            </g>
+            <g class="u-hero__arc is-run" data-hero-arc="run">
+              <circle
+                cx="280"
+                cy="280"
+                r="156"
+                pathLength="100"
+                stroke-dasharray="15 85"
+                stroke-dashoffset="-70"
+              />
+            </g>
+
+            <text class="u-hero__zone-tag" x="280" y="214" text-anchor="middle">Z4</text>
+            <text class="u-hero__pace" x="280" y="270" text-anchor="middle">4:12</text>
+            <text class="u-hero__pace-unit" x="280" y="294" text-anchor="middle">/km</text>
+            <text class="u-hero__pace-label" x="280" y="322" text-anchor="middle">RITMO UMBRAL</text>
+          </svg>
+
+          <div class="u-hero__chips" aria-hidden="true">
+            {chips.map((chip) => (
+              <span class={`u-hero__chip is-${chip.pos}`} data-hero-chip>
+                <small>{chip.label}</small>
+                <b data-count={chip.value} data-decimals={chip.decimals}>{chip.value}</b>
+                <i>{chip.note}</i>
+              </span>
+            ))}
+          </div>
+        </div>
+
+        <div class="u-hero__discs" aria-hidden="true">
+          <span class="is-swim"><DiscIcon disc="SWIM" />Natación</span>
+          <span class="is-bike"><DiscIcon disc="BIKE" />Bici</span>
+          <span class="is-run"><DiscIcon disc="RUN" />Carrera</span>
+        </div>
+      </div>
     </div>
 
-    <div class="hero__visual">
-      <WeekBoard />
-      <p class="hero__caption">
-        <span class="hero__caption-line" aria-hidden="true"></span>
-        Una semana cualquiera, con la carga ya calculada.
-      </p>
+    <div class="u-hero__ticker" aria-hidden="true">
+      <div class="u-hero__ticker-track">
+        {[0, 1].map(() => (
+          <span class="u-hero__ticker-row">
+            {ticker.map((word) => <i>{word}</i>)}
+          </span>
+        ))}
+      </div>
     </div>
   </div>
+</section>
 
-  <div class="marquee" aria-label="Disciplinas y ámbitos que cubre Sifos">
-    <div class="marquee__track">
-      <div class="marquee__group">
-        {disciplines.map((discipline) => <span class="marquee__item">{discipline}</span>)}
+<section class="u-weekhome u-section u-section--tight" aria-labelledby="u-week-title">
+  <div class="u-wrap">
+    <header class="u-head u-weekhome__head" data-reveal>
+      <div>
+        <p class="u-kicker">La semana, de un vistazo</p>
+        <h2 class="u-title u-title--md" id="u-week-title">
+          El plan,<br /><span class="soft">día a día.</span>
+        </h2>
       </div>
-      <div class="marquee__group" aria-hidden="true">
-        {disciplines.map((discipline) => <span class="marquee__item">{discipline}</span>)}
+
+      <div class="u-weekhome__aside">
+        <p class="u-head__note">
+          La sesión escrita como siempre, con sus zonas y su carga. El atleta ve qué toca; el
+          entrenador, cómo va la semana.
+        </p>
+        <p class="u-note">Datos de ejemplo · semana 12</p>
+        <a class="u-link" href="#plan">
+          Ver el plan completo
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M5 12h14M13 6l6 6-6 6" />
+          </svg>
+        </a>
+      </div>
+    </header>
+
+    <div class="u-week" data-reveal>
+      <div class="u-week__bar">
+        <span class="u-week__meta"><strong>Panel</strong> / semana en curso</span>
+        <span class="u-week__group">
+          Grupo Élite
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="m6 9 6 6 6-6" />
+          </svg>
+        </span>
+      </div>
+
+      <div class="u-week__head">
+        <div class="u-week__heading">
+          <h3>Esta semana</h3>
+          <p class="u-week__date">Semana 12 · 16–22 jun</p>
+        </div>
+
+        <div class="u-week__tools">
+          <div class="u-week__totals">
+            <span class="u-week__total">
+              <small>ECOs</small>
+              <b data-count="346">346</b>
+            </span>
+            <span class="u-week__total">
+              <small>ECSs</small>
+              <b data-count="6" data-decimals="1">6,0</b>
+            </span>
+          </div>
+          <span class="u-week__paces"><i class="u-dot u-dot--pulse" aria-hidden="true"></i>Ritmos</span>
+        </div>
+      </div>
+
+      <div class="u-week__body">
+        {days.map((row, index) => (
+          <div class:list={['u-week__row', index === 0 && 'u-week__row--today']}>
+            <span class="u-week__day">
+              <small>{row.weekday}</small>
+              <b>{row.day}</b>
+            </span>
+
+            <span class="u-week__steps">
+              {row.steps.length === 0 ? (
+                <span class="u-week__rest">Descanso</span>
+              ) : (
+                row.steps.map((step) => (
+                  <span class={`u-week__step u-week__step--${step.disc.toLowerCase()}`}>
+                    <span class="u-week__step-head">
+                      <span class={`u-disc u-disc--${step.disc.toLowerCase()}`}>
+                        <DiscIcon disc={step.disc} />
+                        {step.label}
+                      </span>
+                      {step.rpe !== null && (
+                        <span class="u-rpe">RPE <b>{step.rpe}</b></span>
+                      )}
+                    </span>
+                    <span class="u-week__step-value">
+                      {parseValue(step.value).map((part) =>
+                        part.zone ? (
+                          <span class={`u-week__zone u-week__zone--${part.level}`}>{part.zone}</span>
+                        ) : (
+                          <span class="u-week__val">{part.text}</span>
+                        ),
+                      )}
+                    </span>
+                  </span>
+                ))
+              )}
+            </span>
+
+            <span class="u-week__loads">
+              {row.eco !== null && (
+                <span class="u-week__load">
+                  <small>ECOs</small>
+                  <b>{row.eco}</b>
+                </span>
+              )}
+              {row.ecs !== null && (
+                <span class="u-week__load u-week__load--ecs">
+                  <small>ECSs</small>
+                  <b>{row.ecs}</b>
+                </span>
+              )}
+            </span>
+          </div>
+        ))}
+
+        <div class="u-week__summary">
+          <span class="u-mono">La semana</span>
+          <p>Seis sesiones planificadas y un domingo de descanso. La carga más alta cae el martes.</p>
+        </div>
+      </div>
+
+      <div class="u-week__foot">
+        <span class="u-mono">Datos de ejemplo · semana 12</span>
+        <span class="u-mono">Natación · Bici · Carrera</span>
       </div>
     </div>
   </div>
 </section>
 
 <style>
-  .hero {
+  /* ===================== Escenario del hero ===================== */
+
+  .u-hero {
     position: relative;
-    padding: clamp(142px, 17vh, 188px) 0 0;
-    overflow: hidden;
+    padding: 12px 0 0;
   }
 
-  .hero__inner {
+  .u-hero__stage {
     position: relative;
-    z-index: 1;
-    display: grid;
-    grid-template-columns: minmax(0, 1.03fr) minmax(0, 0.97fr);
+    display: flex;
     align-items: center;
-    gap: clamp(36px, 4.5vw, 70px);
-    padding-bottom: clamp(48px, 7vw, 92px);
+    width: min(100% - 24px, calc(var(--u-max) + 80px));
+    min-height: calc(100vh - 90px);
+    min-height: calc(100svh - 90px);
+    margin-inline: auto;
+    padding-block: clamp(46px, 5vw, 78px) clamp(96px, 8vw, 128px);
+    overflow: hidden;
+    border-radius: clamp(30px, 4.6vw, 64px);
+    color: var(--ivory);
+    background: var(--ink);
   }
 
-  .hero__copy {
+  .u-hero__grid-lines {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, rgba(240, 237, 229, 0.045) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(240, 237, 229, 0.045) 1px, transparent 1px);
+    background-size: 72px 72px;
+    mask-image: radial-gradient(120% 110% at 72% 38%, #000 24%, transparent 78%);
+    -webkit-mask-image: radial-gradient(120% 110% at 72% 38%, #000 24%, transparent 78%);
+    pointer-events: none;
+  }
+
+  .u-hero__glow {
+    position: absolute;
+    top: -12%;
+    right: -6%;
+    width: 64%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(32, 212, 88, 0.18), rgba(32, 212, 88, 0) 66%);
+    filter: blur(8px);
+    pointer-events: none;
+  }
+
+  .u-hero__grid {
     position: relative;
-    z-index: 1;
-    max-width: 620px;
-  }
-
-  .hero__title {
+    z-index: 2;
     display: grid;
-    margin-top: 24px;
-    font-size: clamp(2.9rem, 5.2vw, 4.55rem);
-    line-height: 0.93;
-    letter-spacing: -0.042em;
+    grid-template-columns: minmax(0, 1.04fr) minmax(0, 0.96fr);
+    align-items: center;
+    gap: clamp(24px, 4vw, 58px);
   }
 
-  .hero__title > span {
+  .u-hero__copy {
+    min-width: 0;
+  }
+
+  .u-hero__title {
+    margin-top: 26px;
+    color: var(--ivory);
+    font-family: var(--display);
+    font-size: clamp(3.1rem, 6.5vw, 7.3rem);
+    font-weight: 800;
+    line-height: 0.9;
+    letter-spacing: -0.065em;
+  }
+
+  .u-hero__line {
     display: block;
   }
 
-  .hero__title-accent {
-    margin-top: 0.16em;
-    color: var(--accent-deep);
-    font-size: 0.64em;
-    letter-spacing: -0.035em;
+  .u-hero__line--soft {
+    color: #8a8981;
   }
 
-  .hero__lede {
-    max-width: 47ch;
-    margin-top: 26px;
-    color: var(--ink-soft);
-    font-size: clamp(1.02rem, 1.28vw, 1.15rem);
-    line-height: 1.66;
+  .u-hero__title em {
+    color: var(--signal);
+    font-style: normal;
   }
 
-  .hero__actions {
+  :global(.u-hero__wordmark) {
+    display: inline-block;
+    width: auto;
+    height: 0.68em;
+    margin-inline: 0.03em 0.01em;
+    vertical-align: -0.02em;
+    color: var(--signal);
+  }
+
+  .u-hero__period {
+    color: var(--ivory);
+  }
+
+  .u-hero .u-kicker {
+    color: var(--stone);
+    font-size: 11px;
+    letter-spacing: 0.13em;
+  }
+
+  .u-hero__lead {
+    max-width: 46ch;
+    margin-top: 28px;
+    color: #cbc8bf;
+    font-size: clamp(1.08rem, 1.3vw, 1.34rem);
+    line-height: 1.62;
+  }
+
+  .u-hero__actions {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
-    margin-top: 30px;
+    margin-top: 32px;
   }
 
-  .hero__points {
+  .u-hero__actions .u-btn {
+    min-height: 54px;
+    padding-inline: 26px;
+    border-color: var(--signal);
+    color: var(--ink);
+    background: var(--signal);
+    font-size: 14px;
+  }
+
+  .u-hero__actions .u-btn:hover {
+    border-color: #38ea6c;
+    background: #38ea6c;
+  }
+
+  .u-hero__actions .u-btn .u-dot {
+    background: var(--ink);
+  }
+
+  .u-hero__actions .u-btn--dark-ghost {
+    border-color: rgba(240, 237, 229, 0.22);
+    color: var(--ivory);
+    background: transparent;
+  }
+
+  .u-hero__actions .u-btn--dark-ghost:hover {
+    border-color: rgba(240, 237, 229, 0.5);
+    background: transparent;
+  }
+
+  .u-hero__proof {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px 22px;
-    margin-top: 28px;
-    color: var(--ink-soft);
-    font-size: 0.83rem;
-    font-weight: 600;
+    gap: 8px 22px;
+    margin-top: 32px;
+    color: #8d8c84;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
   }
 
-  .hero__points li {
+  .u-hero__proof li {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .u-hero__proof li::before {
+    content: '';
+    width: 5px;
+    height: 5px;
+    border: 1px solid #7f7e76;
+    border-radius: 50%;
+  }
+
+  /* ===================== Instrumento de umbral ===================== */
+
+  .u-hero__visual {
+    position: relative;
+    min-width: 0;
+  }
+
+  .u-hero__gauge-wrap {
+    position: relative;
+    width: min(100%, 560px);
+    margin-inline: auto;
+    aspect-ratio: 1;
+  }
+
+  .u-hero__gauge {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  .u-hero__ring {
+    fill: none;
+    stroke: var(--ivory);
+  }
+
+  .u-hero__ring.is-ticks {
+    stroke-opacity: 0.32;
+    stroke-width: 6;
+    stroke-dasharray: 0.35 1.65;
+    stroke-linecap: round;
+  }
+
+  .u-hero__ring.is-outer {
+    stroke-opacity: 0.12;
+    stroke-width: 1;
+  }
+
+  .u-hero__ring.is-inner {
+    stroke-opacity: 0.08;
+    stroke-width: 1;
+    stroke-dasharray: 2 7;
+  }
+
+  .u-hero__ring.is-core {
+    stroke-opacity: 0.13;
+    stroke-width: 1;
+  }
+
+  .u-hero__zone-arc {
+    fill: none;
+    stroke-width: 5;
+    stroke-linecap: round;
+    opacity: 0.82;
+  }
+
+  .u-hero__zone-arc.is-z1 { stroke: var(--z1); }
+  .u-hero__zone-arc.is-z2 { stroke: var(--z2); }
+  .u-hero__zone-arc.is-z3 { stroke: var(--z3); }
+  .u-hero__zone-arc.is-z4 { stroke: var(--z4); }
+  .u-hero__zone-arc.is-z5 { stroke: var(--z5); }
+
+  .u-hero__arc circle {
+    fill: none;
+    stroke-width: 3;
+    stroke-linecap: round;
+  }
+
+  .u-hero__arc.is-swim circle { stroke: #37a9cd; }
+  .u-hero__arc.is-bike circle { stroke: #5cba55; }
+  .u-hero__arc.is-run circle { stroke: #e0654d; }
+
+  .u-hero__zone-tag {
+    fill: var(--signal);
+    font-family: var(--mono);
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+  }
+
+  .u-hero__pace {
+    fill: var(--ivory);
+    font-family: var(--display);
+    font-size: 58px;
+    font-weight: 800;
+    letter-spacing: -0.06em;
+  }
+
+  .u-hero__pace-unit {
+    fill: #cfccc3;
+    font-family: var(--mono);
+    font-size: 16px;
+    letter-spacing: 0.12em;
+  }
+
+  .u-hero__pace-label {
+    fill: #b9b6ad;
+    font-family: var(--mono);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+  }
+
+  .u-hero__chips {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .u-hero__chip {
+    position: absolute;
+    display: grid;
+    grid-template-columns: auto auto;
+    align-items: baseline;
+    gap: 2px 9px;
+    padding: 10px 13px;
+    border: 1px solid rgba(240, 237, 229, 0.14);
+    border-radius: 14px;
+    background: rgba(26, 27, 24, 0.82);
+    box-shadow: 0 22px 44px rgba(0, 0, 0, 0.24);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  .u-hero__chip small {
+    grid-column: 1 / -1;
+    color: #8d8c84;
+    font-family: var(--mono);
+    font-size: 7px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .u-hero__chip b {
+    color: var(--ivory);
+    font-family: var(--mono);
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .u-hero__chip i {
+    color: #8d8c84;
+    font-family: var(--sans);
+    font-size: 8.5px;
+    font-style: normal;
+  }
+
+  .u-hero__chip.is-1 {
+    top: 7%;
+    left: -3%;
+  }
+
+  .u-hero__chip.is-2 {
+    top: 18%;
+    right: -4%;
+  }
+
+  .u-hero__chip.is-3 {
+    bottom: 15%;
+    left: -5%;
+  }
+
+  .u-hero__chip.is-4 {
+    right: 1%;
+    bottom: 4%;
+  }
+
+  .u-hero__discs {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin: 18px auto 0;
+  }
+
+  .u-hero__discs span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    padding: 7px 10px;
+    border: 1px solid rgba(240, 237, 229, 0.14);
+    border-radius: 999px;
+    color: #cbc8bf;
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1;
+  }
+
+  :global(.u-hero__discs span svg) {
+    width: 16px;
+    height: 16px;
+    color: var(--dc);
+  }
+
+  .u-hero__discs .is-swim { --dc: #37a9cd; }
+  .u-hero__discs .is-bike { --dc: #5cba55; }
+  .u-hero__discs .is-run { --dc: #e0654d; }
+
+  /* ===================== Cinta inferior ===================== */
+
+  .u-hero__ticker {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 2;
+    display: flex;
+    overflow: hidden;
+    padding-block: 14px;
+    border-top: 1px solid rgba(240, 237, 229, 0.12);
+    background: color-mix(in srgb, var(--ink) 82%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+  }
+
+  .u-hero__ticker-track {
+    display: flex;
+    width: max-content;
+    animation: u-hero-marquee 36s linear infinite;
+  }
+
+  .u-hero__ticker-row {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    padding-right: 30px;
+    white-space: nowrap;
+  }
+
+  .u-hero__ticker-row i {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: #8d8c84;
+    font-family: var(--mono);
+    font-size: 9px;
+    font-style: normal;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .u-hero__ticker-row i::before {
+    content: '';
+    width: 4px;
+    height: 4px;
+    flex: none;
+    border-radius: 50%;
+    background: var(--signal);
+    opacity: 0.65;
+  }
+
+  @keyframes u-hero-marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  /* ===================== Semana, debajo del hero ===================== */
+
+  .u-weekhome {
+    padding-block: clamp(48px, 5.2vw, 82px);
+  }
+
+  .u-weekhome__head {
+    max-width: 1200px;
+    margin-inline: auto;
+    margin-bottom: clamp(26px, 3.2vw, 42px);
+  }
+
+  .u-weekhome__head .u-title {
+    margin-top: 18px;
+  }
+
+  .u-weekhome__aside {
+    display: grid;
+    justify-items: end;
+    gap: 12px;
+    max-width: 46ch;
+    justify-self: end;
+  }
+
+  .u-weekhome__aside .u-head__note {
+    max-width: none;
+    justify-self: auto;
+  }
+
+  .u-weekhome__aside .u-note,
+  .u-weekhome__aside .u-link {
+    margin: 0;
+  }
+
+  .u-week {
+    width: 100%;
+    max-width: 1200px;
+    margin-inline: auto;
+    padding: 18px 20px 16px;
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    color: var(--ink);
+    background: var(--card);
+  }
+
+  @supports (corner-shape: squircle) {
+    .u-week {
+      corner-shape: squircle;
+    }
+  }
+
+  /* ===================== Panel semanal ===================== */
+
+  .u-week__bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding-bottom: 9px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .u-week__meta {
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    line-height: 1.4;
+    text-transform: uppercase;
+  }
+
+  .u-week__meta strong {
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  .u-week__group {
     display: inline-flex;
     align-items: center;
     gap: 7px;
+    padding: 4px 9px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    color: var(--ink-soft);
+    background: color-mix(in srgb, var(--surface) 55%, transparent);
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1;
   }
 
-  .tick {
-    display: grid;
-    place-items: center;
-    width: 18px;
-    height: 18px;
-    flex: none;
-    border-radius: 50%;
-    color: #1d6b3a;
-    background: rgba(76, 194, 116, 0.2);
-    box-shadow: inset 0 0 0 1px rgba(47, 174, 99, 0.12);
+  .u-week__head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 10px 16px;
+    padding: 12px 2px 11px;
   }
 
-  .hero__visual {
-    position: relative;
-    z-index: 1;
-    display: grid;
-    justify-items: end;
-    gap: 14px;
+  .u-week__heading {
+    min-width: 0;
   }
 
-  .hero__caption {
+  .u-week__head h3 {
+    color: var(--ink);
+    font-family: var(--display);
+    font-size: 1.6rem;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.045em;
+  }
+
+  .u-week__date {
+    margin-top: 4px;
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .u-week__tools {
     display: flex;
     align-items: center;
-    gap: 9px;
-    padding-right: 14px;
+    gap: 14px;
+    padding-bottom: 2px;
+  }
+
+  .u-week__totals {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+  }
+
+  .u-week__total {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 5px;
+    white-space: nowrap;
+  }
+
+  .u-week__total small {
     color: var(--muted);
-    font-family: var(--font-mono);
-    font-size: 0.6rem;
-    letter-spacing: 0.06em;
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
   }
 
-  .hero__caption-line {
-    width: 20px;
-    height: 1px;
-    background: var(--hairline-strong);
+  .u-week__total b {
+    color: var(--ink);
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
   }
 
-  .hero__orb {
-    top: clamp(150px, 19vh, 210px);
-    right: -60px;
-    width: clamp(150px, 17vw, 250px);
-    height: clamp(150px, 17vw, 250px);
-    opacity: 0.75;
-    animation: drift 14s ease-in-out infinite;
+  .u-week__paces {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 11px;
+    border-radius: 999px;
+    color: var(--ivory);
+    background: var(--ink);
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1;
+    white-space: nowrap;
   }
 
-  .hero__ring {
-    left: -160px;
-    bottom: 86px;
-    width: 430px;
-    height: 210px;
-    opacity: 0.7;
+  .u-week__paces .u-dot {
+    width: 5px;
+    height: 5px;
   }
 
-  @media (max-width: 1040px) {
-    .hero__inner {
+  .u-week__body {
+    display: grid;
+    grid-template-rows: repeat(4, auto);
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
+    gap: 8px;
+  }
+
+  .u-week__row {
+    position: relative;
+    display: grid;
+    grid-template-columns: 42px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 7px 10px;
+    padding: 9px 13px;
+    border: 1px solid var(--line-soft);
+    border-radius: 9px;
+    background: #faf8f2;
+  }
+
+  .u-week__row--today {
+    background: color-mix(in srgb, var(--ink) 3%, transparent);
+    border-left: 3px solid var(--ink);
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  .u-week__day {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    text-align: center;
+  }
+
+  .u-week__day small {
+    margin-right: -0.12em;
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+  }
+
+  .u-week__day b {
+    color: var(--ink);
+    font-family: var(--display);
+    font-size: 1.45rem;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .u-week__steps {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    min-width: 0;
+  }
+
+  .u-week__step {
+    --step-tint: var(--ink);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 5px 8px;
+    padding: 5px 8px;
+    border-radius: 7px;
+    background: color-mix(in srgb, var(--step-tint) 9%, transparent);
+  }
+
+  .u-week__step--swim {
+    --step-tint: var(--swim);
+  }
+
+  .u-week__step--bike {
+    --step-tint: var(--bike);
+  }
+
+  .u-week__step--run {
+    --step-tint: var(--run);
+  }
+
+  .u-week__step-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .u-week .u-disc {
+    gap: 5px;
+    padding: 3px 7px 3px 6px;
+    border-radius: 999px;
+    color: var(--ink);
+    background: color-mix(in srgb, var(--dc) 20%, transparent);
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  .u-week .u-disc svg {
+    width: 14px;
+    height: 14px;
+    color: var(--ink);
+  }
+
+  .u-week__step-value {
+    display: inline-flex;
+    flex: 1 1 auto;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 3px 6px;
+    min-width: 0;
+  }
+
+  .u-week__val {
+    color: var(--ink);
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+    white-space: nowrap;
+  }
+
+  .u-week__zone {
+    --zc: var(--z2);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px 6px 1px;
+    border-radius: 999px;
+    color: var(--ink);
+    background: var(--zc);
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    line-height: 1.35;
+  }
+
+  .u-week__zone--z1 {
+    --zc: var(--z1);
+  }
+
+  .u-week__zone--z2 {
+    --zc: var(--z2);
+  }
+
+  .u-week__zone--z3 {
+    --zc: var(--z3);
+  }
+
+  .u-week__zone--z4 {
+    --zc: var(--z4);
+  }
+
+  .u-week__zone--z5 {
+    --zc: var(--z5);
+    color: #fff;
+  }
+
+  .u-week .u-rpe {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-left: auto;
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .u-week .u-rpe b {
+    display: grid;
+    width: 22px;
+    height: 17px;
+    place-items: center;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    color: var(--ink);
+    background: var(--card);
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 500;
+  }
+
+  .u-week__rest {
+    align-self: flex-start;
+    justify-self: start;
+    padding: 5px 9px;
+    border: 1px dashed var(--stone);
+    border-radius: 6px;
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .u-week__loads {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 3px;
+  }
+
+  .u-week__load {
+    display: inline-grid;
+    grid-template-columns: 24px auto;
+    align-items: baseline;
+    gap: 4px;
+  }
+
+  .u-week__load small {
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-align: right;
+    text-transform: uppercase;
+  }
+
+  .u-week__load b {
+    color: var(--ink);
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .u-week__load--ecs b {
+    color: var(--ink-soft);
+  }
+
+  .u-week__summary {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 7px;
+    padding: 12px 14px;
+    border: 1px dashed var(--line);
+    border-radius: 9px;
+    background: color-mix(in srgb, var(--ink) 2.5%, transparent);
+  }
+
+  .u-week__summary .u-mono {
+    color: var(--muted);
+    font-size: 9px;
+  }
+
+  .u-week__summary p {
+    max-width: 40ch;
+    color: var(--ink-soft);
+    font-size: 11.5px;
+    line-height: 1.5;
+  }
+
+  .u-week__foot {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 9px;
+    padding-top: 9px;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+  }
+
+  .u-week__foot .u-mono {
+    font-size: 9.5px;
+    letter-spacing: 0.1em;
+  }
+
+  /* ===================== Adaptación ===================== */
+
+  @media (max-width: 1080px) {
+    .u-hero__grid {
       grid-template-columns: 1fr;
-      justify-items: center;
-      gap: 52px;
     }
 
-    .hero__copy {
-      max-width: 660px;
+    .u-hero__copy {
+      max-width: 680px;
+    }
+
+    .u-hero__visual {
+      width: min(100%, 620px);
+      margin-inline: auto;
+    }
+
+    .u-week {
+      max-width: none;
+    }
+
+    .u-week__body {
+      grid-template-rows: none;
+      grid-auto-flow: row;
+      grid-auto-columns: auto;
+    }
+  }
+
+  @media (max-width: 840px) {
+    .u-weekhome__aside {
+      justify-items: start;
       justify-self: start;
-    }
-
-    .hero__lede {
-      max-width: 58ch;
-    }
-
-    .hero__visual {
-      width: min(100%, 640px);
-      justify-self: center;
-      justify-items: center;
-    }
-
-    .hero__caption {
-      justify-self: start;
-    }
-
-    .hero__orb {
-      top: 420px;
-      right: -80px;
-    }
-
-    .hero__ring {
-      bottom: 220px;
+      max-width: 520px;
     }
   }
 
   @media (max-width: 720px) {
-    .hero {
-      padding-top: 118px;
+    .u-hero {
+      padding-top: 8px;
     }
 
-    .hero__inner {
-      gap: 44px;
-      padding-bottom: 56px;
+    .u-hero__stage {
+      width: calc(100% - 16px);
+      min-height: 0;
+      padding-block: 40px 96px;
+      border-radius: 30px;
     }
 
-    .hero__title {
-      margin-top: 20px;
-      font-size: clamp(2.65rem, 11vw, 3.9rem);
+    .u-hero__grid-lines {
+      background-size: 56px 56px;
     }
 
-    .hero__lede {
-      margin-top: 20px;
+    .u-hero__actions .u-btn {
+      min-height: 50px;
+      padding-inline: 20px;
+      font-size: 13px;
     }
 
-    .hero__actions {
-      margin-top: 24px;
+    .u-hero__proof {
+      gap: 8px 16px;
+      font-size: 9.5px;
     }
 
-    .hero__actions .btn {
-      flex: 1 1 auto;
+    .u-hero__chips {
+      display: none;
     }
 
-    .hero__points {
-      gap: 9px 16px;
-      margin-top: 22px;
-      font-size: 0.79rem;
+    .u-hero__discs {
+      margin-top: 12px;
     }
 
-    .hero__orb {
-      width: 160px;
-      height: 160px;
-      top: 520px;
-      right: -90px;
+    .u-hero__discs span {
+      font-size: 11px;
     }
 
-    .hero__ring {
+    .u-hero__ticker-row {
+      gap: 22px;
+      padding-right: 22px;
+    }
+
+    .u-hero__ticker-row i {
+      font-size: 8px;
+    }
+
+    .u-weekhome {
+      padding-block: 48px;
+    }
+
+    .u-week {
+      padding: 14px 12px 12px;
+      border-radius: 18px;
+    }
+
+    .u-week__head {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .u-week__tools {
+      width: 100%;
+      justify-content: space-between;
+    }
+
+    .u-week__row {
+      grid-template-columns: 34px minmax(0, 1fr) auto;
+      gap: 7px 9px;
+      padding: 8px 10px;
+    }
+
+    .u-week__day b {
+      font-size: 1.3rem;
+    }
+
+    .u-week .u-rpe {
+      margin-left: 0;
+    }
+
+    .u-week__foot span:last-child {
       display: none;
     }
   }
 
-  @media (max-width: 480px) {
-    .hero__title {
-      font-size: clamp(2.4rem, 12.4vw, 3.2rem);
+  @media (max-width: 380px) {
+    .u-week .u-rpe {
+      display: none;
     }
 
-    .hero__actions {
-      display: grid;
-      grid-template-columns: 1fr;
+    .u-week__row {
+      grid-template-columns: 32px minmax(0, 1fr) auto;
+      gap: 6px 8px;
+    }
+  }
+
+  @media (min-width: 1500px) {
+    .u-hero__gauge-wrap {
+      width: min(100%, 600px);
     }
 
-    .hero__points {
-      display: grid;
-      gap: 8px;
+    .u-hero__proof {
+      font-size: 11.5px;
+    }
+
+    .u-hero__actions .u-btn {
+      min-height: 58px;
+      padding-inline: 30px;
+      font-size: 15px;
+    }
+
+    .u-hero__chip {
+      padding: 12px 15px;
+    }
+
+    .u-hero__chip b {
+      font-size: 20px;
+    }
+
+    .u-hero__chip i {
+      font-size: 9.5px;
+    }
+
+    .u-week {
+      padding: 22px 24px 20px;
+    }
+
+    .u-week__meta {
+      font-size: 11px;
+    }
+
+    .u-week__group {
+      padding: 5px 10px;
+      font-size: 12px;
+    }
+
+    .u-week__head h3 {
+      font-size: 1.78rem;
+    }
+
+    .u-week__total b {
+      font-size: 15px;
+    }
+
+    .u-week__paces {
+      padding: 7px 12px;
+      font-size: 12px;
+    }
+
+    .u-week__row {
+      grid-template-columns: 48px minmax(0, 1fr) auto;
+      gap: 9px 13px;
+      padding: 10px 14px;
+    }
+
+    .u-week__day b {
+      font-size: 1.62rem;
+    }
+
+    .u-week .u-disc {
+      padding: 4px 8px;
+      font-size: 13.5px;
+    }
+
+    .u-week__val {
+      font-size: 14px;
+    }
+
+    .u-week__zone {
+      padding: 3px 7px 2px;
+      font-size: 11px;
+    }
+
+    .u-week .u-rpe b {
+      width: 24px;
+      height: 19px;
+      font-size: 11px;
+    }
+
+    .u-week__load b {
+      font-size: 13px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .u-hero__ticker-track {
+      animation: none;
     }
   }
 </style>

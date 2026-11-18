@@ -1,0 +1,455 @@
+---
+const roles = [
+  {
+    n: '01',
+    label: 'Club',
+    title: 'Todo el club, ordenado.',
+    text: 'Grupos, invitaciones y permisos. Un solo sitio para saber quién entrena, en qué grupo está y qué le toca este mes.',
+    items: ['Grupos con nombre y foto', 'Invitación por enlace', 'Roles de entrenador y atleta', 'La ficha de cada atleta'],
+    art: 'club',
+    dark: false,
+  },
+  {
+    n: '02',
+    label: 'Entrenador',
+    title: 'Decide con datos, no a ojo.',
+    text: 'Escribe el plan como siempre. Umbral calcula la carga de cada bloque y la pone frente a lo que cada atleta ha hecho de verdad.',
+    items: ['Texto libre, sin plantillas rígidas', 'ECO por bloque', 'Tests y zonas de cada atleta', 'Estadísticas por atleta'],
+    art: 'trainer',
+    dark: true,
+  },
+  {
+    n: '03',
+    label: 'Atleta',
+    title: 'Sabe qué toca y a qué ritmo.',
+    text: 'Su semana, sus ritmos y el RPE de cada sesión en un toque. Sin compararse con la tabla de nadie.',
+    items: ['Su panel y su calendario', 'RPE de cada sesión', 'Ritmos y vatios propios', 'Sus actividades y estadísticas'],
+    art: 'athlete',
+    dark: false,
+  },
+];
+---
+
+<section class="u-section u-section--tight" id="roles" aria-labelledby="u-roles-title">
+  <div class="u-wrap">
+    <header class="u-head">
+      <div>
+        <p class="u-kicker">01 / Para quién</p>
+        <h2 class="u-title" id="u-roles-title" data-split>
+          Cada rol, <span class="soft">su vista.</span>
+        </h2>
+      </div>
+    </header>
+
+    <div class="u-roles">
+      {roles.map((role) => (
+        <article class:list={['u-role', role.dark && 'u-role--ink']} data-reveal>
+          <div class="u-role__top">
+            <span class="u-mono">{role.n} · {role.label}</span>
+
+            {role.art === 'club' && (
+              <div class="u-art u-art--club" aria-hidden="true">
+                <span><i></i><b></b></span>
+                <span><i></i><b></b></span>
+                <span><i></i><b></b></span>
+              </div>
+            )}
+
+            {role.art === 'trainer' && (
+              <div class="u-art u-art--trainer" aria-hidden="true">
+                <span class="u-art__line"></span>
+                <span class="u-art__line u-art__line--short"></span>
+                <span class="u-art__zones">
+                  <i class="is-z1">Z1</i><i class="is-z2">Z2</i><i class="is-z4">Z4</i>
+                </span>
+              </div>
+            )}
+
+            {role.art === 'athlete' && (
+              <div class="u-art u-art--athlete" aria-hidden="true">
+                <span class="is-on" style="--h: 18px"></span>
+                <span class="is-on" style="--h: 26px"></span>
+                <span class="is-signal" style="--h: 34px"></span>
+                <span style="--h: 12px"></span>
+                <span class="is-on" style="--h: 22px"></span>
+                <span class="is-rest" style="--h: 8px"></span>
+                <span style="--h: 14px"></span>
+              </div>
+            )}
+          </div>
+
+          <h3>{role.title}</h3>
+          <p>{role.text}</p>
+
+          <ul>
+            {role.items.map((item) => <li>{item}</li>)}
+          </ul>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .u-roles {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .u-role {
+    display: flex;
+    flex-direction: column;
+    min-height: 372px;
+    padding: clamp(26px, 2.6vw, 36px);
+    border: 1px solid var(--line);
+    border-radius: var(--u-radius);
+    background: var(--card);
+    transition:
+      transform 380ms var(--ease),
+      border-color 300ms var(--ease);
+  }
+
+  .u-role:hover {
+    transform: translateY(-4px);
+    border-color: color-mix(in srgb, var(--signal) 70%, var(--line));
+  }
+
+  .u-role--ink {
+    position: relative;
+    overflow: hidden;
+    border-color: var(--ink);
+    color: var(--ivory);
+    background: var(--ink);
+  }
+
+  .u-role--ink::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: var(--chevron);
+    background-size: 240px 160px;
+    opacity: 0.55;
+  }
+
+  .u-role--ink > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .u-role--ink h3 {
+    color: var(--ivory);
+  }
+
+  .u-role--ink p {
+    color: #cbc8bf;
+  }
+
+  .u-role--ink ul {
+    border-color: var(--line-dark);
+  }
+
+  .u-role__top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    min-height: 66px;
+    color: var(--muted);
+  }
+
+  .u-role--ink .u-role__top {
+    color: var(--stone);
+  }
+
+  .u-art {
+    flex: none;
+  }
+
+  @supports (corner-shape: squircle) {
+    .u-role {
+      corner-shape: squircle;
+    }
+  }
+
+  .u-role__top > .u-mono {
+    color: var(--ink);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.13em;
+  }
+
+  .u-role--ink .u-role__top > .u-mono {
+    color: var(--ivory);
+  }
+
+  /* Mini ilustración: club */
+  .u-art--club {
+    display: grid;
+    gap: 5px;
+    width: 96px;
+  }
+
+  .u-art--club span {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 5px 8px;
+    border: 1px solid var(--line);
+    border-radius: 9px;
+    background: var(--ivory);
+  }
+
+  .u-art--club i {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--stone);
+  }
+
+  .u-art--club span:nth-child(2) i {
+    background: var(--signal);
+  }
+
+  .u-art--club b {
+    width: 44px;
+    height: 3px;
+    border-radius: 99px;
+    background: var(--line);
+  }
+
+  .u-art--club span:nth-child(2) b {
+    width: 56px;
+    background: var(--ink);
+    opacity: 0.2;
+  }
+
+  /* Mini ilustración: entrenador */
+  .u-art--trainer {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 112px;
+    padding: 10px 11px;
+    border: 1px solid var(--line-dark);
+    border-radius: 13px;
+    background: #242522;
+  }
+
+  .u-art__line {
+    width: 84px;
+    height: 3px;
+    border-radius: 99px;
+    background: #4a4b45;
+  }
+
+  .u-art__line--short {
+    width: 56px;
+  }
+
+  .u-art__zones {
+    display: flex;
+    gap: 3px;
+    margin-top: 2px;
+  }
+
+  .u-art__zones i {
+    padding: 2px 4px;
+    border-radius: 3px;
+    color: var(--ivory);
+    font-family: var(--mono);
+    font-size: 6px;
+    font-style: normal;
+    line-height: 1;
+  }
+
+  .u-art__zones .is-z1 {
+    background: var(--z1);
+  }
+
+  .u-art__zones .is-z2 {
+    background: var(--z2);
+  }
+
+  .u-art__zones .is-z4 {
+    background: var(--z4);
+  }
+
+  /* Mini ilustración: atleta. Una semana con carga real: las barras tienen
+     altura, la sesión de hoy va en Signal y el descanso queda punteado. */
+  .u-art--athlete {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    gap: 4px;
+    height: 42px;
+  }
+
+  .u-art--athlete::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 1px;
+    background: var(--line);
+  }
+
+  .u-art--athlete span {
+    display: block;
+    width: 9px;
+    height: var(--h, 18px);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    background: var(--surface);
+  }
+
+  .u-art--athlete .is-on {
+    border-color: var(--ink);
+    background: var(--ink);
+  }
+
+  .u-art--athlete .is-signal {
+    border-color: var(--signal-deep);
+    background: var(--signal);
+  }
+
+  .u-art--athlete .is-rest {
+    border-style: dashed;
+    border-color: var(--stone);
+    background: transparent;
+  }
+
+  .u-role h3 {
+    margin-top: auto;
+    padding-top: 28px;
+    font-family: var(--display);
+    font-size: clamp(1.45rem, 2vw, 1.75rem);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.045em;
+  }
+
+  .u-role p {
+    margin-top: 12px;
+    color: var(--ink-soft);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .u-role ul {
+    display: grid;
+    gap: 7px;
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+    color: var(--ink-soft);
+    font-size: 12px;
+  }
+
+  .u-role li {
+    display: flex;
+    gap: 9px;
+    align-items: flex-start;
+    line-height: 1.4;
+  }
+
+  .u-role li::before {
+    content: '';
+    width: 5px;
+    height: 5px;
+    flex: none;
+    margin-top: 5px;
+    border-radius: 50%;
+    background: var(--signal);
+  }
+
+  /* La tarjeta oscura necesita su propio color de texto: las reglas base
+     de .u-role tienen la misma especificidad y se aplican después. */
+  .u-role--ink p,
+  .u-role--ink li {
+    color: #cbc8bf;
+  }
+
+  .u-role--ink ul {
+    border-color: var(--line-dark);
+  }
+
+  @media (max-width: 980px) {
+    .u-roles {
+      grid-template-columns: 1fr;
+    }
+
+    .u-role {
+      min-height: 0;
+    }
+
+    .u-role h3 {
+      margin-top: 0;
+    }
+  }
+
+  @media (min-width: 1500px) {
+    .u-role {
+      min-height: 420px;
+      padding: 36px 38px;
+    }
+
+    .u-role__top > .u-mono {
+      font-size: 13px;
+    }
+
+    .u-role h3 {
+      font-size: 1.95rem;
+    }
+
+    .u-role p {
+      font-size: 15px;
+    }
+
+    .u-role ul {
+      gap: 8px;
+      font-size: 13px;
+    }
+
+    .u-art--club {
+      width: 108px;
+    }
+
+    .u-art--club span {
+      padding: 6px 9px;
+    }
+
+    .u-art--club i {
+      width: 11px;
+      height: 11px;
+    }
+
+    .u-art--club b {
+      width: 50px;
+    }
+
+    .u-art--trainer {
+      width: 124px;
+      padding: 12px 13px;
+    }
+
+    .u-art__line {
+      width: 96px;
+    }
+
+    .u-art__line--short {
+      width: 62px;
+    }
+
+    .u-art--athlete {
+      height: 46px;
+      gap: 4px;
+    }
+
+    .u-art--athlete span {
+      width: 10px;
+    }
+  }
+</style>
