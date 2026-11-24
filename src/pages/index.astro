@@ -1,7 +1,9 @@
 ---
-// La home se renderiza en cada petición para que el middleware pueda leer la
-// cookie de sesión y redirigir a la app si el visitante ya está dentro.
-export const prerender = false;
+// La home es estática: la landing se muestra siempre y la app queda a un clic
+// en «Entrar». Antes se renderizaba por petición para redirigir con la cookie
+// `umbral_session`, pero esa cookie solo indica «hay sesión»: si el token había
+// caducado, el visitante acababa en el login sin poder ver la landing.
+export const prerender = true;
 
 import Layout from '../layouts/Layout.astro';
 import Nav from '../components/Nav.astro';

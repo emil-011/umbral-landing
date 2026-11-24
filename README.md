@@ -133,17 +133,17 @@ PUBLIC_WAITLIST_ENDPOINT=/api/waitlist
 - En local, `bun run dev` sirve la landing y el endpoint a la vez.
 - En producción, ejecuta `npm start` (arranca con Bun) o `bun ./dist/server/entry.mjs` con esas variables de entorno. Si el hosting solo tiene Node, usa `npm run start:node`.
 
-## Sesión y redirección a la app
+## Sesión y acceso a la app
 
-La app deja una cookie `umbral_session` en `.umbrallab.es` al iniciar sesión. La
-landing la lee en `src/middleware.ts`: si existe, la home responde con un 302 a
-`APP_URL` (`https://app.umbrallab.es`) en vez de enseñar la página pública.
+La app deja una cookie `umbral_session` en `.umbrallab.es` al iniciar sesión, pero
+la landing **ya no redirige** a partir de ella. La home es estática y se muestra
+siempre; para entrar en la app está el enlace «Entrar» de la navegación y el pie.
 
 - La cookie es solo una señal de "hay sesión"; no contiene tokens. La app sigue
   validando el JWT y, si caducó, pide login con normalidad.
-- `?landing=1` (o `?static`) permite ver la landing aunque haya sesión. Es útil
-  para revisarla o hacer capturas sin cerrar sesión.
-- En local no se redirige: la cookie de la app y la de la landing comparten host.
+- Antes la home respondía con un 302 a `APP_URL` cuando la cookie existía. Si el
+  token había caducado, el visitante acababa en el login sin poder ver la landing.
+- `?static` sigue sirviendo para ver la versión sin animaciones en capturas y QA.
 - El registro está cerrado durante la demo. La app no crea cuentas nuevas, ni por
   email ni con Google; solo entran las cuentas que ya existen.
 
