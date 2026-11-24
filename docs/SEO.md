@@ -401,10 +401,10 @@ funcionar; a medio plazo es un riesgo.
   comprensión, no por apariencia.
 - **AI Overviews pueden reducir clics.** La defensa es marca, conversión directa
   y contenido con datos que no se puedan resumir sin citar.
-- **La política de privacidad y el aviso legal** ya están publicados en
-  `/privacidad` y `/aviso-legal`, enlazados desde el pie. Antes de desplegar el
-  aviso legal hay que rellenar `nif` y `address` en `src/lib/legal.ts`: sin esos
-  datos el aviso está incompleto.
+- **La política de privacidad y el aviso legal** están publicados en
+  `/privacidad` y `/aviso-legal`, enlazados desde el pie. El aviso se presenta
+  como proyecto personal en acceso anticipado y solo publica nombre y correo de
+  contacto, no datos fiscales.
 - **El formulario es el objetivo.** Todo el SEO debe llevar a `#acceso` o a la
   app; el tráfico sin conversión no es un resultado.
 
