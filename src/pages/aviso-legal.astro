@@ -1,0 +1,133 @@
+---
+import Page from '../layouts/Page.astro';
+import { LEGAL } from '../lib/legal';
+
+const title = 'Aviso legal | Umbral';
+const description =
+  'Datos identificativos del titular de umbrallab.es, condiciones de uso del sitio, propiedad intelectual y responsabilidad.';
+---
+
+<Page
+  title={title}
+  description={description}
+  kicker="Legal"
+  h1="Aviso legal"
+  lead="Datos del titular del sitio, condiciones de uso y reglas aplicables a los contenidos de umbrallab.es."
+  breadcrumb={[{ name: 'Aviso legal' }]}
+  actions={false}
+>
+  <div class="p-legal">
+    <p class="p-legal__meta">Última actualización: {LEGAL.updatedAt}</p>
+
+    <h2>1. Datos identificativos del titular</h2>
+    <p>
+      En cumplimiento del artículo 10 de la Ley 34/2002, de 11 de julio, de Servicios de la Sociedad
+      de la Información y de Comercio Electrónico (LSSI-CE), se facilitan los siguientes datos:
+    </p>
+    <div class="p-legal__data">
+      <span><strong>Titular:</strong> {LEGAL.holder}</span>
+      {LEGAL.nif && <span><strong>NIF:</strong> {LEGAL.nif}</span>}
+      {LEGAL.address && <span><strong>Domicilio:</strong> {LEGAL.address}</span>}
+      <span>
+        <strong>Correo electrónico:</strong>
+        <a href={`mailto:${LEGAL.email}`}>{LEGAL.email}</a>
+      </span>
+      <span><strong>Sitio web:</strong> <a href={LEGAL.siteUrl}>{LEGAL.siteUrl}</a></span>
+      <span><strong>Actividad:</strong> desarrollo y prestación de una plataforma de entrenamiento deportivo.</span>
+    </div>
+
+    <h2>2. Objeto</h2>
+    <p>
+      Este sitio web tiene carácter informativo y presenta {LEGAL.appName}, la plataforma de
+      entrenamiento para clubes, entrenadores y atletas de triatlón, atletismo, natación, ciclismo,
+      duatlón y acuatlón. La navegación por el sitio atribuye la condición de usuario e implica la
+      aceptación de las condiciones recogidas en este aviso legal.
+    </p>
+    <p>
+      El acceso a la aplicación se realiza a través de {LEGAL.appUrl} y puede estar sujeto a sus
+      propias condiciones de uso y a un proceso de alta o invitación. La información publicada en el
+      sitio no constituye una oferta contractual ni garantiza la disponibilidad inmediata del
+      servicio.
+    </p>
+
+    <h2>3. Condiciones de uso</h2>
+    <ul>
+      <li>
+        El usuario se compromete a utilizar el sitio y sus contenidos de forma lícita, diligente y
+        respetuosa con la normativa aplicable.
+      </li>
+      <li>
+        No está permitido introducir programas, virus, código malicioso o realizar actuaciones que
+        puedan dañar, sobrecargar o impedir el normal funcionamiento del sitio.
+      </li>
+      <li>
+        No está permitido intentar acceder a áreas restringidas, cuentas de terceros o sistemas de la
+        plataforma sin autorización.
+      </li>
+      <li>
+        El usuario es responsable de la veracidad de los datos que facilite a través de los
+        formularios del sitio.
+      </li>
+    </ul>
+
+    <h2>4. Propiedad intelectual e industrial</h2>
+    <p>
+      Los contenidos del sitio —textos, diseño, código, marcas, logotipos, gráficos, imágenes y
+      elementos de la interfaz— son titularidad de {LEGAL.holder} o se utilizan con autorización. Su
+      reproducción, distribución, comunicación pública o transformación no autorizada está prohibida,
+      salvo en los casos permitidos por la ley o con autorización expresa.
+    </p>
+    <p>
+      El nombre {LEGAL.appName} y sus signos distintivos no pueden utilizarse como marca, nombre
+      comercial o identificador de productos o servicios ajenos sin autorización.
+    </p>
+
+    <h2>5. Responsabilidad</h2>
+    <p>
+      El titular adopta medidas razonables para mantener el sitio disponible y libre de errores, pero
+      no puede garantizar la ausencia de interrupciones, fallos técnicos o incidencias ajenas a su
+      control. Tampoco responde de los daños derivados de un uso indebido del sitio, de la
+      interpretación de sus contenidos o de la disponibilidad de servicios de terceros.
+    </p>
+    <p>
+      Los contenidos de entrenamiento publicados en el sitio tienen carácter informativo y no
+      sustituyen el criterio de un profesional sanitario o de un entrenador cualificado. Cada
+      deportista debe adaptar su práctica a su estado de salud y a sus circunstancias.
+    </p>
+
+    <h2>6. Enlaces</h2>
+    <p>
+      El sitio puede incluir enlaces a páginas de terceros. El titular no controla ni asume
+      responsabilidad sobre sus contenidos, políticas o prácticas. La inclusión de un enlace no
+      implica una recomendación ni una relación comercial con el sitio enlazado.
+    </p>
+
+    <h2>7. Protección de datos</h2>
+    <p>
+      El tratamiento de los datos personales que el usuario facilite a través del sitio se rige por
+      la <a href="/privacidad">política de privacidad</a>. Allí se explican las finalidades, las bases
+      jurídicas, los destinatarios y los derechos que puede ejercer el interesado.
+    </p>
+
+    <h2>8. Cookies y almacenamiento local</h2>
+    <p>
+      El sitio utiliza los mecanismos técnicos necesarios para su funcionamiento, como la sesión y las
+      preferencias del navegador. No utiliza cookies de publicidad ni de analítica. El detalle está en
+      la <a href="/privacidad">política de privacidad</a>.
+    </p>
+
+    <h2>9. Legislación aplicable y jurisdicción</h2>
+    <p>
+      Este aviso legal se rige por la legislación española. Para la resolución de cualquier
+      controversia derivada del uso del sitio, las partes se someterán a los juzgados y tribunales que
+      correspondan conforme a la normativa aplicable, sin perjuicio de los derechos que asistan a los
+      consumidores.
+    </p>
+
+    <h2>10. Contacto</h2>
+    <p>
+      Para cualquier consulta sobre este aviso legal, puedes escribir a
+      <a href={`mailto:${LEGAL.email}`}>{LEGAL.email}</a>.
+    </p>
+  </div>
+</Page>

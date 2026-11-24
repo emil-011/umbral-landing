@@ -1,0 +1,304 @@
+---
+import Page from '../layouts/Page.astro';
+import { LEGAL } from '../lib/legal';
+
+const title = 'Política de privacidad | Umbral';
+const description =
+  'Qué datos trata Umbral, para qué los utiliza, con quién los comparte y cómo puedes ejercer tus derechos. Entrenamiento, relojes y clubes, explicado claro.';
+---
+
+<Page
+  title={title}
+  description={description}
+  kicker="Legal"
+  h1="Política de privacidad"
+  lead="Qué datos tratamos, para qué los utilizamos, quién puede acceder a ellos y cómo puedes ejercer tus derechos."
+  breadcrumb={[{ name: 'Privacidad' }]}
+  actions={false}
+>
+  <div class="p-legal">
+    <p class="p-legal__meta">Última actualización: {LEGAL.updatedAt}</p>
+
+    <p>
+      En {LEGAL.appName} nos tomamos en serio la privacidad de los deportistas y entrenadores que
+      utilizan la plataforma. Esta política explica qué datos personales tratamos, para qué los
+      utilizamos, quién puede acceder a ellos y qué derechos tienes sobre tu información.
+    </p>
+
+    <h2>1. Responsable del tratamiento</h2>
+    <div class="p-legal__data">
+      <span><strong>Titular:</strong> {LEGAL.holder}</span>
+      {LEGAL.nif && <span><strong>NIF:</strong> {LEGAL.nif}</span>}
+      {LEGAL.address && <span><strong>Domicilio:</strong> {LEGAL.address}</span>}
+      <span>
+        <strong>Correo de contacto:</strong>
+        <a href={`mailto:${LEGAL.email}`}>{LEGAL.email}</a>
+      </span>
+      <span><strong>Sitio web:</strong> <a href={LEGAL.siteUrl}>{LEGAL.siteUrl}</a></span>
+    </div>
+
+    <h2>2. Datos personales que tratamos</h2>
+    <p>Los datos que recopilamos dependen de las funciones que utilices en {LEGAL.appName}.</p>
+
+    <h3>Datos de cuenta e identificación</h3>
+    <p>
+      Nombre, apellidos, dirección de correo electrónico, teléfono y fecha de nacimiento, cuando
+      corresponda.
+    </p>
+
+    <h3>Datos de acceso y autenticación</h3>
+    <p>
+      Tratamos los datos necesarios para autenticarte y mantener tu sesión. Las contraseñas se
+      almacenan mediante un mecanismo de hash criptográfico, utilizando BCrypt, y no en texto
+      legible. Si accedes mediante Google, recibimos los datos de identificación que permita esa
+      autenticación, como tu identificador de cuenta y tu dirección de correo electrónico.
+    </p>
+
+    <h3>Datos de entrenamiento y rendimiento deportivo</h3>
+    <p>
+      Podemos tratar datos como ritmos, frecuencia cardíaca, zonas de entrenamiento, FTP, pruebas de
+      rendimiento, entrenamientos planificados y realizados, valoraciones de esfuerzo percibido
+      (ECS), estadísticas y evolución deportiva.
+    </p>
+    <p>
+      Cuando estén disponibles y hayas autorizado su sincronización, también podremos tratar datos
+      detallados de las actividades, como recorridos GPS, altitud, velocidad, vueltas, parciales,
+      cadencia, potencia y otras métricas proporcionadas por dispositivos compatibles.
+    </p>
+
+    <h3>Datos de clubes y relaciones deportivas</h3>
+    <p>
+      Información relativa al club al que perteneces, tu grupo, tu rol dentro de la plataforma y las
+      relaciones entre deportistas y entrenadores.
+    </p>
+
+    <h3>Datos técnicos y de seguridad</h3>
+    <p>
+      Podemos registrar información técnica necesaria para mantener la seguridad y el funcionamiento
+      del servicio, como direcciones IP, fechas de acceso y registros de errores o peticiones al
+      servidor.
+    </p>
+
+    <h3>Datos de servicios externos conectados</h3>
+    <p>
+      Si conectas una cuenta de Garmin, Polar, Wahoo u otro servicio compatible, trataremos los datos
+      que autorices a importar y los datos técnicos necesarios para mantener la integración, como los
+      tokens de autorización. No solicitamos tu contraseña de esos servicios para realizar las
+      integraciones.
+    </p>
+
+    <h2>3. Finalidades y bases jurídicas</h2>
+    <p>Utilizamos tus datos para las siguientes finalidades:</p>
+
+    <h3>Prestación del servicio</h3>
+    <p>
+      Gestionar tu cuenta, mostrar el calendario deportivo, organizar los entrenamientos, gestionar
+      planes, calcular estadísticas y facilitar la comunicación entre deportistas y entrenadores. La
+      base jurídica será, según el tratamiento concreto, la ejecución del contrato de prestación del
+      servicio.
+    </p>
+
+    <h3>Seguimiento y análisis deportivo</h3>
+    <p>
+      Permitir que los deportistas consulten su evolución y que los entrenadores autorizados analicen
+      las sesiones realizadas, comparen los entrenamientos planificados con los completados y hagan un
+      seguimiento del rendimiento.
+    </p>
+    <p>
+      Los datos relativos a la salud que puedan estar presentes en la información deportiva se
+      tratarán únicamente cuando exista una base jurídica válida conforme al RGPD, incluida, cuando
+      corresponda, una excepción aplicable al tratamiento de categorías especiales de datos.
+    </p>
+
+    <h3>Sincronización con dispositivos deportivos</h3>
+    <p>
+      Importar actividades y otras métricas de servicios compatibles cuando el usuario conecte
+      voluntariamente su cuenta. La conexión y los permisos se gestionarán conforme a las
+      autorizaciones solicitadas y concedidas. Podrás retirar el acceso desconectando la integración
+      desde las opciones disponibles.
+    </p>
+
+    <h3>Seguridad y prevención de abusos</h3>
+    <p>
+      Proteger las cuentas, prevenir accesos no autorizados, detectar usos indebidos y mantener la
+      integridad de la plataforma. La base jurídica será el interés legítimo cuando resulte aplicable.
+    </p>
+
+    <h3>Comunicaciones necesarias para el servicio</h3>
+    <p>
+      Enviar mensajes relacionados con la verificación de la cuenta, la recuperación del acceso y
+      otras comunicaciones operativas necesarias para utilizar {LEGAL.appName}.
+    </p>
+    <p>
+      No utilizamos tus datos para enviarte publicidad comercial no solicitada ni para elaborar
+      perfiles publicitarios.
+    </p>
+
+    <h2>4. Acceso a los datos</h2>
+    <p>
+      {LEGAL.appName} aplica controles de acceso para que la información solo esté disponible para las
+      personas y los servicios que necesiten utilizarla.
+    </p>
+    <ul>
+      <li>
+        <strong>Deportistas:</strong> pueden consultar sus propios datos y las funciones que tengan
+        habilitadas según su cuenta y su relación con el club.
+      </li>
+      <li>
+        <strong>Entrenadores:</strong> pueden acceder a la información de los deportistas que tengan
+        asignados y a los datos necesarios para desarrollar sus funciones dentro del club.
+      </li>
+      <li>
+        <strong>Clubes:</strong> pueden disponer de acceso a determinada información organizativa y
+        deportiva en función de los permisos y roles configurados en la plataforma.
+      </li>
+    </ul>
+    <p>
+      El acceso de entrenadores y clubes estará sujeto a las autorizaciones, los permisos y las
+      condiciones aplicables. No se concede acceso general a todos los datos de todos los deportistas
+      por el mero hecho de pertenecer a un club. Las contraseñas no son visibles para entrenadores ni
+      para otros usuarios.
+    </p>
+
+    <h2>5. Proveedores y servicios de terceros</h2>
+    <p>
+      Para prestar el servicio, {LEGAL.appName} puede utilizar proveedores tecnológicos que traten
+      datos personales por cuenta de la plataforma o que intervengan en funciones concretas. Entre
+      ellos pueden encontrarse:
+    </p>
+    <ul>
+      <li>
+        <strong>Alojamiento e infraestructura:</strong> proveedores necesarios para ejecutar la
+        aplicación y almacenar la información.
+      </li>
+      <li><strong>Resend:</strong> envío de correos electrónicos relacionados con el servicio.</li>
+      <li>
+        <strong>Google:</strong> autenticación, cuando el usuario elige iniciar sesión mediante
+        Google.
+      </li>
+      <li>
+        <strong>Garmin, Polar y Wahoo:</strong> intercambio de datos deportivos cuando el usuario
+        conecta voluntariamente una cuenta compatible.
+      </li>
+    </ul>
+    <p>
+      Los datos compartidos con estos servicios se limitarán a los necesarios para la finalidad
+      correspondiente y estarán sujetos a las condiciones y políticas aplicables a cada proveedor.
+      {LEGAL.appName} no vende datos personales ni los cede a terceros para que los utilicen con fines
+      publicitarios propios.
+    </p>
+
+    <h2>6. Transferencias internacionales</h2>
+    <p>
+      Algunos proveedores tecnológicos podrían tratar datos fuera del Espacio Económico Europeo.
+      Cuando se produzcan transferencias internacionales, se aplicarán las garantías exigidas por la
+      normativa de protección de datos, cuando sean necesarias, como una decisión de adecuación o las
+      cláusulas contractuales tipo correspondientes. Puedes contactar con {LEGAL.appName} para
+      solicitar información adicional sobre las transferencias que afecten a tus datos.
+    </p>
+
+    <h2>7. Conservación de los datos</h2>
+    <p>
+      Conservaremos los datos personales mientras la cuenta permanezca activa y sean necesarios para
+      prestar el servicio y cumplir las finalidades descritas en esta política. Cuando solicites la
+      eliminación de tu cuenta, procederemos a suprimir o anonimizar los datos personales que ya no
+      sean necesarios, salvo aquellos que debamos conservar por una obligación legal o para la
+      formulación, el ejercicio o la defensa de reclamaciones.
+    </p>
+    <p>
+      Los registros técnicos y de seguridad podrán conservarse durante periodos limitados, adecuados a
+      su finalidad. La eliminación de una cuenta o la desconexión de un dispositivo no implica
+      necesariamente la eliminación de los datos que el proveedor externo conserve en sus propios
+      sistemas: en esos casos, deberás gestionar también las opciones disponibles con el proveedor
+      correspondiente.
+    </p>
+
+    <h2>8. Seguridad de la información</h2>
+    <p>
+      {LEGAL.appName} adopta medidas técnicas y organizativas razonables para proteger los datos
+      personales frente a accesos no autorizados, pérdidas, alteraciones o divulgaciones indebidas.
+      Estas medidas incluyen controles de acceso, protección de las credenciales y medidas de
+      seguridad adaptadas a las características del servicio.
+    </p>
+    <p>
+      Ningún sistema puede garantizar una seguridad absoluta. Si se produce una violación de seguridad
+      que requiera notificación conforme a la normativa aplicable, se actuarán las medidas y
+      comunicaciones correspondientes.
+    </p>
+
+    <h2>9. Tus derechos</h2>
+    <p>De acuerdo con la normativa aplicable, puedes ejercer los siguientes derechos:</p>
+    <ul>
+      <li>
+        <strong>Acceso:</strong> conocer si tratamos tus datos y obtener una copia cuando corresponda.
+      </li>
+      <li><strong>Rectificación:</strong> corregir datos inexactos o incompletos.</li>
+      <li>
+        <strong>Supresión:</strong> solicitar la eliminación de tus datos cuando se cumplan los
+        requisitos legales.
+      </li>
+      <li><strong>Limitación:</strong> solicitar que restrinjamos determinados tratamientos.</li>
+      <li>
+        <strong>Oposición:</strong> oponerte a tratamientos basados en el interés legítimo, en los
+        términos previstos por la normativa.
+      </li>
+      <li>
+        <strong>Portabilidad:</strong> recibir determinados datos en un formato estructurado y de uso
+        común cuando se cumplan los requisitos legales.
+      </li>
+      <li>
+        <strong>Retirada del consentimiento:</strong> retirar el consentimiento cuando el tratamiento
+        se base en él, sin afectar a la licitud del tratamiento anterior a su retirada.
+      </li>
+    </ul>
+    <p>
+      Puedes ejercer estos derechos escribiendo a <a href={`mailto:${LEGAL.email}`}>{LEGAL.email}</a>,
+      indicando tu solicitud y proporcionando la información necesaria para verificar tu identidad de
+      forma proporcionada. Responderemos dentro de los plazos establecidos por la normativa aplicable,
+      normalmente en el plazo de un mes.
+    </p>
+    <p>
+      También puedes presentar una reclamación ante la Agencia Española de Protección de Datos (AEPD)
+      si consideras que el tratamiento de tus datos no se ajusta a la normativa.
+    </p>
+
+    <h2>10. Cookies y almacenamiento local</h2>
+    <p>
+      {LEGAL.appName} puede utilizar mecanismos de almacenamiento del navegador para mantener la
+      sesión, recordar información necesaria para el funcionamiento de la plataforma y gestionar
+      invitaciones o accesos mediante enlaces. Actualmente, la plataforma no utiliza cookies de
+      analítica ni de publicidad.
+    </p>
+    <p>
+      Si utilizas el inicio de sesión mediante Google, ese servicio puede emplear sus propios
+      mecanismos de autenticación y almacenamiento, sujetos a sus condiciones y políticas. El
+      almacenamiento local del navegador no equivale necesariamente a una cookie; su utilización se
+      ajustará a la normativa aplicable y a las necesidades técnicas de la plataforma.
+    </p>
+
+    <h2>11. Menores de edad</h2>
+    <p>
+      {LEGAL.appName} no está dirigido a menores de 14 años. Si en el futuro se habilita el uso del
+      servicio por menores de edad, se establecerán las medidas y garantías necesarias para cumplir la
+      normativa aplicable, teniendo en cuenta la naturaleza de los datos deportivos tratados.
+    </p>
+
+    <h2>12. Cambios en esta política</h2>
+    <p>
+      Podemos actualizar esta política para reflejar cambios en la plataforma, en los servicios
+      utilizados o en la normativa aplicable. La versión vigente estará disponible en esta página, con
+      su fecha de última actualización. Cuando los cambios afecten significativamente al tratamiento
+      de los datos o así lo exija la normativa, informaremos a los usuarios por los medios adecuados.
+    </p>
+
+    <h2>13. Contacto</h2>
+    <p>
+      Para cualquier consulta relacionada con esta política o con el tratamiento de tus datos
+      personales, puedes escribir a <a href={`mailto:${LEGAL.email}`}>{LEGAL.email}</a>.
+    </p>
+    <p>
+      <strong>{LEGAL.appName}</strong><br />
+      <a href={LEGAL.siteUrl}>{LEGAL.siteUrl}</a>
+    </p>
+  </div>
+</Page>
