@@ -1,0 +1,207 @@
+---
+import Page from '../../layouts/Page.astro';
+import { faqSchema, type FaqItem } from '../../lib/faq';
+
+const SITE = 'https://umbrallab.es';
+const pageUrl = `${SITE}/guias/zonas-de-entrenamiento`;
+
+const title = 'Zonas de entrenamiento: qué son y cómo se calculan | Umbral';
+const description =
+  'Qué son las zonas de entrenamiento (Z1 a Z5), qué significa cada una, cómo se calculan con tests reales en vez de fórmulas y cómo las usa Umbral en natación, ciclismo y carrera.';
+
+const faqs: FaqItem[] = [
+  {
+    q: '¿Las zonas son las mismas para natación, bici y carrera?',
+    a: 'La idea fisiológica es la misma, pero el número no: cada disciplina tiene su test y sus referencias. En Umbral cada disciplina lleva sus zonas, y en natación puede haber varios tests activos por distancia, de modo que el ritmo de Z3 cambia según la longitud de la serie.',
+  },
+  {
+    q: '¿Por qué no se usan fórmulas con la frecuencia cardiaca máxima?',
+    a: 'Porque la FC máxima estimada y los porcentajes fijos ignoran el punto de partida real de cada persona: dos atletas con la misma FCmáx pueden tener umbrales muy distintos. Un test, aunque sea de campo, deja la referencia donde está de verdad.',
+  },
+  {
+    q: '¿Cada cuánto hay que renovar el test?',
+    a: 'Cuando la sensación de las zonas deje de encajar con los números: si las series de Z4 se han vuelto cómodas o Z2 ya no se sostiene con la respiración tranquila, toca test. En Umbral, al activar una marca nueva los ritmos se recalculan con ella y el plan queda al día sin reescribir nada.',
+  },
+  {
+    q: '¿Quién decide los porcentajes de cada zona?',
+    a: 'El entrenador. En Umbral define los porcentajes, los colores y los factores de carga de sus zonas. La app no impone una tabla: aplica la suya a los ritmos que salen de los tests.',
+  },
+  {
+    q: '¿Puedo entrenar solo con el reloj, sin test?',
+    a: 'Puedes entrenar, pero las zonas del reloj parten de estimaciones. El valor de un test es que convierte la sensación en referencia propia: después, el reloj solo avisa de que vas más rápido o más lento que tu umbral.',
+  },
+];
+---
+
+<Page
+  title={title}
+  description={description}
+  kicker="Guía · fundamentos"
+  h1="Zonas de entrenamiento: qué son y cómo se calculan"
+  lead="Las zonas son la traducción de tu fisiología a un ritmo, una potencia o una frecuencia cardiaca. Esta guía explica qué significa cada una, por qué salen de un test y no de una fórmula, y cómo las usa Umbral."
+  breadcrumb={[{ name: 'Zonas de entrenamiento' }]}
+  extra={faqSchema(faqs, pageUrl)}
+>
+  <h2>Qué es una zona de entrenamiento</h2>
+  <p>
+    Una zona de entrenamiento es un tramo de intensidad con un propósito distinto al de la zona
+    de al lado. Entre el ritmo al que podrías charlar y el que apenas aguanta un minuto hay
+    cambios fisiológicos reales: qué combustible quema el músculo, cuánto lactato produce, cuánto
+    tiempo puedes sostenerlo. Las zonas dividen ese recorrido en tramos con nombre para que una
+    sesión tenga un objetivo claro y acumulable.
+  </p>
+  <p>
+    El error típico es tratarlas como casillas de un reloj. Una zona no es un número de una
+    tabla: es un punto del continuo esfuerzo–recuperación <strong>de ese atleta concreto</strong>.
+    Dos personas con la misma frecuencia cardiaca máxima pueden tener umbrales muy diferentes, y
+    por eso el mismo ritmo les hace cosas distintas.
+  </p>
+
+  <h2>Las cinco zonas, explicadas</h2>
+  <p>
+    Umbral trabaja con cinco zonas, del reposo activo al sprint. La tabla resume qué se siente y
+    para qué sirve cada una; los números concretos (ritmo, vatios, FC) los fija el test de cada
+    atleta.
+  </p>
+  <div class="p-table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Zona</th>
+          <th>Qué se siente</th>
+          <th>Para qué sirve</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Z1</td>
+          <td>Muy fácil. Conversación entera sin cortarse; respiración casi normal.</td>
+          <td>Recuperación, calentamiento, volumen sin coste.</td>
+        </tr>
+        <tr>
+          <td>Z2</td>
+          <td>Cómoda pero activa. Frases cortas sin perder el aire.</td>
+          <td>Base aeróbica: la sesión larga de los domingos.</td>
+        </tr>
+        <tr>
+          <td>Z3</td>
+          <td>Constante y decidida. Hablar ya cuesta frases sueltas.</td>
+          <td>Volumen de calidad cerca del primer umbral.</td>
+        </tr>
+        <tr>
+          <td>Z4</td>
+          <td>Dura. Palabras sueltas, respiración marcada, el umbral a la vista.</td>
+          <td>Series de umbral: sostener un ritmo competitivo.</td>
+        </tr>
+        <tr>
+          <td>Z5</td>
+          <td>Máximo. Un minuto, como mucho unos pocos.</td>
+          <td>VO2max, velocidad y potencia pura.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    El entrenamiento útil vive sobre todo en Z1–Z2 (mucho volumen) y Z4 (poca cantidad, mucha
+    calidad). La Z3 es la zona que más se pisa por accidente: se siente productiva y, sostenida
+    en exceso, solo añade fatiga sin el estímulo de la Z4 ni la recuperación de la Z2.
+  </p>
+
+  <h2>Cómo se calculan: el test, no la fórmula</h2>
+  <p>
+    Las zonas de un atleta se anclan en referencias propias, normalmente el <strong>primer
+    umbral</strong> (donde el esfuerzo empieza a costar de verdad) y el <strong>segundo
+    umbral</strong> (el punto que puedes sostener durante mucho tiempo, el famoso ritmo de
+    umbral). Esas fronteras no se adivinan con la edad ni con la FC máxima del reloj: se miden.
+  </p>
+  <ul>
+    <li>
+      <strong>Test de campo.</strong> Series progresivas o un contrarreloj controlado: accesible
+      para cualquier club y suficiente para fijar zonas prácticas.
+    </li>
+    <li>
+      <strong>Test de laboratorio.</strong> Con analítica de lactato y gases: más precisión
+      clínica, menos frecuencia. Ideal para contrastar el test de campo una o dos veces al año.
+    </li>
+  </ul>
+  <p>
+    Cada deporte tiene su test: en carrera y bici, una prueba de referencia; en natación, varios
+    por distancia, porque el 100 no se entrena con la curva del 400. La referencia activa de cada
+    atleta es la que mueve sus zonas.
+  </p>
+
+  <h2>Cómo las usa Umbral</h2>
+  <p>
+    Umbral no te da unas zonas de fábrica: el entrenador define los porcentajes, los colores y los
+    factores de carga de sus zonas, y la app los aplica a los ritmos que salen de los tests de
+    cada atleta. En la práctica:
+  </p>
+  <ol>
+    <li>El atleta hace su test y la marca se activa en su ficha.</li>
+    <li>Los ritmos por zona se recalculan al momento, disciplina a disciplina.</li>
+    <li>Las sesiones del plan se muestran con los ritmos de cada atleta, no con una media.</li>
+    <li>El seguimiento compara el tiempo en zona planificado con lo que de verdad ha hecho.</li>
+  </ol>
+
+  <h2>Errores típicos con las zonas</h2>
+  <ul>
+    <li>
+      <strong>Entrenar en zona gris.</strong> Salidas que empiezan en Z2 y acaban en Z3 por
+      orgullo. El seguimiento de tiempo en zona lo destapa en una semana.
+    </li>
+    <li>
+      <strong>Zonas viejas.</strong> El test de la temporada pasada, con el atleta ya en otro
+      punto. Si las series de Z4 se vuelven cómodas, toca renovar.
+    </li>
+    <li>
+      <strong>Una tabla para todos.</strong> El mismo porcentaje de FCmáx no significa lo mismo
+      en dos atletas; los ritmos del test evitan ese error de raíz.
+    </li>
+    <li>
+      <strong>Confundir sensación con intensidad.</strong> El RPE de la sesión (ECS en Umbral)
+      existe justamente para cruzar lo que siente el atleta con lo que dice el plan.
+    </li>
+  </ul>
+
+  <div class="p-band">
+    <h2>Zonas que se actualizan solas</h2>
+    <p>
+      Umbral lleva los tests, las zonas y los ritmos de cada atleta de tu club en un solo sitio.
+      Activa una marca nueva y el plan entero se recalcula. Estamos abriendo plazas para clubes y
+      entrenadores.
+    </p>
+    <div class="p-band__actions">
+      <a class="u-btn" href="/#acceso">Pedir acceso</a>
+      <a class="u-btn u-btn--ghost" href="/triatlon">Ver la app para triatlón</a>
+    </div>
+  </div>
+
+  <h2>Preguntas frecuentes</h2>
+  <div class="p-faq">
+    {faqs.map((faq) => (
+      <details>
+        <summary>{faq.q}<span class="p-faq__toggle" aria-hidden="true"></span></summary>
+        <div class="p-faq__a" set:html={faq.a} />
+      </details>
+    ))}
+  </div>
+
+  <h2>Sigue leyendo</h2>
+  <div class="p-related">
+    <a href="/guias/carga-de-entrenamiento">
+      <span class="p-related__kicker">Guía</span>
+      <span class="p-related__title">Carga de entrenamiento</span>
+      <span class="p-related__desc">De las zonas al número: ECO, ECS, TSS y forma.</span>
+    </a>
+    <a href="/triatlon">
+      <span class="p-related__kicker">Landing</span>
+      <span class="p-related__title">App de entrenamiento para triatlón</span>
+      <span class="p-related__desc">Zonas de natación, bici y carrera en el mismo panel.</span>
+    </a>
+    <a href="/atletismo">
+      <span class="p-related__kicker">Landing</span>
+      <span class="p-related__title">App de entrenamiento para atletismo</span>
+      <span class="p-related__desc">Ritmos por zona a partir del test del atleta.</span>
+    </a>
+  </div>
+</Page>

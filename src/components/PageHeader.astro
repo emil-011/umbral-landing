@@ -1,0 +1,73 @@
+---
+import Logo from './Logo.astro';
+import { APP_LOGIN_URL } from '../lib/app';
+
+/* Cabecera de las subpáginas: sin menú desplegable ni anclas de la home.
+   Dos acciones claras: entrar en la app (cuentas existentes) y pedir acceso. */
+---
+
+<header class="p-header" id="top">
+  <div class="u-wrap p-header__inner">
+    <Logo class="p-header__logo" href="/" label="Umbral, inicio" />
+
+    <div class="p-header__actions">
+      <a class="p-header__login" href={APP_LOGIN_URL}>Entrar</a>
+      <a class="u-btn u-btn--sm p-header__cta" href="/#acceso">
+        <span class="u-dot" aria-hidden="true"></span>
+        Pedir acceso
+      </a>
+    </div>
+  </div>
+</header>
+
+<style>
+  .p-header {
+    position: sticky;
+    top: 0;
+    z-index: 80;
+    border-bottom: 1px solid var(--line);
+    background: color-mix(in srgb, var(--ivory) 92%, transparent);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+
+  .p-header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    min-height: 68px;
+  }
+
+  .p-header__logo {
+    flex: none;
+    font-size: 18px;
+  }
+
+  .p-header__actions {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+  }
+
+  .p-header__login {
+    color: var(--ink-soft);
+    font-size: 13px;
+    font-weight: 500;
+    transition: color 160ms var(--ease);
+  }
+
+  .p-header__login:hover {
+    color: var(--ink);
+  }
+
+  .p-header__cta {
+    min-height: 40px;
+  }
+
+  @media (max-width: 480px) {
+    .p-header__login {
+      display: none;
+    }
+  }
+</style>

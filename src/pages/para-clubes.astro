@@ -1,0 +1,170 @@
+---
+import Page from '../layouts/Page.astro';
+import { faqSchema, type FaqItem } from '../lib/faq';
+
+const SITE = 'https://umbrallab.es';
+const pageUrl = `${SITE}/para-clubes`;
+
+const title = 'Software para clubes de triatlón y atletismo | Umbral';
+const description =
+  'Grupos, invitaciones, roles y fichas de atleta para clubes de resistencia. Plan, carga y seguimiento en un solo panel, con los datos en España.';
+
+const faqs: FaqItem[] = [
+  {
+    q: '¿Cómo se pone en marcha un club en Umbral?',
+    a: 'Se crea el club, se añaden los grupos y se comparte un enlace de invitación. Cada persona entra con su cuenta y queda en el grupo que le corresponda. El entrenador ya puede escribir el plan y ver la ficha de cada atleta sin pedir listados ni contraseñas.',
+  },
+  {
+    q: '¿Qué puede hacer un entrenador y qué puede hacer un atleta?',
+    a: 'El entrenador escribe el plan, consulta los tests y las zonas de sus atletas y revisa sus actividades y estadísticas. El atleta ve su semana, sus ritmos, su RPE y sus actividades. Los permisos se limitan al club y al grupo; no hay acceso general a los datos de todo el club por el mero hecho de pertenecer a él.',
+  },
+  {
+    q: '¿Los atletas ven los datos de los demás?',
+    a: 'No. Cada atleta ve lo suyo. La comparación con la tabla de otro no forma parte del producto: el club comparte lo que necesita para organizarse, no un ranking público de carga o rendimiento.',
+  },
+  {
+    q: '¿Sirve para un club con varias disciplinas?',
+    a: 'Sí. Triatlón, atletismo, natación, ciclismo, duatlón, acuatlón y fuerza conviven en el mismo club. Cada grupo puede trabajar su deporte con sus tests y sus zonas, y el club los ve en el mismo panel.',
+  },
+  {
+    q: '¿Dónde están los datos y quién puede verlos?',
+    a: 'En servidores propios, en España. La conexión con los relojes es de solo lectura y cada atleta puede desconectarla. Los entrenadores acceden a los atletas que tienen asignados y el club a la información organizativa que le corresponde. El detalle está en la <a href="/privacidad">política de privacidad</a>.',
+  },
+  {
+    q: '¿Cuánto cuesta y cómo se contrata?',
+    a: 'Estamos en acceso anticipado: las primeras plazas se abren por orden de solicitud y las condiciones se cierran con cada club. Déjanos el correo en el formulario y te escribimos para preparar el primer mes.',
+  },
+];
+
+const faq = faqSchema(faqs, pageUrl);
+---
+
+<Page
+  title={title}
+  description={description}
+  kicker="Para clubes"
+  h1="Software para clubes de triatlón y atletismo"
+  lead="Grupos, invitaciones, roles y la ficha de cada atleta. El club deja de perseguir capturas por WhatsApp y pasa a tener un solo sitio donde ver quién entrena y qué le toca."
+  breadcrumb={[{ name: 'Para clubes' }]}
+  extra={faq}
+>
+  <h2>El club, ordenado</h2>
+  <p>
+    Un club de resistencia no se organiza con una lista de correo. Tiene grupos, entrenadores con
+    distintos atletas, altas y bajas cada temporada y un plan que cambia todas las semanas. Umbral
+    pone esa estructura en la app: cada grupo con su nombre y su foto, cada persona con su rol y cada
+    atleta con su ficha. El entrenador trabaja con los suyos; el club sabe quién está y en qué grupo.
+  </p>
+
+  <div class="p-cards">
+    <div class="p-card">
+      <span class="p-card__tag">01</span>
+      <h3>Grupos y roles</h3>
+      <p>
+        Grupos con nombre y foto, roles de entrenador y atleta y permisos limitados al club. Cada
+        entrenador ve los atletas que tiene asignados, no la base entera.
+      </p>
+    </div>
+    <div class="p-card">
+      <span class="p-card__tag">02</span>
+      <h3>Invitaciones por enlace</h3>
+      <p>
+        El club comparte un enlace y cada deportista entra con su cuenta. Sin listados de correos,
+        sin contraseñas compartidas y sin dar de alta a mano uno por uno.
+      </p>
+    </div>
+    <div class="p-card">
+      <span class="p-card__tag">03</span>
+      <h3>La ficha de cada atleta</h3>
+      <p>
+        Tests, zonas, ritmos, actividades, RPE y estadísticas en el mismo sitio. El entrenador abre
+        la ficha y decide; el atleta ve su evolución sin compararse con nadie.
+      </p>
+    </div>
+    <div class="p-card">
+      <span class="p-card__tag">04</span>
+      <h3>Datos propios</h3>
+      <p>
+        Servidores en España, conexión de solo lectura con Garmin, Polar y Wahoo y desconexión cuando
+        el atleta quiera. La privacidad no es un extra del plan.
+      </p>
+    </div>
+  </div>
+
+  <div class="p-band">
+    <h2>Lleva tu club a su umbral</h2>
+    <p>
+      Estamos abriendo las primeras plazas para clubes de triatlón, atletismo, natación y ciclismo.
+      Déjanos tu correo y te escribimos para preparar el primer mes con tus grupos.
+    </p>
+    <div class="p-band__actions">
+      <a class="u-btn" href="/#acceso">Pedir acceso para mi club</a>
+      <a class="u-btn u-btn--ghost" href="/entrenamiento">Ver el hub de entrenadores</a>
+    </div>
+  </div>
+
+  <h2>Cómo se pone en marcha</h2>
+  <ol>
+    <li>
+      <strong>El club.</strong> Se crea el club y se definen los grupos: élite, juvenil, iniciación
+      o los que use tu entidad.
+    </li>
+    <li>
+      <strong>Las personas.</strong> Se comparte el enlace de invitación y cada atleta entra con su
+      cuenta. El club asigna entrenadores y grupos.
+    </li>
+    <li>
+      <strong>El plan.</strong> El entrenador escribe la semana en texto libre; los tests de cada
+      atleta fijan sus ritmos y la app calcula la carga de cada bloque.
+    </li>
+  </ol>
+
+  <h2>Lo que el club deja de hacer a mano</h2>
+  <ul>
+    <li>
+      <strong>Perseguir capturas.</strong> Las actividades llegan del reloj o de un FIT/ZIP y se
+      cruzan con la sesión planificada.
+    </li>
+    <li>
+      <strong>Mantener listados.</strong> Los grupos y las invitaciones viven en la app, no en una
+      hoja que se queda vieja.
+    </li>
+    <li>
+      <strong>Sumar carga en Excel.</strong> El ECO planificado, el ECS percibido y el TSS estándar
+      se calculan solos.
+    </li>
+    <li>
+      <strong>Decidir a ciegas.</strong> El entrenador ve la evolución de cada atleta y la carga de
+      su semana antes de escribir la siguiente.
+    </li>
+  </ul>
+
+  <h2>Preguntas frecuentes</h2>
+  <div class="p-faq">
+    {faqs.map((item) => (
+      <details>
+        <summary>{item.q}<span class="p-faq__toggle" aria-hidden="true"></span></summary>
+        <div class="p-faq__a" set:html={item.a} />
+      </details>
+    ))}
+  </div>
+
+  <h2>Sigue leyendo</h2>
+  <div class="p-related">
+    <a href="/para-entrenadores">
+      <span class="p-related__kicker">Para entrenadores</span>
+      <span class="p-related__title">La app del entrenador de resistencia</span>
+      <span class="p-related__desc">Plan en texto libre, tests, carga y seguimiento.</span>
+    </a>
+    <a href="/entrenamiento">
+      <span class="p-related__kicker">Landing</span>
+      <span class="p-related__title">Entrenadores y clubes</span>
+      <span class="p-related__desc">Las tres miradas: club, entrenador y atleta.</span>
+    </a>
+    <a href="/triatlon">
+      <span class="p-related__kicker">Deporte</span>
+      <span class="p-related__title">App de entrenamiento para triatlón</span>
+      <span class="p-related__desc">Natación, bici y carrera en el mismo panel.</span>
+    </a>
+  </div>
+</Page>

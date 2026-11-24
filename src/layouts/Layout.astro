@@ -8,6 +8,13 @@ interface Props {
   canonical?: string;
   /** Para páginas que no deben indexarse (gracias, previsualizaciones…). */
   noindex?: boolean;
+  /** Migas de pan: se añaden como BreadcrumbList al @graph. */
+  breadcrumb?: { name: string; url?: string }[];
+  /** Entidades extra (FAQPage, Article…) para el mismo @graph. */
+  extra?: Record<string, unknown> | Record<string, unknown>[];
+  /** En subpáginas sin animación no añadimos la clase `js`: el contenido
+      nunca queda oculto esperando un script que no va a arrancar. */
+  animated?: boolean;
 }
 
 const {
@@ -15,6 +22,9 @@ const {
   description = 'App de entrenamiento para clubes, entrenadores y atletas de triatlón, atletismo, natación y ciclismo. Tests, zonas propias, planes y carga ECO/ECS.',
   canonical,
   noindex = false,
+  breadcrumb,
+  extra,
+  animated = true,
 } = Astro.props;
 
 const site = Astro.site ?? new URL('https://umbrallab.es');
@@ -35,7 +45,7 @@ const schema = {
       '@type': 'Organization',
       '@id': organizationId,
       name: 'Umbral',
-      alternateName: ['Umbral app', 'tritrain', 'Umbral entrenamiento'],
+      alternateName: ['Umbral app', 'Umbral entrenamiento', 'Umbral Lab'],
       url: homeUrl,
       logo: {
         '@type': 'ImageObject',
@@ -44,7 +54,14 @@ const schema = {
         height: 512,
       },
       description:
-        'Umbral es la app de entrenamiento de tritrain para clubes, entrenadores y atletas de triatlón, atletismo, natación y ciclismo.',
+        'Umbral es la app de entrenamiento para clubes, entrenadores y atletas de triatlón, atletismo, natación y ciclismo.',
+      email: 'solicitudes@umbrallab.es',
+      contactPoint: {
+        '@type': 'ContactPoint',
+        contactType: 'customer support',
+        email: 'solicitudes@umbrallab.es',
+        availableLanguage: 'es',
+      },
       address: {
         '@type': 'PostalAddress',
         addressCountry: 'ES',
@@ -68,7 +85,7 @@ const schema = {
       '@id': websiteId,
       url: homeUrl,
       name: 'Umbral',
-      alternateName: ['Umbral app', 'tritrain'],
+      alternateName: ['Umbral app', 'Umbral Lab'],
       description,
       inLanguage: 'es-ES',
       publisher: { '@id': organizationId },
@@ -93,7 +110,7 @@ const schema = {
       '@type': 'WebApplication',
       '@id': appId,
       name: 'Umbral',
-      alternateName: 'tritrain',
+      alternateName: 'Umbral app',
       url: homeUrl,
       description:
         'App de entrenamiento para clubes, entrenadores y atletas: tests y zonas propias, planes en texto libre, actividades de Garmin, Polar y Wahoo, y carga ECO/ECS.',
@@ -113,11 +130,35 @@ const schema = {
         'Carga ECO y ECS, TSS, CTL, ATL y TSB',
         'Actividades de Garmin, Polar y Wahoo',
         'Clubes, grupos, invitaciones y fichas de atleta',
-        'Natación, ciclismo, carrera, duatlón, aquatlón y fuerza',
+        'Natación, ciclismo, carrera, duatlón, acuatlón y fuerza',
       ],
     },
   ],
 };
+
+/* Migas de pan: siempre empiezan en la home, que Google exige como primer
+   elemento con URL absoluta. */
+if (breadcrumb?.length) {
+  schema['@graph'].push({
+    '@type': 'BreadcrumbList',
+    '@id': new URL('/#breadcrumb', canonicalUrl).href,
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Inicio', item: homeUrl },
+      ...breadcrumb.map((crumb, index) => ({
+        '@type': 'ListItem',
+        position: index + 2,
+        name: crumb.name,
+        ...(crumb.url ? { item: new URL(crumb.url, site).href } : {}),
+      })),
+    ],
+  });
+}
+
+if (extra) {
+  for (const entity of Array.isArray(extra) ? extra : [extra]) {
+    schema['@graph'].push(entity);
+  }
+}
 
 const schemaJson = JSON.stringify(schema).replace(/</g, '\\u003c');
 const robots = noindex
@@ -167,24 +208,26 @@ const robots = noindex
 
     <script type="application/ld+json" is:inline set:html={schemaJson} />
 
-    <script is:inline>
-      // Las animaciones solo ocultan contenido si el JS ha arrancado de verdad.
-      (() => {
-        const root = document.documentElement;
-        const params = new URLSearchParams(location.search);
-        const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    {animated && (
+      <script is:inline>
+        // Las animaciones solo ocultan contenido si el JS ha arrancado de verdad.
+        (() => {
+          const root = document.documentElement;
+          const params = new URLSearchParams(location.search);
+          const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-        if (params.has('static') || reduce) {
-          root.classList.add('static');
-          return;
-        }
+          if (params.has('static') || reduce) {
+            root.classList.add('static');
+            return;
+          }
 
-        root.classList.add('js');
-        window.setTimeout(() => {
-          if (!root.classList.contains('motion')) root.classList.remove('js');
-        }, 3000);
-      })();
-    </script>
+          root.classList.add('js');
+          window.setTimeout(() => {
+            if (!root.classList.contains('motion')) root.classList.remove('js');
+          }, 3000);
+        })();
+      </script>
+    )}
   </head>
   <body>
     <a class="skip-link" href="#contenido">Saltar al contenido</a>

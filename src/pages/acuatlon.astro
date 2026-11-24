@@ -1,0 +1,170 @@
+---
+import Page from '../layouts/Page.astro';
+import { faqSchema, type FaqItem } from '../lib/faq';
+
+const SITE = 'https://umbrallab.es';
+const pageUrl = `${SITE}/acuatlon`;
+
+const title = 'App de entrenamiento para acuatlón | Umbral';
+const description =
+  'Natación y carrera con tests independientes y zonas propias. Plan en texto libre, carga ECO/ECS y actividades multisport separadas por tramos.';
+
+const faqs: FaqItem[] = [
+  {
+    q: '¿Acuatlón o aquatlón?',
+    a: 'Es la misma prueba. La forma correcta en español es <strong>acuatlón</strong> y es la que usa la app; <em>aquatlón</em> se ve escrita con frecuencia y también te vale para encontrarnos. La disciplina combina natación y carrera, sin tramo de bici.',
+  },
+  {
+    q: '¿Los tests de natación y carrera son independientes?',
+    a: 'Sí. La natación puede tener varios tests activos, uno por distancia, y la carrera tiene su propio test de referencia. Cada disciplina calcula sus zonas con su marca: renovar una no cambia los ritmos de la otra.',
+  },
+  {
+    q: '¿Cómo se planifica un acuatlón?',
+    a: 'Con sesiones de natación, sesiones de carrera y días que combinan las dos. El entrenador escribe cada sesión en texto libre —<code>8x100m Z4 / 20&quot;</code>, <code>3 km Z2</code>— y Umbral calcula el ECO de cada bloque con el peso de su disciplina.',
+  },
+  {
+    q: '¿Cómo se lee una actividad de acuatlón?',
+    a: 'Si el reloj la graba en modo multisport, el archivo trae una sesión de natación y otra de carrera. Umbral las une en una sola actividad, respeta el orden y conserva el tiempo total con el enlace entre tramos. También puedes subir un FIT/ZIP.',
+  },
+  {
+    q: '¿Cómo se calcula la carga?',
+    a: 'El <strong>ECO</strong> es la carga planificada: volumen × factor de zona × peso de la disciplina (natación 0,75 · carrera 1,00). El <strong>ECS</strong> es el RPE de 1 a 10 del atleta y el <strong>TSS</strong> se calcula con las referencias del perfil. Si falta un dato, el bloque se marca parcial.',
+  },
+  {
+    q: '¿Y el trabajo de fuerza y el club?',
+    a: 'La fuerza asociada se planifica en la misma semana, junto a la natación y la carrera. El club tiene grupos, invitación por enlace y roles de entrenador y atleta, con la ficha de cada deportista y sus estadísticas.',
+  },
+];
+
+const faq = faqSchema(faqs, pageUrl);
+---
+
+<Page
+  title={title}
+  description={description}
+  kicker="App de entrenamiento · acuatlón"
+  h1="App de entrenamiento para acuatlón"
+  lead="Natación y carrera con tests independientes, zonas propias y la misma carga que el resto del club. También el trabajo de fuerza asociado."
+  breadcrumb={[{ name: 'Acuatlón' }]}
+  extra={faq}
+>
+  <h2>Dos disciplinas, dos referencias</h2>
+  <p>
+    El acuatlón —también escrito <em>aquatlón</em>— mezcla dos deportes que se miden de forma
+    distinta: la natación en ritmo por 100 m y la carrera en ritmo por kilómetro. Umbral no las
+    mete en la misma tabla. Cada una tiene su test activo, sus zonas y su cálculo de carga; el
+    entrenador las escribe en la misma semana y el atleta las ve con la referencia que le toca.
+  </p>
+
+  <div class="p-cards">
+    <div class="p-card">
+      <span class="p-card__tag">01</span>
+      <h3>Tests independientes</h3>
+      <p>
+        Varios tests de natación, uno por distancia, y un test de carrera con su propia referencia.
+        Cada disciplina se recalcula por separado cuando cambia una marca.
+      </p>
+    </div>
+    <div class="p-card">
+      <span class="p-card__tag">02</span>
+      <h3>Plan en texto libre</h3>
+      <p>
+        Series de piscina y sesiones de carrera en el mismo calendario. Se escriben como se dicen y
+        la app interpreta distancias, repeticiones, zonas y descansos.
+      </p>
+    </div>
+    <div class="p-card">
+      <span class="p-card__tag">03</span>
+      <h3>Multisport, separado</h3>
+      <p>
+        La actividad de acuatlón llega del reloj con sus tramos. Umbral la separa en natación y
+        carrera, respeta el orden y conserva el tiempo total.
+      </p>
+    </div>
+    <div class="p-card">
+      <span class="p-card__tag">04</span>
+      <h3>Fuerza y club</h3>
+      <p>
+        El trabajo de fuerza tiene su sitio en la semana. Grupos, invitaciones, roles y ficha de
+        atleta para que el club lo vea todo en el mismo panel.
+      </p>
+    </div>
+  </div>
+
+  <div class="p-band">
+    <h2>Del agua al asfalto, sin cambiar de app</h2>
+    <p>
+      Estamos abriendo plazas para clubes y entrenadores de acuatlón. Déjanos tu correo y preparamos
+      el primer mes con tus tests y tus grupos.
+    </p>
+    <div class="p-band__actions">
+      <a class="u-btn" href="/#acceso">Pedir acceso</a>
+      <a class="u-btn u-btn--ghost" href="/#ficha">Ver la ficha de un atleta</a>
+    </div>
+  </div>
+
+  <h2>Cómo funciona</h2>
+  <ol>
+    <li>
+      <strong>Tests.</strong> El nadador-corredor hace sus marcas de natación por distancia y su test
+      de carrera. Cada referencia fija las zonas de su disciplina.
+    </li>
+    <li>
+      <strong>Plan.</strong> El entrenador escribe la semana con sesiones de piscina, de carrera y
+      días combinados. Umbral calcula el ECO de cada bloque.
+    </li>
+    <li>
+      <strong>Seguimiento.</strong> La actividad llega del reloj o de un FIT/ZIP, se separa por
+      tramos y se cruza con lo planificado para leer el desvío y la carga.
+    </li>
+  </ol>
+
+  <h2>Lo que cambia respecto a un triatlón</h2>
+  <ul>
+    <li>
+      <strong>No hay bici.</strong> La carga de la semana se reparte entre natación y carrera; no se
+      arrastra el peso de una disciplina que no se entrena.
+    </li>
+    <li>
+      <strong>Dos ritmos, no uno.</strong> El ritmo por 100 m de la piscina y el ritmo por kilómetro
+      de la carrera se leen por separado, cada uno con su test.
+    </li>
+    <li>
+      <strong>La transición importa.</strong> El archivo multisport conserva el enlace entre la
+      natación y la carrera dentro del tiempo total.
+    </li>
+    <li>
+      <strong>La fuerza sigue ahí.</strong> El trabajo asociado se planifica con el resto de la
+      semana, sin una herramienta aparte.
+    </li>
+  </ul>
+
+  <h2>Preguntas frecuentes</h2>
+  <div class="p-faq">
+    {faqs.map((item) => (
+      <details>
+        <summary>{item.q}<span class="p-faq__toggle" aria-hidden="true"></span></summary>
+        <div class="p-faq__a" set:html={item.a} />
+      </details>
+    ))}
+  </div>
+
+  <h2>Sigue leyendo</h2>
+  <div class="p-related">
+    <a href="/natacion">
+      <span class="p-related__kicker">Landing</span>
+      <span class="p-related__title">App de entrenamiento para natación</span>
+      <span class="p-related__desc">Tests por distancia y series escritas como se dicen.</span>
+    </a>
+    <a href="/atletismo">
+      <span class="p-related__kicker">Landing</span>
+      <span class="p-related__title">App de entrenamiento para atletismo</span>
+      <span class="p-related__desc">Ritmos del test, series y RPE para clubes de carrera.</span>
+    </a>
+    <a href="/guias/zonas-de-entrenamiento">
+      <span class="p-related__kicker">Guía</span>
+      <span class="p-related__title">Zonas de entrenamiento</span>
+      <span class="p-related__desc">Cómo se construyen las zonas de cada disciplina.</span>
+    </a>
+  </div>
+</Page>

@@ -1,0 +1,195 @@
+---
+import Page from '../../layouts/Page.astro';
+import { faqSchema, type FaqItem } from '../../lib/faq';
+
+const SITE = 'https://umbrallab.es';
+const pageUrl = `${SITE}/guias/carga-de-entrenamiento`;
+
+const title = 'Carga de entrenamiento: ECO, ECS y TSS | Umbral';
+const description =
+  'Cómo se mide la carga de entrenamiento: ECO (carga planificada), ECS (el RPE del atleta), TSS estándar y la forma con CTL, ATL y TSB, con ejemplos y las fórmulas que usa Umbral.';
+
+const faqs: FaqItem[] = [
+  {
+    q: '¿Qué diferencia hay entre ECO y TSS?',
+    a: 'El ECO es la carga planificada que Umbral calcula al escribir el plan: minutos o volumen × factor de zona × peso de la disciplina. El TSS es la escala estándar de resistencia, calculada con las referencias del perfil (potencia, ritmo o FC). Uno anticipa la intención del entrenador; el otro traduce la sesión a una escala comparable.',
+  },
+  {
+    q: '¿Para qué sirve el ECS si ya está el ECO?',
+    a: 'El ECO dice lo que toca; el ECS dice lo que el atleta sintió. Son el RPE de 1 a 10 de cada sesión. Cuando los dos se leen juntos, un plan de ECO alto con ECS bajos sugiere que el atleta puede asumir más; al revés, que hay que bajar antes de que se note en las marcas.',
+  },
+  {
+    q: '¿Qué son CTL, ATL y TSB?',
+    a: 'CTL es la carga crónica: la media de carga de las últimas semanas, la forma de fondo. ATL es la carga aguda: lo de los últimos días. TSB es la diferencia entre ambas, el balance de forma: negativo significa fatiga reciente, positivo frescura. Umbral los muestra en la sección de carga.',
+  },
+  {
+    q: '¿Por qué hay bloques marcados como parciales?',
+    a: 'Porque falta un dato: un factor de zona sin definir, una referencia del perfil sin test. Umbral prefiere marcar el bloque como parcial a inventar un número. En cuanto el dato existe, el ECO se completa solo.',
+  },
+  {
+    q: '¿Los pesos por disciplina se pueden cambiar?',
+    a: 'Sí: los factores de carga de las zonas los define el entrenador. Los pesos por defecto de Umbral son natación 0,75, bici 0,50 y carrera 1,00, pensados para que la carga de una semana de triatlón se lea en una sola escala.',
+  },
+];
+---
+
+<Page
+  title={title}
+  description={description}
+  kicker="Guía · fundamentos"
+  h1="Carga de entrenamiento: ECO, ECS y TSS"
+  lead="La carga convierte una semana de sesiones en un número comparable. Esta guía explica las tres escalas que usa Umbral — planificada, percibida y estándar — y cómo se lee la forma con CTL, ATL y TSB."
+  breadcrumb={[{ name: 'Carga de entrenamiento' }]}
+  extra={faqSchema(faqs, pageUrl)}
+>
+  <h2>Por qué medir la carga</h2>
+  <p>
+    «Hemos hecho seis sesiones» no dice nada: seis sesiones suaves y seis de umbral son semanas
+    opuestas. La carga de entrenamiento resume cada sesión en un número que se puede sumar,
+    comparar y seguir a lo largo de la temporada. Con él, la pregunta del entrenador cambia de
+    «¿qué hemos hecho?» a «¿cuánto ha costado y hacia dónde vamos?».
+  </p>
+
+  <h2>ECO: la carga planificada</h2>
+  <p>
+    El <strong>ECO</strong> es la carga que Umbral calcula al escribir el plan. Cada bloque
+    aporta su carga según tres ingredientes:
+  </p>
+  <div class="p-table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Ingrediente</th>
+          <th>Qué es</th>
+          <th>Ejemplo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Volumen</td>
+          <td>Minutos de la serie o bloque.</td>
+          <td>4 × 4' en Z4 → 16'</td>
+        </tr>
+        <tr>
+          <td>Factor de zona</td>
+          <td>El coste fisiológico de cada zona, definido por el entrenador.</td>
+          <td>Z4 pesa más que Z2</td>
+        </tr>
+        <tr>
+          <td>Peso de la disciplina</td>
+          <td>El coste por minuto de cada deporte.</td>
+          <td>Natación 0,75 · Bici 0,50 · Carrera 1,00</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    El peso por disciplina es lo que hace comparable una semana de triatlón: quince minutos de
+    series de carrera cuestan más que quince en bici, y el ECO lo refleja sin que el entrenador
+    tenga que pensarlo. La carga se recalcula mientras se escribe el plan, bloque a bloque, y se
+    suma por sesión, día y semana.
+  </p>
+
+  <h2>ECS: la carga percibida</h2>
+  <p>
+    El <strong>ECS</strong> es el RPE de 1 a 10 que registra el atleta después de cada sesión: lo
+    que sintió, no lo que decía el plan. Es la contrapartida humana del ECO y sirve para dos
+    cosas:
+  </p>
+  <ul>
+    <li>
+      <strong>Detectar desvíos.</strong> Un bloque de ECO medio con RPE 8 dice más que cualquier
+      gráfico: algo no encaja, del test viejo al sueño acumulado.
+    </li>
+    <li>
+      <strong>Ajustar la semana siguiente.</strong> La carga percibida del grupo es el mejor
+      termómetro para decidir si el martes toca apretar o soltar.
+    </li>
+  </ul>
+
+  <h2>TSS: la escala estándar</h2>
+  <p>
+    Junto a ECO y ECS, Umbral calcula el <strong>TSS</strong> estándar de resistencia con las
+    referencias del perfil de cada atleta. Su fórmula habitual:
+  </p>
+  <p>
+    <code>TSS = horas × IF² × 100</code>
+  </p>
+  <p>
+    donde el factor de intensidad (IF) compara la intensidad normalizada de la sesión con la
+    referencia del atleta, en potencia, ritmo o frecuencia cardiaca. Es la escala que permite
+    comparar la carga con otros historiales y con las herramientas que el club ya conozca.
+  </p>
+
+  <h2>CTL, ATL y TSB: la forma</h2>
+  <p>
+    La carga acumulada se lee mejor en tres curvas que en una suma semanal:
+  </p>
+  <ul>
+    <li>
+      <strong>CTL (carga crónica).</strong> La media de carga de las últimas semanas: la forma de
+      fondo del atleta. Sube despacio.
+    </li>
+    <li>
+      <strong>ATL (carga aguda).</strong> Lo de los últimos días: la fatiga de esta semana.
+    </li>
+    <li>
+      <strong>TSB (balance).</strong> CTL menos ATL. Negativo, hay fatiga reciente; positivo,
+      frescura. El pico de competición se busca llevando el TSB a positivo en el momento justo.
+    </li>
+  </ul>
+  <p>
+    En Umbral, la sección de carga muestra las tres curvas junto al reparto de la semana por
+    fases, para que la decisión de «cargamos» o «descargamos» tenga un número delante.
+  </p>
+
+  <h2>Planificado frente a hecho</h2>
+  <p>
+    El ECO describe la intención; las actividades del reloj describen la realidad. Umbral las
+    cruza: tiempo en zona planificado frente a tiempo en zona hecho, desvío por bloque y carga
+    real importada de Garmin, Polar o Wahoo (o de un FIT/ZIP). Si falta un dato, el bloque se
+    marca <strong>parcial</strong> en lugar de estimar: preferimos un número incompleto a uno
+    falso.
+  </p>
+
+  <div class="p-band">
+    <h2>La carga, sin hojas de cálculo</h2>
+    <p>
+      Umbral calcula el ECO mientras escribes el plan, recoge el RPE del atleta y cruza lo hecho
+      con lo tocado. Estamos abriendo las primeras plazas para clubes y entrenadores.
+    </p>
+    <div class="p-band__actions">
+      <a class="u-btn" href="/#acceso">Pedir acceso</a>
+      <a class="u-btn u-btn--ghost" href="/#carga">Ver la sección de carga</a>
+    </div>
+  </div>
+
+  <h2>Preguntas frecuentes</h2>
+  <div class="p-faq">
+    {faqs.map((faq) => (
+      <details>
+        <summary>{faq.q}<span class="p-faq__toggle" aria-hidden="true"></span></summary>
+        <div class="p-faq__a" set:html={faq.a} />
+      </details>
+    ))}
+  </div>
+
+  <h2>Sigue leyendo</h2>
+  <div class="p-related">
+    <a href="/guias/zonas-de-entrenamiento">
+      <span class="p-related__kicker">Guía</span>
+      <span class="p-related__title">Zonas de entrenamiento</span>
+      <span class="p-related__desc">El ingrediente que pesa en cada bloque: las zonas.</span>
+    </a>
+    <a href="/entrenamiento">
+      <span class="p-related__kicker">Landing</span>
+      <span class="p-related__title">Para entrenadores y clubes</span>
+      <span class="p-related__desc">El panel completo del trabajo de un club.</span>
+    </a>
+    <a href="/triatlon">
+      <span class="p-related__kicker">Landing</span>
+      <span class="p-related__title">App de entrenamiento para triatlón</span>
+      <span class="p-related__desc">Tres disciplinas, una sola escala de carga.</span>
+    </a>
+  </div>
+</Page>

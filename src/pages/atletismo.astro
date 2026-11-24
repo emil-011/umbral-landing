@@ -1,0 +1,148 @@
+---
+import Page from '../layouts/Page.astro';
+import { faqSchema, type FaqItem } from '../lib/faq';
+
+const SITE = 'https://umbrallab.es';
+const pageUrl = `${SITE}/atletismo`;
+
+const title = 'App de entrenamiento para atletismo | Umbral';
+const description =
+  'Entrenamiento de atletismo con los ritmos del test de cada atleta, series en texto libre, RPE y carga. Grupos, fichas de atleta y seguimiento del reloj para clubes y entrenadores.';
+
+const faqs: FaqItem[] = [
+  {
+    q: '¿Sirve para pista, ruta y campo a través?',
+    a: 'Sí. Las zonas y los ritmos salen del test del propio atleta, no de una tabla por superficie: la misma sesión vale para pista, carretera o cross. El entrenador escribe <code>3 km Z1 + 8x1km Z4</code> y Umbral la interpreta igual en cualquier terreno.',
+  },
+  {
+    q: '¿De dónde salen los ritmos de cada atleta?',
+    a: 'De su test de carrera activo. El entrenador define los porcentajes, colores y factores de carga de sus zonas; al activar una marca nueva, los ritmos se recalculan con ella. Cada atleta corre con los suyos, sin compararse con la tabla de nadie.',
+  },
+  {
+    q: '¿Cómo se escribe la sesión?',
+    a: 'En texto libre, como en la libreta: <code>20\' Z2</code>, <code>4x(4\' Z4 / 3\' Z1)</code>, <code>4x500m VO2max</code> o <code>resto Z1</code>. Umbral busca distancias, series, zonas y descansos, y calcula el ECO de cada bloque. Lo que no cuadra se ignora: no te obliga a rellenar un formulario.',
+  },
+  {
+    q: '¿Cómo se controla la carga de un grupo entero?',
+    a: 'El ECO es la carga planificada de cada bloque y el ECS es el RPE de 1 a 10 que registra el atleta. El panel semanal muestra la carga del grupo y la de cada persona, con CTL, ATL y balance de forma para decidir si la semana toca dura o ligera.',
+  },
+  {
+    q: '¿Y el trabajo de fuerza?',
+    a: 'El trabajo de fuerza asociado tiene su sitio junto a las sesiones de carrera: se planifica y se ve en la misma semana, sin mantener otra herramienta para las horas de gimnasio.',
+  },
+  {
+    q: '¿Cómo entro en Umbral?',
+    a: 'Estamos abriendo las primeras plazas para clubes y entrenadores. Déjanos tu correo en el formulario de acceso y te escribimos para preparar el primer mes. Si ya tienes cuenta, entra desde el enlace privado que te enviamos.',
+  },
+];
+---
+
+<Page
+  title={title}
+  description={description}
+  kicker="App de entrenamiento · atletismo"
+  h1="App de entrenamiento para atletismo"
+  lead="Los ritmos salen de las marcas de cada atleta, no de una tabla. Escribe la sesión como siempre, mira el RPE de cada uno y decide la semana siguiente con la carga de verdad."
+  breadcrumb={[{ name: 'Atletismo' }]}
+  extra={faqSchema(faqs, pageUrl)}
+>
+  <h2>El atleta al centro, el número de su lado</h2>
+  <p>
+    En un club de atletismo conviven pruebas y niveles muy distintos: el fondo del 10.000, el
+    800 de la pista, el cross de invierno. Umbral no lo resuelve con plantillas rígidas: lo
+    resuelve dando a cada atleta sus propios ritmos y a cada entrenador la carga de todo el
+    grupo en un vistazo.
+  </p>
+
+  <div class="p-cards">
+    <div class="p-card">
+      <span class="p-card__tag">01</span>
+      <h3>Ritmos propios</h3>
+      <p>
+        El test de carrera del atleta fija sus zonas. La sesión se muestra con el ritmo de cada
+        bloque: el 400 del fondista y el del velocista no comparten número.
+      </p>
+    </div>
+    <div class="p-card">
+      <span class="p-card__tag">02</span>
+      <h3>Sesiones en texto libre</h3>
+      <p>
+        <code>20' Z2</code>, cuestas, fartlek, series largas. Se escribe como se dice y Umbral
+        interpreta distancias, repeticiones y descansos.
+      </p>
+    </div>
+    <div class="p-card">
+      <span class="p-card__tag">03</span>
+      <h3>RPE y carga</h3>
+      <p>
+        El atleta registra el RPE de cada sesión (ECS) y Umbral cruza lo planificado con lo
+        hecho: ECO por bloque, desviaciones y estadísticas por atleta.
+      </p>
+    </div>
+    <div class="p-card">
+      <span class="p-card__tag">04</span>
+      <h3>El club, ordenado</h3>
+      <p>
+        Grupos con nombre y foto, invitación por enlace y roles de entrenador y atleta. La
+        ficha de cada atleta, con sus tests y su historial, a un clic.
+      </p>
+    </div>
+  </div>
+
+  <div class="p-band">
+    <h2>Menos WhatsApp, menos Excel</h2>
+    <p>
+      La sesión llega al atleta con sus zonas y su carga. El entrenador ve quién ha hecho qué
+      sin pedir capturas. Umbral está abriendo plazas para clubes y entrenadores de atletismo.
+    </p>
+    <div class="p-band__actions">
+      <a class="u-btn" href="/#acceso">Pedir acceso</a>
+      <a class="u-btn u-btn--ghost" href="/#plan">Ver el creador de planes</a>
+    </div>
+  </div>
+
+  <h2>Cómo funciona en tres pasos</h2>
+  <ol>
+    <li>
+      <strong>Tests.</strong> Cada atleta hace su test de carrera. La marca activa fija sus
+      ritmos por zona y recalcula el plan cuando se renueva.
+    </li>
+    <li>
+      <strong>Plan.</strong> Escribe la semana en texto libre, con la fuerza al lado. Umbral
+      calcula el ECO de cada bloque mientras escribes.
+    </li>
+    <li>
+      <strong>Seguimiento.</strong> El atleta registra su RPE y sus actividades llegan del reloj.
+      La ficha muestra plan frente a hecho y las estadísticas de la temporada.
+    </li>
+  </ol>
+
+  <h2>Preguntas frecuentes</h2>
+  <div class="p-faq">
+    {faqs.map((faq) => (
+      <details>
+        <summary>{faq.q}<span class="p-faq__toggle" aria-hidden="true"></span></summary>
+        <div class="p-faq__a" set:html={faq.a} />
+      </details>
+    ))}
+  </div>
+
+  <h2>Sigue leyendo</h2>
+  <div class="p-related">
+    <a href="/triatlon">
+      <span class="p-related__kicker">Landing</span>
+      <span class="p-related__title">App de entrenamiento para triatlón</span>
+      <span class="p-related__desc">Natación, bici y carrera en el mismo panel.</span>
+    </a>
+    <a href="/guias/zonas-de-entrenamiento">
+      <span class="p-related__kicker">Guía</span>
+      <span class="p-related__title">Zonas de entrenamiento</span>
+      <span class="p-related__desc">Qué significa Z1 a Z5 y cómo se calculan.</span>
+    </a>
+    <a href="/entrenamiento">
+      <span class="p-related__kicker">Landing</span>
+      <span class="p-related__title">Para entrenadores y clubes</span>
+      <span class="p-related__desc">La vista completa del trabajo de un club de resistencia.</span>
+    </a>
+  </div>
+</Page>

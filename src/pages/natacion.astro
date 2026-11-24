@@ -1,0 +1,171 @@
+---
+import Page from '../layouts/Page.astro';
+import { faqSchema, type FaqItem } from '../lib/faq';
+
+const SITE = 'https://umbrallab.es';
+const pageUrl = `${SITE}/natacion`;
+
+const title = 'App de entrenamiento para natación | Umbral';
+const description =
+  'Tests de natación por distancia, curva de ritmos y zonas propias. Series y descansos en texto libre, carga ECO/ECS y seguimiento del club desde el reloj.';
+
+const faqs: FaqItem[] = [
+  {
+    q: '¿Puedo tener varios tests de natación activos a la vez?',
+    a: 'Sí. En natación puedes tener un test activo por distancia —50, 100, 200, 400 u 800 m— y la curva de ritmos se construye con todos ellos. Al activar una marca nueva, los ritmos de esa distancia se recalculan sin tocar los de las demás.',
+  },
+  {
+    q: '¿Cómo se calculan las zonas de natación?',
+    a: 'Cada zona sale del test activo de la distancia que estés trabajando. El entrenador define los porcentajes, los colores y los factores de carga, y la app traduce esa referencia a ritmo por 100 m. No hay una tabla universal: cada nadador tiene la suya.',
+  },
+  {
+    q: '¿Cómo se escriben las series?',
+    a: 'Como se dicen en la piscina: <code>8x100m Z4 / 20"</code>, <code>4x200m Z3 / 30"</code> o <code>400m Z2</code>. Umbral interpreta distancias, repeticiones, zonas y descansos, y calcula el ECO de cada bloque. Lo que no cuadra se ignora.',
+  },
+  {
+    q: '¿Sirve si entreno en aguas abiertas?',
+    a: 'La referencia de ritmo sale de tus tests y se usa igual en piscina que en aguas abiertas. La app no inventa una referencia distinta por entorno: lo que cambia es el lugar donde entrenas, no el test que fija tu ritmo.',
+  },
+  {
+    q: '¿Cómo se mide la carga de una sesión de natación?',
+    a: 'El <strong>ECO</strong> es la carga planificada: volumen × factor de zona × peso de la disciplina (natación 0,75). El <strong>ECS</strong> es el RPE de 1 a 10 que registra el nadador y el <strong>TSS</strong> se calcula con las referencias del perfil. Si falta un dato, el bloque se marca parcial.',
+  },
+  {
+    q: '¿Puedo gestionar el grupo de natación de mi club?',
+    a: 'Sí. Umbral tiene grupos, invitación por enlace y roles de entrenador y atleta. El entrenador ve los miembros, abre la ficha de cada nadador y consulta sus tests, sus ritmos y sus actividades. El atleta ve lo suyo.',
+  },
+];
+
+const faq = faqSchema(faqs, pageUrl);
+---
+
+<Page
+  title={title}
+  description={description}
+  kicker="App de entrenamiento · natación"
+  h1="App de entrenamiento para natación"
+  lead="Varios tests activos por distancia, una curva de ritmos propia y las series escritas como se dicen en la piscina. El entrenador ve la carga del grupo; el nadador, el ritmo de cada bloque."
+  breadcrumb={[{ name: 'Natación' }]}
+  extra={faq}
+>
+  <h2>Un test no basta para toda la piscina</h2>
+  <p>
+    El ritmo que aguantas 50 m no es el que sostienes 800. Por eso una sola marca convertida en
+    tabla de zonas se queda corta: el nadador acaba entrenando con referencias que no son las suyas.
+    Umbral trabaja con varios tests activos, uno por distancia, y construye la curva con todos ellos.
+    El entrenador escribe la serie; la app pone el ritmo que corresponde a ese test.
+  </p>
+
+  <div class="p-cards">
+    <div class="p-card">
+      <span class="p-card__tag">01</span>
+      <h3>Tests por distancia</h3>
+      <p>
+        50, 100, 200, 400 y 800 m. Cada distancia tiene su marca activa y su referencia. Puedes
+        renovar un test sin tirar los demás: la curva se recompone con la marca nueva.
+      </p>
+    </div>
+    <div class="p-card">
+      <span class="p-card__tag">02</span>
+      <h3>Curva y zonas propias</h3>
+      <p>
+        La app traduce la referencia a ritmo por 100 m y la reparte por zonas. El entrenador define
+        los porcentajes y los factores; el nadador ve el ritmo de cada bloque, no un porcentaje
+        abstracto.
+      </p>
+    </div>
+    <div class="p-card">
+      <span class="p-card__tag">03</span>
+      <h3>Series en texto libre</h3>
+      <p>
+        <code>8x100m Z4 / 20&quot;</code>, <code>4x200m Z3 / 30&quot;</code>, <code>400m Z2</code>.
+        Distancias, repeticiones, zonas y descansos se interpretan tal y como se escriben.
+      </p>
+    </div>
+    <div class="p-card">
+      <span class="p-card__tag">04</span>
+      <h3>Carga y club</h3>
+      <p>
+        ECO por bloque, ECS con el RPE del nadador y TSS estándar. El panel del club suma el volumen
+        en metros y la carga de cada semana, con la ficha de cada nadador a un clic.
+      </p>
+    </div>
+  </div>
+
+  <div class="p-band">
+    <h2>La piscina, sin hoja de cálculo</h2>
+    <p>
+      Estamos abriendo las primeras plazas para clubes y entrenadores de natación. Déjanos tu correo
+      y te escribimos para preparar el primer mes con tus tests y tus grupos.
+    </p>
+    <div class="p-band__actions">
+      <a class="u-btn" href="/#acceso">Pedir acceso</a>
+      <a class="u-btn u-btn--ghost" href="/#ficha">Ver la ficha de un atleta</a>
+    </div>
+  </div>
+
+  <h2>Del test al entrenamiento</h2>
+  <ol>
+    <li>
+      <strong>Tests.</strong> El nadador hace sus marcas por distancia. La marca activa fija su ritmo
+      y sus zonas; las demás quedan como referencia de la curva.
+    </li>
+    <li>
+      <strong>Plan.</strong> El entrenador escribe la serie en texto libre y Umbral calcula el ECO de
+      cada bloque mientras escribe.
+    </li>
+    <li>
+      <strong>Seguimiento.</strong> La actividad llega del reloj o de un FIT/ZIP con sus vueltas,
+      su ritmo y su frecuencia cardíaca. Se cruza con la sesión planificada y vuelve a la ficha.
+    </li>
+  </ol>
+
+  <h2>Qué ve el entrenador</h2>
+  <ul>
+    <li>
+      <strong>El ritmo de cada nadador.</strong> La misma serie no se muestra igual para dos atletas:
+      cada uno la ve con la referencia de su test activo.
+    </li>
+    <li>
+      <strong>El volumen real del grupo.</strong> Metros planificados por semana y por disciplina,
+      sin sumar a mano lo que hay en cada hoja.
+    </li>
+    <li>
+      <strong>La carga y el RPE.</strong> ECO planificado, ECS percibido y la evolución de la semana
+      para decidir si toca subir o aflojar.
+    </li>
+    <li>
+      <strong>La ficha completa.</strong> Tests, zonas, actividades y estadísticas del nadador en el
+      mismo sitio, con acceso limitado a su grupo y a su club.
+    </li>
+  </ul>
+
+  <h2>Preguntas frecuentes</h2>
+  <div class="p-faq">
+    {faqs.map((item) => (
+      <details>
+        <summary>{item.q}<span class="p-faq__toggle" aria-hidden="true"></span></summary>
+        <div class="p-faq__a" set:html={item.a} />
+      </details>
+    ))}
+  </div>
+
+  <h2>Sigue leyendo</h2>
+  <div class="p-related">
+    <a href="/triatlon">
+      <span class="p-related__kicker">Landing</span>
+      <span class="p-related__title">App de entrenamiento para triatlón</span>
+      <span class="p-related__desc">Natación, bici y carrera con tests y zonas propias.</span>
+    </a>
+    <a href="/acuatlon">
+      <span class="p-related__kicker">Landing</span>
+      <span class="p-related__title">App de entrenamiento para acuatlón</span>
+      <span class="p-related__desc">Natación y carrera con referencias independientes.</span>
+    </a>
+    <a href="/guias/zonas-de-entrenamiento">
+      <span class="p-related__kicker">Guía</span>
+      <span class="p-related__title">Zonas de entrenamiento</span>
+      <span class="p-related__desc">Qué significa Z1 a Z5 y cómo se calculan.</span>
+    </a>
+  </div>
+</Page>

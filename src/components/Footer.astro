@@ -2,34 +2,51 @@
 import Logo from './Logo.astro';
 import { APP_LOGIN_URL } from '../lib/app';
 
+interface Props {
+  /** En subpáginas, el prefijo para los enlaces por ancla de la home ('/'). */
+  home?: string;
+}
+
+const { home = '' } = Astro.props;
+
 const columns = [
   {
     title: 'Producto',
     links: [
-      { label: 'El club', href: '#club' },
-      { label: 'La ficha', href: '#ficha' },
-      { label: 'El plan', href: '#plan' },
-      { label: 'Seguimiento', href: '#seguimiento' },
-      { label: 'Carga', href: '#carga' },
-      { label: 'Cómo funciona', href: '#como' },
+      { label: 'El club', href: `${home}#club` },
+      { label: 'La ficha', href: `${home}#ficha` },
+      { label: 'El plan', href: `${home}#plan` },
+      { label: 'Seguimiento', href: `${home}#seguimiento` },
+      { label: 'Carga', href: `${home}#carga` },
+      { label: 'Cómo funciona', href: `${home}#como` },
     ],
   },
   {
     title: 'Deportes',
     links: [
-      { label: 'Triatlón', href: '#triatlon' },
-      { label: 'Atletismo', href: '#atletismo' },
-      { label: 'Natación', href: '#natacion' },
-      { label: 'Ciclismo', href: '#ciclismo' },
-      { label: 'Duatlón', href: '#duatlon' },
-      { label: 'Aquatlón', href: '#aquatlon' },
+      { label: 'Triatlón', href: '/triatlon' },
+      { label: 'Atletismo', href: '/atletismo' },
+      { label: 'Natación', href: '/natacion' },
+      { label: 'Ciclismo', href: '/ciclismo' },
+      { label: 'Duatlón', href: '/duatlon' },
+      { label: 'Acuatlón', href: '/acuatlon' },
+    ],
+  },
+  {
+    title: 'Guías',
+    links: [
+      { label: 'Zonas de entrenamiento', href: '/guias/zonas-de-entrenamiento' },
+      { label: 'Carga de entrenamiento', href: '/guias/carga-de-entrenamiento' },
     ],
   },
   {
     title: 'Recursos',
     links: [
-      { label: 'Preguntas', href: '#preguntas' },
-      { label: 'Acceso anticipado', href: '#acceso' },
+      { label: 'Para clubes', href: '/para-clubes' },
+      { label: 'Para entrenadores', href: '/para-entrenadores' },
+      { label: 'Entrenadores y clubes', href: '/entrenamiento' },
+      { label: 'Preguntas', href: `${home}#preguntas` },
+      { label: 'Acceso anticipado', href: `${home}#acceso` },
       { label: 'Entrar en la app', href: APP_LOGIN_URL },
     ],
   },
@@ -47,7 +64,7 @@ const columns = [
         </p>
         <p class="u-footer__successor">
           <span class="u-dot" aria-hidden="true"></span>
-          La nueva identidad de tritrain
+          Servidores propios · España
         </p>
       </div>
 
@@ -66,8 +83,12 @@ const columns = [
     </div>
 
     <div class="u-footer__bottom">
-      <p class="u-mono">© 2026 Umbral · tritrain</p>
+      <p class="u-mono">© 2026 Umbral</p>
       <p class="u-mono">España · ES</p>
+      <nav class="u-footer__legal" aria-label="Legal">
+        <a href="/privacidad">Privacidad</a>
+        <a href="/aviso-legal">Aviso legal</a>
+      </nav>
       <a class="u-footer__up" href="#top">
         Volver arriba
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -116,8 +137,8 @@ const columns = [
 
   .u-footer__columns {
     display: grid;
-    grid-template-columns: repeat(3, minmax(108px, 1fr));
-    gap: clamp(28px, 3.4vw, 48px);
+    grid-template-columns: repeat(4, minmax(96px, 1fr));
+    gap: clamp(20px, 2.6vw, 40px);
   }
 
   .u-footer__column .u-mono {
@@ -153,6 +174,25 @@ const columns = [
 
   .u-footer__bottom .u-mono {
     font-size: 7px;
+  }
+
+  .u-footer__legal {
+    display: flex;
+    gap: 14px;
+    margin-left: 8px;
+    font-family: var(--mono);
+    font-size: 7px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .u-footer__legal a {
+    color: var(--muted);
+    transition: color 160ms var(--ease);
+  }
+
+  .u-footer__legal a:hover {
+    color: var(--ink);
   }
 
   .u-footer__up {

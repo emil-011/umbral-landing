@@ -1,0 +1,174 @@
+---
+import Page from '../layouts/Page.astro';
+import { faqSchema, type FaqItem } from '../lib/faq';
+
+const SITE = 'https://umbrallab.es';
+const pageUrl = `${SITE}/para-entrenadores`;
+
+const title = 'App para entrenadores de resistencia | Umbral';
+const description =
+  'Plan en texto libre, tests y zonas por atleta, carga ECO/ECS y seguimiento del reloj. Menos Excel y menos capturas para entrenadores de triatlón, atletismo, natación y ciclismo.';
+
+const faqs: FaqItem[] = [
+  {
+    q: '¿Tengo que cambiar cómo escribo los planes?',
+    a: 'No. Escribes la sesión como en tu libreta —<code>20&#39; Z2</code>, <code>4x(4&#39; Z4 / 3&#39; Z1)</code>, <code>8x100m Z4 / 20&quot;</code>, <code>resto Z1</code>— y Umbral interpreta distancias, series, zonas y descansos. Lo que no cuadra se ignora: no hay un formulario bloque a bloque.',
+  },
+  {
+    q: '¿Cómo veo la carga de cada atleta?',
+    a: 'Cada sesión genera un ECO planificado; el atleta registra su RPE (ECS) y la app calcula el TSS estándar con sus referencias. En la ficha ves la carga de la semana, el plan frente a lo hecho y la evolución de la temporada.',
+  },
+  {
+    q: '¿Puedo llevar atletas de deportes distintos?',
+    a: 'Sí. Triatlón, atletismo, natación, ciclismo, duatlón, acuatlón y fuerza conviven en el mismo club. Cada atleta tiene sus tests y sus zonas; tú cambias de disciplina sin cambiar de herramienta.',
+  },
+  {
+    q: '¿Cómo llegan las actividades?',
+    a: 'De Garmin, Polar y Wahoo, con conexión de solo lectura, o subiendo un FIT/ZIP. Llegan con vueltas, frecuencia cardíaca, potencia y registros; el detalle incluye gráficas y mapa. Se cruzan con la sesión planificada.',
+  },
+  {
+    q: '¿Cuánto tiempo ahorra al entrenador?',
+    a: 'El que se va en pedir capturas, copiar datos a una hoja y sumar carga a mano. El plan se escribe una vez, la app calcula el ECO de cada bloque y las actividades vuelven solas a la ficha. Tú decides la semana siguiente con los datos delante.',
+  },
+  {
+    q: '¿Cómo empiezo?',
+    a: 'Estamos en acceso anticipado para entrenadores y clubes. Déjanos tu correo en el formulario, cuéntanos cuántos atletas llevas y preparamos el primer mes. Si ya tienes cuenta, entra desde el enlace privado.',
+  },
+];
+
+const faq = faqSchema(faqs, pageUrl);
+---
+
+<Page
+  title={title}
+  description={description}
+  kicker="Para entrenadores"
+  h1="App para entrenadores de resistencia"
+  lead="Escribe el plan como siempre, mira la carga de cada atleta y decide la semana con datos. Sin cambiar la forma de entrenar ni convertir la libreta en un formulario."
+  breadcrumb={[{ name: 'Para entrenadores' }]}
+  extra={faq}
+>
+  <h2>El día que se va en WhatsApp</h2>
+  <p>
+    El entrenador escribe el plan en una hoja, lo manda por tres grupos distintos y espera capturas
+    para saber qué ha hecho cada atleta. La carga se suma a mano, si se suma. Umbral quita esas
+    piezas del medio: el plan se escribe una vez, la app calcula la carga de cada bloque y las
+    actividades vuelven solas a la ficha del atleta.
+  </p>
+
+  <div class="p-cards">
+    <div class="p-card">
+      <span class="p-card__tag">01</span>
+      <h3>Plan en texto libre</h3>
+      <p>
+        <code>15&#39; Z1 + 3x12&#39; Z4 / 5&#39; Z1</code>, <code>4x500m VO2max</code>,
+        <code>8x100m Z4 / 20&quot;</code>. Se escribe como se habla de entrenamiento y se interpreta
+        solo.
+      </p>
+    </div>
+    <div class="p-card">
+      <span class="p-card__tag">02</span>
+      <h3>Tests y zonas por atleta</h3>
+      <p>
+        Las marcas de cada deportista fijan sus ritmos y sus zonas. Al activar un test nuevo, los
+        ritmos se recalculan con él; tú defines porcentajes y factores de carga.
+      </p>
+    </div>
+    <div class="p-card">
+      <span class="p-card__tag">03</span>
+      <h3>Carga con nombre</h3>
+      <p>
+        ECO planificado, ECS percibido y TSS estándar. CTL, ATL y TSB para leer la forma. Si falta un
+        dato, el bloque se marca parcial en vez de inventar un número.
+      </p>
+    </div>
+    <div class="p-card">
+      <span class="p-card__tag">04</span>
+      <h3>Seguimiento sin capturas</h3>
+      <p>
+        Actividades de Garmin, Polar y Wahoo con vueltas, FC, potencia, gráficas y mapa. Plan frente
+        a hecho, tiempo en zona y desvío en la misma ficha.
+      </p>
+    </div>
+  </div>
+
+  <div class="p-band">
+    <h2>Menos Excel, más criterio</h2>
+    <p>
+      Umbral está abriendo plazas para entrenadores de triatlón, atletismo, natación y ciclismo.
+      Cuéntanos a cuántos atletas llevas y preparamos el primer mes.
+    </p>
+    <div class="p-band__actions">
+      <a class="u-btn" href="/#acceso">Pedir acceso</a>
+      <a class="u-btn u-btn--ghost" href="/#plan">Ver el creador de planes</a>
+    </div>
+  </div>
+
+  <h2>Lo que dejas de hacer a mano</h2>
+  <ol>
+    <li>
+      <strong>Reescribir el plan en cada formato.</strong> El mismo texto sirve para el calendario,
+      el ECO de cada bloque y la vista del atleta.
+    </li>
+    <li>
+      <strong>Pedir capturas.</strong> La actividad llega del reloj y se cruza con lo que tocaba.
+    </li>
+    <li>
+      <strong>Sumar carga en una hoja.</strong> ECO, ECS y TSS se calculan con las referencias del
+      perfil.
+    </li>
+    <li>
+      <strong>Comparar de memoria.</strong> La ficha muestra la evolución del atleta y el plan frente
+      a lo hecho.
+    </li>
+  </ol>
+
+  <h2>Para entrenadores de…</h2>
+  <ul>
+    <li>
+      <a href="/triatlon">Triatlón</a>: tres disciplinas, un plan y la carga de cada bloque.
+    </li>
+    <li>
+      <a href="/atletismo">Atletismo</a>: ritmos del test, series y RPE por atleta.
+    </li>
+    <li>
+      <a href="/natacion">Natación</a>: tests por distancia y series con sus descansos.
+    </li>
+    <li>
+      <a href="/ciclismo">Ciclismo</a>: FTP, zonas de potencia y salidas con vueltas y mapa.
+    </li>
+    <li>
+      <a href="/duatlon">Duatlón</a> y <a href="/acuatlon">acuatlón</a>: pruebas combinadas con la
+      carga de cada tramo.
+    </li>
+  </ul>
+
+  <h2>Preguntas frecuentes</h2>
+  <div class="p-faq">
+    {faqs.map((item) => (
+      <details>
+        <summary>{item.q}<span class="p-faq__toggle" aria-hidden="true"></span></summary>
+        <div class="p-faq__a" set:html={item.a} />
+      </details>
+    ))}
+  </div>
+
+  <h2>Sigue leyendo</h2>
+  <div class="p-related">
+    <a href="/para-clubes">
+      <span class="p-related__kicker">Para clubes</span>
+      <span class="p-related__title">Software para clubes de resistencia</span>
+      <span class="p-related__desc">Grupos, invitaciones, roles y fichas de atleta.</span>
+    </a>
+    <a href="/entrenamiento">
+      <span class="p-related__kicker">Landing</span>
+      <span class="p-related__title">Entrenadores y clubes</span>
+      <span class="p-related__desc">Las tres miradas: club, entrenador y atleta.</span>
+    </a>
+    <a href="/guias/carga-de-entrenamiento">
+      <span class="p-related__kicker">Guía</span>
+      <span class="p-related__title">Carga de entrenamiento</span>
+      <span class="p-related__desc">ECO, ECS, TSS, CTL, ATL y TSB, sin jerga.</span>
+    </a>
+  </div>
+</Page>

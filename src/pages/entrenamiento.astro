@@ -1,0 +1,187 @@
+---
+import Page from '../layouts/Page.astro';
+import { faqSchema, type FaqItem } from '../lib/faq';
+
+const SITE = 'https://umbrallab.es';
+const pageUrl = `${SITE}/entrenamiento`;
+
+const title = 'App de entrenamiento para entrenadores y clubes | Umbral';
+const description =
+  'Software de entrenamiento de resistencia para entrenadores y clubes: plan en texto libre, carga ECO/ECS, tests y zonas por atleta, seguimiento del reloj y gestión del club.';
+
+const faqs: FaqItem[] = [
+  {
+    q: '¿Umbral es para entrenadores, clubes o atletas?',
+    a: 'Para los tres, cada uno con su vista. El entrenador planifica y decide; el club organiza grupos, invitaciones y roles; el atleta ve su semana, sus ritmos y su RPE. La ficha de cada atleta conecta las tres miradas.',
+  },
+  {
+    q: '¿Qué deportes cubre?',
+    a: 'Triatlón, atletismo, natación, ciclismo, duatlón, acuatlón y el trabajo de fuerza asociado. Cada disciplina tiene sus tests, sus zonas y su cálculo de carga, y el club los ve todos en el mismo sitio.',
+  },
+  {
+    q: '¿Tengo que cambiar cómo escribo mis planes?',
+    a: 'No. Escribes la sesión como en tu libreta — <code>20\' Z2</code>, <code>4x(4\' Z4 / 3\' Z1)</code>, <code>resto Z1</code>— y Umbral interpreta distancias, series, zonas y descansos. Lo que no cuadra se ignora: sin formularios bloque a bloque.',
+  },
+  {
+    q: '¿Cómo controla el club lo que ha hecho cada atleta?',
+    a: 'Las actividades llegan del reloj (Garmin, Polar y Wahoo, en solo lectura) o subiendo un FIT/ZIP. Umbral las cruza con la sesión planificada: tiempo en zona, desvío, vueltas, mapa y carga. El entrenador lo ve por atleta y por grupo.',
+  },
+  {
+    q: '¿Cómo se calcula la carga?',
+    a: 'El ECO es la carga planificada (minutos o volumen × factor de zona × peso de la disciplina), el ECS es el RPE que registra el atleta y el TSS es la escala estándar. Con CTL, ATL y TSB se lee la forma de la temporada. Está explicado en detalle en la guía de carga.',
+  },
+  {
+    q: '¿Cuánto cuesta y cómo entro?',
+    a: 'Estamos en acceso anticipado: las primeras plazas se abren por orden de solicitud y el precio se cierra con cada club. Déjanos tu correo en el formulario y te escribimos para preparar el primer mes.',
+  },
+];
+---
+
+<Page
+  title={title}
+  description={description}
+  kicker="App de entrenamiento · entrenadores y clubes"
+  h1="Software de entrenamiento para entrenadores y clubes"
+  lead="Umbral reúne el plan, la carga y el seguimiento de un club de resistencia en un solo panel. Se escribe como en la libreta; se lee como un cuadro de mando."
+  breadcrumb={[{ name: 'Entrenadores y clubes' }]}
+  extra={faqSchema(faqs, pageUrl)}
+>
+  <h2>El trabajo de un club, hoy</h2>
+  <p>
+    La semana de un entrenador de resistencia se reparte entre una hoja de cálculo, tres grupos de
+    WhatsApp y las capturas que le manda cada atleta. El plan vive en un sitio, lo que la gente
+    hace en otro y la carga, en ninguna parte. Umbral cierra ese círculo: el plan, lo hecho y la
+    carga en la misma pantalla.
+  </p>
+
+  <h2>Tres miradas, un mismo dato</h2>
+  <div class="p-cards">
+    <div class="p-card">
+      <span class="p-card__tag">Entrenador</span>
+      <h3>Decide con datos</h3>
+      <p>
+        Escribe el plan en texto libre, ve el ECO de cada bloque y la carga del grupo. Los tests y
+        las zonas de cada atleta están a un clic, no en una pestaña aparte.
+      </p>
+    </div>
+    <div class="p-card">
+      <span class="p-card__tag">Club</span>
+      <h3>Todo ordenado</h3>
+      <p>
+        Grupos con nombre y foto, invitación por enlace, roles de entrenador y atleta, y la ficha
+        de cada persona con su historial. Un solo sitio para saber quién entrena y en qué grupo.
+      </p>
+    </div>
+    <div class="p-card">
+      <span class="p-card__tag">Atleta</span>
+      <h3>Sabe qué toca</h3>
+      <p>
+        Su semana, sus ritmos y el RPE de cada sesión en un toque. Sus actividades llegan del
+        reloj sin configurar nada raro. Sin compararse con la tabla de nadie.
+      </p>
+    </div>
+  </div>
+
+  <div class="p-band">
+    <h2>Las primeras plazas están abiertas</h2>
+    <p>
+      Acceso anticipado para clubes y entrenadores de triatlón, atletismo, natación y ciclismo.
+      Déjanos tu correo y te escribimos con tiempo para preparar el primer mes.
+    </p>
+    <div class="p-band__actions">
+      <a class="u-btn" href="/#acceso">Pedir acceso</a>
+      <a class="u-btn u-btn--ghost" href="/#como">Ver cómo funciona</a>
+    </div>
+  </div>
+
+  <h2>Lo que Umbral pone donde antes había intuición</h2>
+  <ol>
+    <li>
+      <strong>Plan en texto libre.</strong> Se escribe como se habla de entrenamiento y se
+      interpreta solo. El volumen por disciplina y el reparto por fases se actualizan mientras
+      escribes.
+    </li>
+    <li>
+      <strong>Tests y zonas por atleta.</strong> Las marcas de cada uno fijan sus ritmos. Al
+      activar un test nuevo, los ritmos se recalculan con él.
+    </li>
+    <li>
+      <strong>Carga con nombre y apellidos.</strong> ECO planificado, ECS percibido, TSS estándar
+      y forma con CTL, ATL y TSB. Si falta un dato, el bloque se marca parcial en vez de inventar
+      un número.
+    </li>
+    <li>
+      <strong>Seguimiento del reloj.</strong> Garmin, Polar y Wahoo en solo lectura; también
+      FIT/ZIP. Plan frente a hecho, tiempo en zona, vueltas y mapa.
+    </li>
+    <li>
+      <strong>El club.</strong> Grupos, invitaciones y fichas. Todo lo que hoy vive en WhatsApp
+      tiene un sitio propio.
+    </li>
+  </ol>
+
+  <h2>Por deporte</h2>
+  <p>
+    Umbral nace en el triatlón, pero cada disciplina tiene su trato. Si tu club compite en uno de
+    estos deportes, empieza por su página:
+  </p>
+  <ul>
+    <li>
+      <a href="/triatlon">App de entrenamiento para triatlón</a>: natación, bici y carrera con
+      tests y zonas propias.
+    </li>
+    <li>
+      <a href="/atletismo">App de entrenamiento para atletismo</a>: ritmos del test, series en
+      texto libre y RPE.
+    </li>
+    <li>
+      <a href="/natacion">App de entrenamiento para natación</a>: tests por distancia y series con
+      sus descansos.
+    </li>
+    <li>
+      <a href="/ciclismo">App de entrenamiento para ciclismo</a>: FTP, zonas de potencia y salidas
+      con vueltas y mapa.
+    </li>
+    <li>
+      <a href="/duatlon">App de entrenamiento para duatlón</a> y
+      <a href="/acuatlon">acuatlón</a>: pruebas combinadas con la carga de cada tramo.
+    </li>
+  </ul>
+
+  <h2>Si diriges el club o escribes los planes</h2>
+  <p>
+    El hub reúne la vista completa, pero cada rol tiene su página con el detalle que le importa:
+    <a href="/para-clubes">software para clubes de triatlón y atletismo</a>, con grupos, invitaciones,
+    roles y fichas de atleta, y <a href="/para-entrenadores">app para entrenadores de resistencia</a>,
+    con el plan en texto libre, la carga y el seguimiento.
+  </p>
+
+  <h2>Preguntas frecuentes</h2>
+  <div class="p-faq">
+    {faqs.map((faq) => (
+      <details>
+        <summary>{faq.q}<span class="p-faq__toggle" aria-hidden="true"></span></summary>
+        <div class="p-faq__a" set:html={faq.a} />
+      </details>
+    ))}
+  </div>
+
+  <h2>Para entender el sistema</h2>
+  <div class="p-related">
+    <a href="/guias/zonas-de-entrenamiento">
+      <span class="p-related__kicker">Guía</span>
+      <span class="p-related__title">Zonas de entrenamiento</span>
+      <span class="p-related__desc">Qué son, cómo se calculan y qué significa cada zona.</span>
+    </a>
+    <a href="/guias/carga-de-entrenamiento">
+      <span class="p-related__kicker">Guía</span>
+      <span class="p-related__title">Carga de entrenamiento</span>
+      <span class="p-related__desc">ECO, ECS, TSS, CTL, ATL y TSB, sin jerga innecesaria.</span>
+    </a>
+    <a href="/#plan">
+      <span class="p-related__kicker">Producto</span>
+      <span class="p-related__title">El creador de planes</span>
+      <span class="p-related__desc">Cómo escribe un plan un entrenador en Umbral.</span>
+    </a>
+  </div>
+</Page>

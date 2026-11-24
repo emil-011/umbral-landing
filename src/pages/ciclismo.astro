@@ -1,0 +1,171 @@
+---
+import Page from '../layouts/Page.astro';
+import { faqSchema, type FaqItem } from '../lib/faq';
+
+const SITE = 'https://umbrallab.es';
+const pageUrl = `${SITE}/ciclismo`;
+
+const title = 'App de entrenamiento para ciclismo | Umbral';
+const description =
+  'Zonas de potencia y frecuencia cardiaca a partir del test de cada ciclista. Plan en texto libre, carga ECO/TSS, vueltas, mapa y actividades de Garmin, Polar y Wahoo.';
+
+const faqs: FaqItem[] = [
+  {
+    q: '¿Cómo se fija el FTP de cada ciclista?',
+    a: 'Con su test de referencia. La marca activa fija el FTP y las zonas de potencia; al renovar el test, los vatios de cada zona se recalculan. El entrenador puede ajustar los porcentajes y los factores de carga de sus propias zonas.',
+  },
+  {
+    q: '¿Trabaja con potencia y con frecuencia cardiaca?',
+    a: 'Con las dos. La potencia manda cuando hay medidor; la frecuencia cardiaca sirve de referencia cuando no lo hay o para leer el esfuerzo interno. Cada atleta ve sus zonas con la referencia de su perfil, no con una tabla genérica.',
+  },
+  {
+    q: '¿Cómo se escribe un entrenamiento de bici?',
+    a: 'En texto libre, como en la libreta: <code>15\' Z1 + 3x12\' Z4 / 5\' Z1</code>, <code>2x20\' Z3</code> o <code>resto Z1</code>. Umbral interpreta tiempos, repeticiones, zonas y descansos, y calcula el ECO de cada bloque.',
+  },
+  {
+    q: '¿Qué datos llegan del reloj?',
+    a: 'De Garmin, Polar y Wahoo, con conexión de solo lectura, o subiendo un FIT/ZIP. La salida llega con sus vueltas, potencia, frecuencia cardíaca, cadencia, velocidad, gráficas y mapa. Se cruza con la sesión planificada.',
+  },
+  {
+    q: '¿Cómo se calcula la carga de una salida?',
+    a: 'El <strong>ECO</strong> es la carga planificada: tiempo × factor de zona × peso de la disciplina (ciclismo 0,50). El <strong>ECS</strong> es el RPE de 1 a 10 del ciclista y el <strong>TSS</strong> se calcula con las referencias del perfil. Con CTL, ATL y TSB se lee la forma de la temporada.',
+  },
+  {
+    q: '¿Puedo llevar varios grupos de ciclistas en el mismo club?',
+    a: 'Sí. El club tiene grupos con nombre y foto, invitación por enlace y roles de entrenador y atleta. Cada entrenador trabaja con sus grupos y cada ciclista ve su plan, sus zonas y sus actividades.',
+  },
+];
+
+const faq = faqSchema(faqs, pageUrl);
+---
+
+<Page
+  title={title}
+  description={description}
+  kicker="App de entrenamiento · ciclismo"
+  h1="App de entrenamiento para ciclismo"
+  lead="Vatios, frecuencia cardiaca y ritmo frente a la referencia de cada perfil. El entrenador escribe los bloques; la salida vuelve del reloj con sus vueltas, su mapa y su carga."
+  breadcrumb={[{ name: 'Ciclismo' }]}
+  extra={faq}
+>
+  <h2>Los vatios no se heredan</h2>
+  <p>
+    Dos ciclistas con el mismo peso pueden tener FTP muy distintos. Por eso las zonas que salen de
+    un porcentaje genérico sirven para orientarse, no para entrenar: el bloque que para uno es
+    umbral, para otro es tempo. Umbral parte del test de cada ciclista y construye sus zonas de
+    potencia y de frecuencia cardiaca alrededor de esa marca. Cuando el test cambia, los vatios de
+    cada zona cambian con él.
+  </p>
+
+  <div class="p-cards">
+    <div class="p-card">
+      <span class="p-card__tag">01</span>
+      <h3>Potencia y FC</h3>
+      <p>
+        Zonas de potencia a partir del FTP y zonas de frecuencia cardiaca a partir de la referencia
+        del perfil. El entrenador decide qué lectura manda en cada bloque.
+      </p>
+    </div>
+    <div class="p-card">
+      <span class="p-card__tag">02</span>
+      <h3>Plan por bloques</h3>
+      <p>
+        <code>15&#39; Z1 + 3x12&#39; Z4 / 5&#39; Z1</code>, series de tempo, sprints o salidas
+        largas. Se escribe como se dice y la app calcula el ECO de cada tramo mientras escribes.
+      </p>
+    </div>
+    <div class="p-card">
+      <span class="p-card__tag">03</span>
+      <h3>Carga y forma</h3>
+      <p>
+        ECO planificado, ECS percibido y TSS estándar. CTL, ATL y balance de forma para saber si la
+        semana toca apretar o recuperar, sin abrir una hoja de cálculo.
+      </p>
+    </div>
+    <div class="p-card">
+      <span class="p-card__tag">04</span>
+      <h3>La salida, de vuelta</h3>
+      <p>
+        Actividades de Garmin, Polar y Wahoo con vueltas, potencia, FC, cadencia, gráficas y mapa.
+        Plan frente a hecho en la misma ficha.
+      </p>
+    </div>
+  </div>
+
+  <div class="p-band">
+    <h2>De la libreta al panel del club</h2>
+    <p>
+      Umbral está abriendo plazas para clubes y entrenadores de ciclismo. Cuéntanos cómo organizas
+      tus grupos y preparamos el primer mes con tus tests y tus zonas.
+    </p>
+    <div class="p-band__actions">
+      <a class="u-btn" href="/#acceso">Pedir acceso</a>
+      <a class="u-btn u-btn--ghost" href="/#seguimiento">Ver el seguimiento</a>
+    </div>
+  </div>
+
+  <h2>Plan, salida y vuelta</h2>
+  <ol>
+    <li>
+      <strong>Test.</strong> El ciclista hace su test de referencia. La marca activa fija el FTP y
+      las zonas; el entrenador ajusta porcentajes y factores si lo necesita.
+    </li>
+    <li>
+      <strong>Plan.</strong> La semana se escribe en texto libre. Umbral interpreta los bloques, los
+      descansos y las repeticiones, y calcula la carga planificada.
+    </li>
+    <li>
+      <strong>Salida.</strong> La actividad llega del reloj con sus vueltas y sus datos. La app la
+      cruza con lo que tocaba y muestra el tiempo en zona, el desvío y la carga real.
+    </li>
+  </ol>
+
+  <h2>Para el entrenador</h2>
+  <ul>
+    <li>
+      <strong>Una referencia por ciclista.</strong> Los vatios de cada zona salen de su test, no de
+      la tabla del grupo.
+    </li>
+    <li>
+      <strong>El grupo en un vistazo.</strong> Quién ha hecho qué, cuánta carga acumula y cómo llega
+      a la semana, sin pedir capturas por WhatsApp.
+    </li>
+    <li>
+      <strong>La ficha completa.</strong> Tests, zonas, actividades, estadísticas y evolución en el
+      mismo sitio.
+    </li>
+    <li>
+      <strong>Datos propios.</strong> Servidores en España, conexión de solo lectura con los relojes
+      y desconexión cuando el ciclista quiera.
+    </li>
+  </ul>
+
+  <h2>Preguntas frecuentes</h2>
+  <div class="p-faq">
+    {faqs.map((item) => (
+      <details>
+        <summary>{item.q}<span class="p-faq__toggle" aria-hidden="true"></span></summary>
+        <div class="p-faq__a" set:html={item.a} />
+      </details>
+    ))}
+  </div>
+
+  <h2>Sigue leyendo</h2>
+  <div class="p-related">
+    <a href="/triatlon">
+      <span class="p-related__kicker">Landing</span>
+      <span class="p-related__title">App de entrenamiento para triatlón</span>
+      <span class="p-related__desc">Natación, bici y carrera con tests y zonas propias.</span>
+    </a>
+    <a href="/duatlon">
+      <span class="p-related__kicker">Landing</span>
+      <span class="p-related__title">App de entrenamiento para duatlón</span>
+      <span class="p-related__desc">Carrera, bici y carrera con la carga de cada tramo.</span>
+    </a>
+    <a href="/guias/carga-de-entrenamiento">
+      <span class="p-related__kicker">Guía</span>
+      <span class="p-related__title">Carga de entrenamiento</span>
+      <span class="p-related__desc">ECO, ECS, TSS, CTL, ATL y TSB explicados con calma.</span>
+    </a>
+  </div>
+</Page>

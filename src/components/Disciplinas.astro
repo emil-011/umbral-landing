@@ -10,6 +10,8 @@ const disciplines = [
     title: 'Triatlón',
     text: 'Natación, bici y carrera con los tests y las zonas de cada atleta. Un plan, tres disciplinas y la carga de cada bloque en el mismo panel.',
     points: ['Tests por disciplina y zonas propias', 'ECO, ECS y TSS de cada sesión'],
+    href: '/triatlon',
+    cta: 'Ver la app para triatlón',
   },
   {
     id: 'atletismo',
@@ -19,6 +21,8 @@ const disciplines = [
     title: 'Atletismo',
     text: 'Carrera con los ritmos que salen de sus marcas, no de una tabla. El entrenador escribe la sesión y ve el RPE y la carga de cada atleta.',
     points: ['Tests de carrera y ritmos por zona', 'RPE y estadísticas por atleta'],
+    href: '/atletismo',
+    cta: 'Ver la app para atletismo',
   },
   {
     id: 'natacion',
@@ -28,6 +32,8 @@ const disciplines = [
     title: 'Natación',
     text: 'Varios tests activos por distancia y una curva propia. Series, descansos y zonas de ritmo escritos tal y como se dicen en la piscina.',
     points: ['Tests por distancia', 'Series, descansos y zonas'],
+    href: '/natacion',
+    cta: 'Ver la app para natación',
   },
   {
     id: 'ciclismo',
@@ -37,6 +43,8 @@ const disciplines = [
     title: 'Ciclismo',
     text: 'Vatios, frecuencia cardiaca y ritmo frente a la referencia de cada perfil. La salida llega del reloj con sus vueltas, sus gráficas y su mapa.',
     points: ['Zonas de potencia y de FC', 'Actividades de Garmin, Polar y Wahoo'],
+    href: '/ciclismo',
+    cta: 'Ver la app para ciclismo',
   },
   {
     id: 'duatlon',
@@ -46,15 +54,19 @@ const disciplines = [
     title: 'Duatlón',
     text: 'Carrera, bici y carrera con la carga de cada bloque y el plan del club. Sin cambiar de herramienta entre segmentos ni entre atletas.',
     points: ['Plan por bloques y seguimiento', 'Carga y seguimiento del club'],
+    href: '/duatlon',
+    cta: 'Ver la app para duatlón',
   },
   {
-    id: 'aquatlon',
+    id: 'acuatlon',
     n: '06',
     disc: 'SWIM',
     tone: 'swim',
-    title: 'Aquatlón',
+    title: 'Acuatlón',
     text: 'Natación y carrera con tests independientes, zonas propias y el mismo seguimiento que el resto del club. También el trabajo de fuerza asociado.',
     points: ['Tests de natación y carrera', 'Ficha y estadísticas del atleta'],
+    href: '/acuatlon',
+    cta: 'Ver la app para acuatlón',
   },
 ];
 ---
@@ -72,11 +84,11 @@ const disciplines = [
 
       <div class="u-discs__aside">
         <p class="u-head__note">
-          <strong>Umbral es la app de entrenamiento de tritrain</strong> para clubes, entrenadores y
-          atletas. Cada deporte tiene sus tests, sus zonas y su carga; el club los ve todos en el
-          mismo sitio.
+          <strong>Umbral es la app de entrenamiento</strong> para clubes, entrenadores y atletas.
+          Cada deporte tiene sus tests, sus zonas y su carga; el club los ve todos en el mismo
+          sitio.
         </p>
-        <p class="u-note">También duatlón, aquatlón y fuerza</p>
+        <p class="u-note">También duatlón, acuatlón y fuerza</p>
       </div>
     </header>
 
@@ -96,6 +108,15 @@ const disciplines = [
           <ul>
             {discipline.points.map((point) => <li>{point}</li>)}
           </ul>
+
+          {discipline.href && (
+            <a class="u-disc-card__link" href={discipline.href}>
+              {discipline.cta}
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
+            </a>
+          )}
         </article>
       ))}
     </div>
@@ -202,6 +223,21 @@ const disciplines = [
     align-items: flex-start;
     gap: 8px;
     line-height: 1.4;
+  }
+
+  .u-disc-card__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    margin-top: 16px;
+    color: var(--ink);
+    font-size: 12.5px;
+    font-weight: 600;
+    transition: gap 220ms var(--ease);
+  }
+
+  .u-disc-card__link:hover {
+    gap: 11px;
   }
 
   .u-disc-card li::before {

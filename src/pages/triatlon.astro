@@ -1,0 +1,170 @@
+---
+import Page from '../layouts/Page.astro';
+import { faqSchema, type FaqItem } from '../lib/faq';
+
+const SITE = 'https://umbrallab.es';
+const pageUrl = `${SITE}/triatlon`;
+
+const title = 'App de entrenamiento para triatlón | Umbral';
+const description =
+  'Entrenamiento de triatlón con tests y zonas de natación, ciclismo y carrera. Planes en texto libre, carga ECO/ECS y seguimiento de Garmin, Polar y Wahoo.';
+
+const faqs: FaqItem[] = [
+  {
+    q: '¿Umbral es solo para triatlón o también para cada deporte por separado?',
+    a: 'Nace en el triatlón, pero cubre cada disciplina por separado: natación, ciclismo y carrera tienen sus tests, sus zonas y su cálculo de carga. Si solo entrenas bici o solo nadas, la app funciona igual de bien que con las tres juntas. También duatlón, acuatlón y el trabajo de fuerza asociado.',
+  },
+  {
+    q: '¿De dónde salen los ritmos y las zonas?',
+    a: 'De los tests activos de cada atleta. En carrera y bici hay un test de referencia; en natación puedes tener varios activos, uno por distancia, y la curva de ritmos se construye con ellos. El entrenador define los porcentajes, colores y factores de carga de sus zonas. Al activar una marca nueva, los ritmos se recalculan con ella.',
+  },
+  {
+    q: '¿Cómo se calcula la carga de una semana de triatlón?',
+    a: 'El <strong>ECO</strong> es la carga planificada: minutos o volumen × factor de zona × peso de la disciplina (natación 0,75 · bici 0,50 · carrera 1,00). El <strong>ECS</strong> es el RPE de 1 a 10 que registra el atleta. Además se calcula el <strong>TSS</strong> estándar con las referencias del perfil. Si falta un dato, el bloque se marca parcial.',
+  },
+  {
+    q: '¿Con qué relojes funciona el seguimiento?',
+    a: 'Con Garmin, Polar y Wahoo, mediante conexión de solo lectura, o subiendo un archivo FIT/ZIP. Las actividades llegan con vueltas, frecuencia cardiaca, potencia y registros, y se cruzan con la sesión planificada. COROS, Suunto e iGPSPORT están en camino.',
+  },
+  {
+    q: '¿Puedo gestionar todo mi club de triatlón?',
+    a: 'Sí. El club tiene grupos, un enlace de invitación y roles de entrenador y atleta. El entrenador ve los miembros, abre la ficha de cada atleta y consulta sus actividades y estadísticas. El atleta ve su panel, su calendario y sus ritmos.',
+  },
+  {
+    q: '¿Dónde están mis datos?',
+    a: 'En servidores propios, en España. La conexión con los relojes es de solo lectura y se puede desconectar cuando quieras; las actividades ya importadas se conservan. No vendemos ni compartimos los datos.',
+  },
+];
+---
+
+<Page
+  title={title}
+  description={description}
+  kicker="App de entrenamiento · triatlón"
+  h1="App de entrenamiento para triatlón"
+  lead="Natación, bici y carrera con los tests y las zonas de cada atleta. El plan se escribe en texto libre, la carga se calcula sola y lo que el atleta ha hecho de verdad aparece al lado."
+  breadcrumb={[{ name: 'Triatlón' }]}
+  extra={faqSchema(faqs, pageUrl)}
+>
+  <h2>El triatlón, sin hojas de cálculo</h2>
+  <p>
+    Un club de triatlón mueve tres disciplinas, varios calendarios y media docena de fuentes de
+    datos. Umbral lo reúne en un solo panel: los tests fijan los ritmos de cada atleta, el plan se
+    escribe como en la libreta y las actividades llegan del reloj. El entrenador decide con datos;
+    el atleta sabe qué toca y a qué ritmo.
+  </p>
+
+  <div class="p-cards">
+    <div class="p-card">
+      <span class="p-card__tag">01</span>
+      <h3>Tests y zonas por disciplina</h3>
+      <p>
+        Natación con varios tests activos, uno por distancia, y una curva de ritmos construida con
+        ellos. Carrera y bici con su test de referencia. Cada atleta tiene las suyas: nada de
+        fórmulas de tabla.
+      </p>
+    </div>
+    <div class="p-card">
+      <span class="p-card__tag">02</span>
+      <h3>Plan en texto libre</h3>
+      <p>
+        Escribes <code>20' Z2</code>, <code>4x(4' Z4 / 3' Z1)</code> o <code>resto Z1</code> y Umbral
+        interpreta distancias, series, zonas y descansos. Lo que no cuadra se ignora: no hay
+        formulario bloque a bloque.
+      </p>
+    </div>
+    <div class="p-card">
+      <span class="p-card__tag">03</span>
+      <h3>Carga real de cada semana</h3>
+      <p>
+        ECO por bloque, ECS con el RPE del atleta y TSS estándar. El panel semanal suma la carga de
+        las tres disciplinas y la reparte por fases, con CTL, ATL y balance de forma.
+      </p>
+    </div>
+    <div class="p-card">
+      <span class="p-card__tag">04</span>
+      <h3>El reloj, contra el plan</h3>
+      <p>
+        Las actividades llegan de Garmin, Polar y Wahoo con vueltas, FC y potencia. Se cruzan con la
+        sesión planificada: tiempo en zona y desvío, sin abrir una hoja de cálculo.
+      </p>
+    </div>
+  </div>
+
+  <div class="p-band">
+    <h2>Todo el club en su umbral</h2>
+    <p>
+      Estamos abriendo las primeras plazas para clubes y entrenadores de triatlón. Déjanos tu
+      correo y te escribimos para preparar el primer mes.
+    </p>
+    <div class="p-band__actions">
+      <a class="u-btn" href="/#acceso">Pedir acceso</a>
+      <a class="u-btn u-btn--ghost" href="/#ficha">Ver la ficha de un atleta</a>
+    </div>
+  </div>
+
+  <h2>Las tres disciplinas, el mismo criterio</h2>
+  <p>
+    La coherencia del sistema es lo que hace útil el panel: aunque cambie el deporte, el lenguaje es
+    siempre el mismo.
+  </p>
+  <ul>
+    <li>
+      <strong>Natación.</strong> Tests por distancia y series escritas como se dicen en la
+      piscina: <code>8x100m Z4 / 20"</code>, con descansos explícitos.
+    </li>
+    <li>
+      <strong>Ciclismo.</strong> Bloques por zonas de potencia o FC, con el peso de la disciplina
+      en la carga. Las salidas llegan del reloj con su mapa y sus vueltas.
+    </li>
+    <li>
+      <strong>Carrera.</strong> Ritmos por zona a partir del test del atleta, con series y
+      tiradas largas en el mismo plan que la bici y la piscina.
+    </li>
+  </ul>
+
+  <h2>Cómo funciona</h2>
+  <ol>
+    <li>
+      <strong>Tests.</strong> Cada atleta hace sus marcas. La referencia activa fija sus ritmos y
+      sus zonas, disciplina a disciplina.
+    </li>
+    <li>
+      <strong>Plan.</strong> El entrenador escribe la semana en texto libre y Umbral calcula el
+      ECO de cada bloque mientras escribe.
+    </li>
+    <li>
+      <strong>Seguimiento.</strong> Lo hecho vuelve a la ficha: plan frente a hecho, carga y
+      estadísticas para decidir la semana siguiente.
+    </li>
+  </ol>
+
+  <h2>Preguntas frecuentes</h2>
+  <div class="p-faq">
+    {faqs.map((faq) => (
+      <details>
+        <summary>{faq.q}<span class="p-faq__toggle" aria-hidden="true"></span></summary>
+        <div class="p-faq__a" set:html={faq.a} />
+      </details>
+    ))}
+  </div>
+
+  <h2>Sigue leyendo</h2>
+  <div class="p-related">
+    <a href="/atletismo">
+      <span class="p-related__kicker">Landing</span>
+      <span class="p-related__title">App de entrenamiento para atletismo</span>
+      <span class="p-related__desc">Ritmos del test del atleta, series en texto libre y RPE.</span>
+    </a>
+    <a href="/guias/zonas-de-entrenamiento">
+      <span class="p-related__kicker">Guía</span>
+      <span class="p-related__title">Zonas de entrenamiento</span>
+      <span class="p-related__desc">Qué son, cómo se calculan y qué significa cada zona.</span>
+    </a>
+    <a href="/guias/carga-de-entrenamiento">
+      <span class="p-related__kicker">Guía</span>
+      <span class="p-related__title">Carga de entrenamiento</span>
+      <span class="p-related__desc">ECO, ECS, TSS, CTL, ATL y TSB explicados con calma.</span>
+    </a>
+  </div>
+</Page>

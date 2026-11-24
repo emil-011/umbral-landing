@@ -1,0 +1,159 @@
+---
+import Page from '../layouts/Page.astro';
+import { faqSchema, type FaqItem } from '../lib/faq';
+
+const SITE = 'https://umbrallab.es';
+const pageUrl = `${SITE}/duatlon`;
+
+const title = 'App de entrenamiento para duatlón | Umbral';
+const description =
+  'Carrera, bici y carrera en un solo plan. Tests de carrera y bici, carga por bloque y actividades multisport que llegan del reloj separadas por tramos.';
+
+const faqs: FaqItem[] = [
+  {
+    q: '¿Cómo se planifica una semana de duatlón?',
+    a: 'Con las mismas piezas que el resto de disciplinas: sesiones de carrera, sesiones de bici y días con las dos. El entrenador escribe cada sesión en texto libre y Umbral calcula el ECO de cada bloque. No hay que cambiar de herramienta al pasar del segmento de carrera al de bici.',
+  },
+  {
+    q: '¿Qué test usa cada segmento?',
+    a: 'El test de carrera fija los ritmos de los dos segmentos de carrera; el test de bici fija las zonas de potencia o de FC del tramo ciclista. Son referencias independientes y se actualizan por separado cuando el atleta renueva una marca.',
+  },
+  {
+    q: '¿Cómo llega una actividad de duatlón desde el reloj?',
+    a: 'Si el reloj graba la prueba en modo multisport, el archivo trae una sesión por tramo. Umbral las une en una sola actividad, respeta el orden carrera-bici-carrera y tiene en cuenta el enlace entre tramos para que el tiempo total no se quede corto. También puedes subir un FIT/ZIP.',
+  },
+  {
+    q: '¿Se ven las transiciones?',
+    a: 'Los tramos se muestran separados y el tiempo total incluye el enlace entre ellos. La app no inventa métricas de transición que el reloj no haya grabado: si el archivo las trae, se conservan; si no, quedan dentro del tiempo total.',
+  },
+  {
+    q: '¿Cómo se calcula la carga de un duatlón?',
+    a: 'El <strong>ECO</strong> suma la carga planificada de cada bloque con el peso de su disciplina (natación 0,75 · bici 0,50 · carrera 1,00). El <strong>ECS</strong> es el RPE de 1 a 10 que registra el atleta y el <strong>TSS</strong> se calcula con las referencias del perfil.',
+  },
+  {
+    q: '¿Puedo usar Umbral con todo mi club de duatlón?',
+    a: 'Sí. Grupos, invitación por enlace y roles de entrenador y atleta. El entrenador ve los miembros, la ficha de cada atleta y sus actividades; el atleta ve su plan, sus ritmos y su RPE.',
+  },
+];
+
+const faq = faqSchema(faqs, pageUrl);
+---
+
+<Page
+  title={title}
+  description={description}
+  kicker="App de entrenamiento · duatlón"
+  h1="App de entrenamiento para duatlón"
+  lead="Dos carreras y una bici con el mismo criterio de tests, zonas y carga. El plan se escribe por bloques y la actividad llega del reloj como un solo archivo, con cada tramo en su sitio."
+  breadcrumb={[{ name: 'Duatlón' }]}
+  extra={faq}
+>
+  <h2>Dos carreras, una referencia</h2>
+  <p>
+    El duatlón no es un triatlón sin natación: es una prueba con dos esfuerzos de carrera que
+    comparten referencia y un tramo de bici que tiene la suya. Umbral lo trata así. El test de
+    carrera fija los ritmos de los dos segmentos a pie; el test de bici fija las zonas del tramo
+    ciclista. El plan, la carga y el seguimiento viven en la misma semana, sin cambiar de
+    herramienta entre segmentos.
+  </p>
+
+  <div class="p-cards">
+    <div class="p-card">
+      <span class="p-card__tag">01</span>
+      <h3>Plan por bloques</h3>
+      <p>
+        Sesiones de carrera, de bici y días con las dos. El entrenador escribe cada bloque en texto
+        libre y la app calcula su ECO mientras escribe.
+      </p>
+    </div>
+    <div class="p-card">
+      <span class="p-card__tag">02</span>
+      <h3>Tests independientes</h3>
+      <p>
+        La carrera y la bici tienen su propia marca activa. Renovar el test de una disciplina no
+        toca los ritmos de la otra.
+      </p>
+    </div>
+    <div class="p-card">
+      <span class="p-card__tag">03</span>
+      <h3>Multisport, bien leído</h3>
+      <p>
+        Un FIT grabado en modo duatlón trae una sesión por tramo. Umbral las une, respeta el orden y
+        conserva el tiempo total con el enlace entre tramos.
+      </p>
+    </div>
+    <div class="p-card">
+      <span class="p-card__tag">04</span>
+      <h3>Carga y club</h3>
+      <p>
+        ECO por bloque, ECS con el RPE del atleta y TSS estándar. El panel del club suma la carga de
+        la semana y la reparte por disciplina.
+      </p>
+    </div>
+  </div>
+
+  <div class="p-band">
+    <h2>La semana del duatleta, en un panel</h2>
+    <p>
+      Estamos abriendo plazas para clubes y entrenadores de duatlón. Déjanos tu correo y preparamos
+      el primer mes con tus grupos y tus referencias.
+    </p>
+    <div class="p-band__actions">
+      <a class="u-btn" href="/#acceso">Pedir acceso</a>
+      <a class="u-btn u-btn--ghost" href="/#plan">Ver el creador de planes</a>
+    </div>
+  </div>
+
+  <h2>Un archivo, tres tramos</h2>
+  <p>
+    Cuando el reloj graba la prueba en modo multisport, el archivo no es una actividad normal: trae
+    varias sesiones seguidas. Umbral las separa por disciplina, las ordena y las presenta como una
+    sola actividad con sus tramos. Así puedes ver qué pasó en cada carrera, qué pasó en la bici y
+    cómo se repartió el tiempo total, sin partir el archivo a mano.
+  </p>
+
+  <h2>Cómo funciona</h2>
+  <ol>
+    <li>
+      <strong>Tests.</strong> El atleta hace su test de carrera y su test de bici. Cada marca activa
+      fija las zonas de su disciplina.
+    </li>
+    <li>
+      <strong>Plan.</strong> El entrenador escribe la semana en texto libre, con los días de carrera,
+      los de bici y los que combinan las dos.
+    </li>
+    <li>
+      <strong>Seguimiento.</strong> La actividad llega del reloj o de un FIT/ZIP, se separa por
+      tramos y se cruza con lo planificado para leer el desvío y la carga.
+    </li>
+  </ol>
+
+  <h2>Preguntas frecuentes</h2>
+  <div class="p-faq">
+    {faqs.map((item) => (
+      <details>
+        <summary>{item.q}<span class="p-faq__toggle" aria-hidden="true"></span></summary>
+        <div class="p-faq__a" set:html={item.a} />
+      </details>
+    ))}
+  </div>
+
+  <h2>Sigue leyendo</h2>
+  <div class="p-related">
+    <a href="/ciclismo">
+      <span class="p-related__kicker">Landing</span>
+      <span class="p-related__title">App de entrenamiento para ciclismo</span>
+      <span class="p-related__desc">FTP, zonas de potencia y salidas con vueltas y mapa.</span>
+    </a>
+    <a href="/atletismo">
+      <span class="p-related__kicker">Landing</span>
+      <span class="p-related__title">App de entrenamiento para atletismo</span>
+      <span class="p-related__desc">Ritmos del test, series y RPE para clubes de carrera.</span>
+    </a>
+    <a href="/guias/carga-de-entrenamiento">
+      <span class="p-related__kicker">Guía</span>
+      <span class="p-related__title">Carga de entrenamiento</span>
+      <span class="p-related__desc">Cómo se suma el ECO de disciplinas distintas.</span>
+    </a>
+  </div>
+</Page>
