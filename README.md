@@ -1,8 +1,8 @@
 # Umbral — landing
 
-Landing pública de **Umbral**, la app de entrenamiento de **tritrain** para clubes,
-entrenadores y atletas de **triatlón, atletismo, natación y ciclismo**. También duatlón,
-aquatlón y fuerza.
+Landing pública de **Umbral**, la app de entrenamiento para clubes, entrenadores y
+atletas de **triatlón, atletismo, natación y ciclismo**. También duatlón, acuatlón y
+fuerza.
 
 La página está construida sobre lo que la app hace hoy: tests y zonas propias, planes
 en texto libre con ECO, panel semanal, actividades de Garmin/Polar/Wahoo, vueltas y
@@ -15,8 +15,8 @@ invitaciones y fichas de atleta.
   el wordmark de Umbral y tarjetas de carga. El panel semanal real va justo debajo, con la
   agenda por días, sesiones, zonas, RPE y ECOs/ECSs.
 - **Tres miradas.** Club, entrenador y atleta, con lo que cada rol puede hacer.
-- **Disciplinas.** Triatlón, atletismo, natación, ciclismo, duatlón y aquatlón, cada uno con
-  sus tests, zonas y carga, y enlaces directos desde el pie.
+- **Disciplinas.** Triatlón, atletismo, natación, ciclismo, duatlón y acuatlón, cada uno con
+  su landing propia, sus tests, zonas y carga, y enlaces directos desde el pie.
 - **El club.** Cabecera del club, grupos expandibles y lista de miembros con su grupo y su rol.
 - **La ficha.** Carrusel con pantallas reales de la app: ritmos de entrenamiento, estadísticas y tests del atleta, con flechas y puntos.
 - **El plan.** Creador de entrenos real: plan semanal, entradas de texto libre, volumen por disciplina, reparto por fases y ECO por bloque.
@@ -26,7 +26,7 @@ invitaciones y fichas de atleta.
 - **La idea, cómo funciona, preguntas y acceso anticipado.**
 
 Los datos de los paneles son **de ejemplo** y están etiquetados como tales. Las
-capacidades que se cuentan son las que existen en `prog/tritrain`. A propósito **no**
+capacidades que se cuentan son las que existen hoy en la app. A propósito **no**
 se incluyen tres cosas que la referencia anterior inventaba: comparador de carreras o
 atletas, mapa de cumplimiento por club y carga agregada por grupo.
 
@@ -72,6 +72,7 @@ src/
 ├── components/              marca y secciones de la landing
 ├── layouts/Layout.astro      shell, metadatos, canonical, schema y movimiento
 ├── pages/index.astro         composición de la página
+├── pages/triatlon, atletismo…    landings por deporte y guías
 ├── pages/api/waitlist.ts     endpoint server-side de Resend
 ├── pages/sitemap.xml.ts      sitemap generado con el dominio canónico
 ├── pages/robots.txt.ts       robots.txt con la URL del sitemap
@@ -161,8 +162,11 @@ La home está preparada para competir por búsquedas de marca y de categoría:
   en JSON-LD, construidos con los mismos datos visibles.
 - **Rastreo.** `/sitemap.xml` y `/robots.txt` se generan con `SITE_URL`; `/api/` queda fuera
   del rastreo.
-- **Contenido.** Sección de disciplinas (triatlón, atletismo, natación, ciclismo, duatlón y
-  aquatlón), definición de Umbral, FAQ ampliada y enlaces internos desde la navegación y el pie.
+- **Contenido.** Landings de triatlón, atletismo, natación, ciclismo, duatlón y acuatlón,
+  páginas para clubes y entrenadores, hub de entrenamiento, guías de zonas y carga,
+  definición de Umbral, FAQ ampliada y enlaces internos desde la navegación y el pie.
+- **Legal.** `/privacidad` y `/aviso-legal` con el titular, el contacto y los derechos de
+  las personas usuarias; enlazadas desde el pie.
 - **Rendimiento.** Sin imágenes de hero: SVG, tipografías autoalojadas y precargadas, y
   animaciones que no bloquean el contenido.
 

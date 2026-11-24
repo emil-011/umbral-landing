@@ -5,8 +5,8 @@ implementado en la home y lo que habría que hacer después para competir por
 términos de categoría. Última revisión: noviembre de 2026.
 
 - **Dominio canónico actual:** `https://umbrallab.es`
-- **App:** `https://app.tritrain.es`
-- **Marca:** Umbral, nueva identidad de tritrain
+- **App:** `https://app.umbrallab.es`
+- **Marca:** Umbral
 - **Idioma:** español (España)
 
 ---
@@ -16,9 +16,9 @@ términos de categoría. Última revisión: noviembre de 2026.
 La home ya está preparada para:
 
 1. **Defender la marca** (`umbral`, `umbral app`, `umbral entrenamiento`,
-   `umbral tritrain`) y aclarar la relación con tritrain.
+   `umbral lab`) sin depender de una palabra genérica.
 2. **Posicionar la categoría** con contenido real de triatlón, atletismo,
-   natación, ciclismo, duatlón y aquatlón: título, `H1`, sección de disciplinas,
+   natación, ciclismo, duatlón y acuatlón: título, `H1`, landings por deporte,
    definición, FAQ y datos estructurados.
 3. **Ser rastreada e indexada correctamente**: canonical, `robots.txt`,
    `sitemap.xml`, Open Graph, JSON-LD y dominio configurable.
@@ -88,7 +88,7 @@ estructurado, con respuestas claras y datos propios. Para Umbral conviene:
 - Definiciones cortas y directas al principio de cada sección.
 - Datos concretos y verificables (fórmulas ECO/ECS/TSS, disciplinas, tests).
 - Tablas y listas cuando ayuden a comparar.
-- Entidades bien definidas: Umbral, tritrain, cada deporte, cada métrica.
+- Entidades bien definidas: Umbral, cada deporte, cada métrica.
 
 No se ha añadido `llms.txt` porque no es un estándar exigido por Google y no
 sustituye al contenido ni a los enlaces.
@@ -121,7 +121,7 @@ Búsquedas reales en España (DuckDuckGo, noviembre de 2026) muestran dos frente
   (asesoría de triatlón), [Planeta Triatlón](https://planetatriatlon.com/calcular-los-umbrales-entrenamiento/),
   calculadoras de umbral láctico y artículos de método. Es un término genérico y
   con colisión de marca: la home debe ganar sobre todo `umbral app`,
-  `umbral entrenamiento` y `umbral tritrain`.
+  `umbral entrenamiento` y `umbral lab`.
 - **«app entrenamiento triatlón»** y **«software club atletismo»** tienen
   competidores consolidados: [TriElite](https://trielite.app/es),
   [trisync](https://trisync.app/), [Nolio](https://www.nolio.io/es/triatlon/),
@@ -152,14 +152,14 @@ validar con Search Console, Semrush, Ahrefs o Keyword Planner.
 
 | Cluster | Consulta principal | Secundarias | Intención | URL actual | Siguiente paso |
 |---|---|---|---|---|---|
-| Marca | `umbral app` | `umbral entrenamiento`, `umbral tritrain`, `tritrain umbral` | Navegacional | `/` | Reforzar con enlaces externos y perfiles |
+| Marca | `umbral app` | `umbral entrenamiento`, `umbral lab`, `umbrallab` | Navegacional | `/` | Reforzar con enlaces externos y perfiles |
 | Marca | `umbral triatlón` | `umbral atletismo`, `umbral club` | Navegacional | `/` | Contenido de marca y notas de prensa |
 | Categoría | `app entrenamiento triatlón` | `app triatlón entrenadores`, `software club triatlón` | Comercial | `/` (parcial) | Landing `/triatlon` |
 | Categoría | `app entrenamiento atletismo` | `software club atletismo`, `app entrenadores atletismo` | Comercial | `/` (parcial) | Landing `/atletismo` |
 | Categoría | `app entrenamiento natación` | `tests natación`, `zonas natación` | Comercial | `/` (parcial) | Landing `/natacion` |
 | Categoría | `app entrenamiento ciclismo` | `zonas potencia`, `TSS ciclismo` | Comercial | `/` (parcial) | Landing `/ciclismo` |
 | Nicho | `app duatlón` | `plan duatlón`, `carga duatlón` | Comercial | `/` (parcial) | Landing `/duatlon` |
-| Nicho | `app aquatlón` | `plan aquatlón` | Comercial | `/` (parcial) | Landing `/aquatlon` |
+| Nicho | `app acuatlón` | `plan acuatlón`, `aquatlón` | Comercial | `/acuatlon` | Landing ya publicada |
 | Informacional | `zonas de entrenamiento` | `zonas triatlón`, `zonas carrera`, `zonas natación` | Informacional | FAQ | Guía `/guias/zonas-de-entrenamiento` |
 | Informacional | `test de umbral` | `test umbral lactato`, `test 30 minutos`, `umbral anaeróbico` | Informacional | FAQ | Guía `/guias/test-de-umbral` |
 | Informacional | `carga de entrenamiento` | `TSS`, `CTL`, `ATL`, `TSB`, `ECO`, `ECS` | Informacional | FAQ + sección Carga | Guía `/guias/carga-de-entrenamiento` |
@@ -169,7 +169,7 @@ validar con Search Console, Semrush, Ahrefs o Keyword Planner.
 
 **Prioridad recomendada (fase 2):** `/triatlon` → `/atletismo` →
 `/entrenamiento` (hub) → guías de zonas, test y carga → `/natacion` y
-`/ciclismo` → `/duatlon` y `/aquatlon`.
+`/ciclismo` → `/duatlon` y `/acuatlon`.
 
 ---
 
@@ -199,11 +199,11 @@ validar con Search Console, Semrush, Ahrefs o Keyword Planner.
   lead con la frase exacta «Entrenamiento de triatlón, atletismo, natación y
   ciclismo».
 - **Nueva sección «Disciplinas»** (`src/components/Disciplinas.astro`):
-  definición de Umbral como app de tritrain, seis tarjetas con `H3` para
-  triatlón, atletismo, natación, ciclismo, duatlón y aquatlón, y anclas
-  `#triatlon`, `#atletismo`, `#natacion`, `#ciclismo`, `#duatlon` y `#aquatlon`.
+  definición de Umbral, seis tarjetas con `H3` para triatlón, atletismo,
+  natación, ciclismo, duatlón y acuatlón, y enlaces a las landings de cada
+  deporte.
 - **Renumeración** de las secciones 02–10 para mantener el orden visual.
-- **FAQ ampliada:** qué es Umbral y su relación con tritrain, zonas de
+- **FAQ ampliada:** qué es Umbral, zonas de
   entrenamiento, club de triatlón o atletismo, y cobertura de deportes.
 - **Navegación y pie:** enlace «Deportes» y columna «Deportes» con enlaces
   descriptivos a cada ancla; «Cómo funciona» en el pie.
@@ -231,30 +231,12 @@ validar con Search Console, Semrush, Ahrefs o Keyword Planner.
 
 ## 5. Migración de dominio
 
-Ahora el canónico es `umbrallab.es`. Cuando se traslade `tritrain.es` a Umbral:
-
-1. **Decidir el dominio final** y no cambiar dos veces seguidas. Si la app sigue
-   en `app.tritrain.es`, valorar `app.umbrallab.es` o mantener la app y redirigir
-   solo la web.
-2. **Configurar 301** de cada URL antigua a su equivalente nueva. No usar 302
-   ni redirigir todo a la home. Mantener la estructura de rutas.
-3. **Actualizar `SITE_URL`** en el entorno de producción y reconstruir. Canonical,
-   sitemap, robots y JSON-LD se actualizan solos.
-4. **Verificar ambas propiedades** en Search Console. Si es un cambio de sitio,
-   usar la herramienta de cambio de dirección y conservar los 301 al menos un
-   año.
-5. **Enviar el nuevo sitemap** y comprobar la cobertura de indexación.
-6. **Actualizar enlaces externos**: redes, directorios de clubes, notas de
-   prensa, firmas de correo, app y documentación.
-7. **Comprobar redirecciones encadenadas, 404 y duplicados**. Evitar que el
-   dominio antiguo y el nuevo sirvan la misma home sin canonical.
-8. **Vigilar durante 8–12 semanas**: impresiones, clics, consultas de marca,
-   páginas indexadas y errores de rastreo.
-
-Si `tritrain.es` no está indexado (ahora mismo no resuelve DNS), el riesgo es
-bajo y basta con 301 + sitemap + enlaces. Si más adelante se decide que
-`umbrallab.es` sea el dominio definitivo y `tritrain.es` solo un alias, hay que
-mantener el 301 de forma indefinida.
+La migración a `umbrallab.es` está hecha: la web, la app (`app.umbrallab.es`),
+el canonical, el sitemap, el `robots.txt` y el JSON-LD usan ya el dominio nuevo.
+Si en algún momento se publica un alias antiguo, debe redirigir con 301 a la URL
+equivalente —nunca a la home— y mantenerse al menos un año. Después hay que
+enviar el sitemap, revisar la cobertura de indexación y actualizar los enlaces
+externos (redes, clubes, prensa, firmas de correo y documentación).
 
 Fuentes: [301 redirects](https://developers.google.com/search/docs/crawling-indexing/301-redirects),
 [consolidar URLs duplicadas](https://developers.google.com/search/docs/crawling-indexing/consolidate-duplicate-urls),
@@ -297,24 +279,41 @@ frecuencia de publicación y enlaces.
 
 ---
 
-## 7. Fase 2: landings y guías (cuando se apruebe)
+## 7. Fase 2: landings y guías
 
-No están implementadas. Esta es la propuesta para cuando se quiera competir de
-verdad por los términos de categoría.
+Las tres primeras landings y las dos primeras guías están desplegadas (19 nov
+2026). Las cuatro landings de deporte que faltaban están implementadas en el
+repositorio (24 nov 2026) y pendientes de desplegar:
+
+- `/triatlon` — app de entrenamiento para triatlón (927 palabras, 6 FAQ).
+- `/atletismo` — app de entrenamiento para atletismo (772 palabras, 6 FAQ).
+- `/natacion` — app de entrenamiento para natación (pendiente de desplegar).
+- `/ciclismo` — app de entrenamiento para ciclismo (pendiente de desplegar).
+- `/duatlon` — app de entrenamiento para duatlón (pendiente de desplegar).
+- `/acuatlon` — app de entrenamiento para acuatlón (pendiente de desplegar).
+- `/entrenamiento` — hub para entrenadores y clubes (879 palabras, 6 FAQ).
+- `/guias/zonas-de-entrenamiento` — guía educativa (1.168 palabras, 5 FAQ).
+- `/guias/carga-de-entrenamiento` — guía educativa (1.046 palabras, 5 FAQ).
+- `/privacidad` y `/aviso-legal` — legales, con datos del titular y contacto.
+
+Todas llevan canonical propio, título y descripción únicos, un `H1`,
+`BreadcrumbList`, `FAQPage` con las preguntas visibles y entrada en el sitemap.
+Los enlaces están a la vista: columna Deportes en el pie, enlaces en las tarjetas
+de disciplinas de la home y enlazado cruzado entre páginas. Nada oculto.
 
 ### 7.1 Landings por deporte
 
 | URL | `H1` | Contenido mínimo |
 |---|---|---|
-| `/triatlon` | App de entrenamiento para triatlón | Zonas de natación, bici y carrera; plan en texto libre; ECO/ECS; tests; Garmin/Polar/Wahoo; clubes; FAQ |
-| `/atletismo` | App de entrenamiento para atletismo | Ritmos por zona, tests de carrera, RPE, carga, grupos y fichas; FAQ |
-| `/natacion` | App de entrenamiento para natación | Tests por distancia, curva, series y descansos, zonas; FAQ |
-| `/ciclismo` | App de entrenamiento para ciclismo | Vatios, FTP, zonas, TSS, actividades; FAQ |
-| `/duatlon` | App de entrenamiento para duatlón | Bloques, carga, plan del club; FAQ |
-| `/aquatlon` | App de entrenamiento para aquatlón | Tests de natación y carrera, zonas, seguimiento; FAQ |
+| `/triatlon` ✅ | App de entrenamiento para triatlón | Zonas de natación, bici y carrera; plan en texto libre; ECO/ECS; tests; Garmin/Polar/Wahoo; clubes; FAQ |
+| `/atletismo` ✅ | App de entrenamiento para atletismo | Ritmos por zona, tests de carrera, RPE, carga, grupos y fichas; FAQ |
+| `/natacion` ✅ | App de entrenamiento para natación | Tests por distancia, curva, series y descansos, zonas; FAQ |
+| `/ciclismo` ✅ | App de entrenamiento para ciclismo | Vatios, FTP, zonas, TSS, actividades; FAQ |
+| `/duatlon` ✅ | App de entrenamiento para duatlón | Bloques, carga, multisport, plan del club; FAQ |
+| `/acuatlon` ✅ | App de entrenamiento para acuatlón | Tests de natación y carrera, zonas, multisport; FAQ |
 | `/entrenamiento` | Software de entrenamiento para entrenadores | Hub que enlaza a las landings y a las guías |
-| `/para-clubes` | Software para clubes de triatlón y atletismo | Grupos, invitaciones, roles, fichas, privacidad |
-| `/para-entrenadores` | App para entrenadores de resistencia | Plan, carga, tests, seguimiento por atleta |
+| `/para-clubes` ✅ | Software para clubes de triatlón y atletismo | Grupos, invitaciones, roles, fichas, privacidad |
+| `/para-entrenadores` ✅ | App para entrenadores de resistencia | Plan, carga, tests, seguimiento por atleta |
 
 Cada landing debe tener:
 
@@ -330,9 +329,9 @@ Cada landing debe tener:
 
 Prioridad:
 
-1. `/guias/zonas-de-entrenamiento` — qué son, cómo se calculan, tabla por deporte.
-2. `/guias/test-de-umbral` — protocolos de campo y laboratorio, LT1/LT2.
-3. `/guias/carga-de-entrenamiento` — ECO, ECS, TSS, CTL, ATL, TSB con ejemplos.
+1. `/guias/zonas-de-entrenamiento` ✅ — qué son, cómo se calculan, tabla por deporte.
+2. `/guias/test-de-umbral` — protocolos de campo y laboratorio, LT1/LT2 (pendiente).
+3. `/guias/carga-de-entrenamiento` ✅ — ECO, ECS, TSS, CTL, ATL, TSB con ejemplos.
 4. `/guias/plan-triatlon-sprint` — plan de 8 semanas con sesiones.
 5. `/guias/plan-atletismo-10k` — plan de 8 semanas.
 6. `/guias/natacion-tecnica-y-series` — series y ritmos.
@@ -352,7 +351,7 @@ tráfico informacional; las landings capturan la intención comercial.
 | 5 | Guía de test de umbral |
 | 6 | Guía de carga |
 | 7 | `/natacion` y `/ciclismo` |
-| 8 | `/duatlon`, `/aquatlon` y revisión de enlaces internos |
+| 8 | `/duatlon`, `/acuatlon` y revisión de enlaces internos |
 
 ### 7.4 Qué evitar
 
@@ -393,18 +392,19 @@ funcionar; a medio plazo es un riesgo.
 - **«Umbral» es genérico.** Compite con Umbral Team y con artículos sobre el
   umbral fisiológico. La marca necesita siempre el contexto «app» o
   «entrenamiento» en los contenidos.
-- **El dominio `.es` parte sin autoridad.** `umbrallab.es` ya está desplegada
-  en la VM con HTTPS y el registro `A` apunta a `80.225.190.5`. Falta verificar
-  la propiedad en Search Console y enviar el sitemap. La velocidad de
-  posicionamiento dependerá de enlaces y contenido, no solo del código.
+- **El dominio `.es` parte sin autoridad.** `umbrallab.es` está desplegada con
+  HTTPS, la propiedad de dominio está verificada en Search Console y el sitemap
+  se envió el 17 nov (lectura correcta el 21 nov). El 24 nov Search Console
+  mostraba 8 impresiones, 0 clics y **0 enlaces externos** en 7 días. El cuello
+  de botella no es técnico: son enlaces, marca y tiempo.
 - **Los rich results de FAQ no están garantizados.** El schema se mantiene por
   comprensión, no por apariencia.
 - **AI Overviews pueden reducir clics.** La defensa es marca, conversión directa
   y contenido con datos que no se puedan resumir sin citar.
-- **La política de privacidad y el aviso legal** deben ser accesibles y estar
-  enlazados. Al quitar los enlaces públicos a la app, el pie ya no apunta a
-  `app.tritrain.es/privacidad`; conviene publicar `/privacidad` y `/aviso-legal`
-  propios en `umbrallab.es`.
+- **La política de privacidad y el aviso legal** ya están publicados en
+  `/privacidad` y `/aviso-legal`, enlazados desde el pie. Antes de desplegar el
+  aviso legal hay que rellenar `nif` y `address` en `src/lib/legal.ts`: sin esos
+  datos el aviso está incompleto.
 - **El formulario es el objetivo.** Todo el SEO debe llevar a `#acceso` o a la
   app; el tráfico sin conversión no es un resultado.
 
@@ -439,3 +439,12 @@ funcionar; a medio plazo es un riesgo.
 - **2026-11-16:** auditoría inicial de la home; metadatos, canonical, robots,
   sitemap, JSON-LD, sección de disciplinas, FAQ ampliada, enlaces internos,
   logos sociales y documento de estrategia.
+- **2026-11-19:** fase 2 parcial en producción: landings `/triatlon`,
+  `/atletismo` y `/entrenamiento`, y guías de zonas y de carga. Migas de pan
+  (`BreadcrumbList`), `FAQPage` por página, sitemap con 6 URLs y enlazado
+  interno visible desde el pie y las tarjetas de disciplinas.
+- **2026-11-24:** auditoría de Search Console y SERP. Se eliminan las últimas
+  referencias públicas a tritrain, se publican `/natacion`, `/ciclismo`,
+  `/duatlon` y `/acuatlon`, se añaden `/para-clubes`, `/para-entrenadores`,
+  `/privacidad` y `/aviso-legal`, y el sitemap pasa a 14 URLs. Las tarjetas de
+  disciplinas y el pie enlazan ya a las landings reales, no a anclas de la home.
