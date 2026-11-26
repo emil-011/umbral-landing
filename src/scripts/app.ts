@@ -1127,7 +1127,7 @@ function initWaitlist() {
     try {
       const endpoint =
         (import.meta.env as Record<string, string | undefined>).PUBLIC_WAITLIST_ENDPOINT ??
-        '/api/waitlist';
+        '/api/waitlist/';
 
       const response = await fetch(endpoint, {
         method: 'POST',

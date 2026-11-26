@@ -32,7 +32,7 @@ atletas, mapa de cumplimiento por club y carga agregada por grupo.
 
 ## Stack
 
-- **Astro 7** con adaptador Node: landing estática y endpoint `/api/waitlist`.
+- **Astro 7** con adaptador Node: landing estática y endpoint `/api/waitlist/`.
 - **GSAP 3.15** con `ScrollTrigger`, `SplitText` y `MotionPathPlugin`.
 - **Lenis** para scroll suave, sincronizado con ScrollTrigger.
 - Tipografías y marca autoalojadas (`public/fonts`, `public/brand`).
@@ -104,7 +104,7 @@ sola hoja de estilos.
 
 ## Formulario de acceso
 
-El formulario de acceso anticipado envía a `/api/waitlist`, un endpoint server-side que
+El formulario de acceso anticipado envía a `/api/waitlist/`, un endpoint server-side que
 usa **Resend** para avisar por correo. La API key nunca llega al navegador.
 
 Resend **envía**, no recibe: `WAITLIST_TO` tiene que ser un buzón real (Hostinger o un
@@ -116,7 +116,7 @@ APP_URL=https://app.umbrallab.es
 RESEND_API_KEY=re_...
 WAITLIST_TO=solicitudes@umbrallab.es
 WAITLIST_FROM="Umbral <no-reply@umbrallab.es>"
-PUBLIC_WAITLIST_ENDPOINT=/api/waitlist
+PUBLIC_WAITLIST_ENDPOINT=/api/waitlist/
 ```
 
 - `WAITLIST_FROM` debe ser un remitente de un dominio **verificado en Resend**. En

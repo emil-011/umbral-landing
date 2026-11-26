@@ -3,7 +3,7 @@ import Page from '../layouts/Page.astro';
 import { faqSchema, type FaqItem } from '../lib/faq';
 
 const SITE = 'https://umbrallab.es';
-const pageUrl = `${SITE}/natacion`;
+const pageUrl = `${SITE}/natacion/`;
 
 const title = 'App de entrenamiento para natación | Umbral';
 const description =
@@ -152,17 +152,17 @@ const faq = faqSchema(faqs, pageUrl);
 
   <h2>Sigue leyendo</h2>
   <div class="p-related">
-    <a href="/triatlon">
+    <a href="/triatlon/">
       <span class="p-related__kicker">Landing</span>
       <span class="p-related__title">App de entrenamiento para triatlón</span>
       <span class="p-related__desc">Natación, bici y carrera con tests y zonas propias.</span>
     </a>
-    <a href="/acuatlon">
+    <a href="/acuatlon/">
       <span class="p-related__kicker">Landing</span>
       <span class="p-related__title">App de entrenamiento para acuatlón</span>
       <span class="p-related__desc">Natación y carrera con referencias independientes.</span>
     </a>
-    <a href="/guias/zonas-de-entrenamiento">
+    <a href="/guias/zonas-de-entrenamiento/">
       <span class="p-related__kicker">Guía</span>
       <span class="p-related__title">Zonas de entrenamiento</span>
       <span class="p-related__desc">Qué significa Z1 a Z5 y cómo se calculan.</span>

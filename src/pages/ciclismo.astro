@@ -3,7 +3,7 @@ import Page from '../layouts/Page.astro';
 import { faqSchema, type FaqItem } from '../lib/faq';
 
 const SITE = 'https://umbrallab.es';
-const pageUrl = `${SITE}/ciclismo`;
+const pageUrl = `${SITE}/ciclismo/`;
 
 const title = 'App de entrenamiento para ciclismo | Umbral';
 const description =
@@ -152,17 +152,17 @@ const faq = faqSchema(faqs, pageUrl);
 
   <h2>Sigue leyendo</h2>
   <div class="p-related">
-    <a href="/triatlon">
+    <a href="/triatlon/">
       <span class="p-related__kicker">Landing</span>
       <span class="p-related__title">App de entrenamiento para triatlón</span>
       <span class="p-related__desc">Natación, bici y carrera con tests y zonas propias.</span>
     </a>
-    <a href="/duatlon">
+    <a href="/duatlon/">
       <span class="p-related__kicker">Landing</span>
       <span class="p-related__title">App de entrenamiento para duatlón</span>
       <span class="p-related__desc">Carrera, bici y carrera con la carga de cada tramo.</span>
     </a>
-    <a href="/guias/carga-de-entrenamiento">
+    <a href="/guias/carga-de-entrenamiento/">
       <span class="p-related__kicker">Guía</span>
       <span class="p-related__title">Carga de entrenamiento</span>
       <span class="p-related__desc">ECO, ECS, TSS, CTL, ATL y TSB explicados con calma.</span>

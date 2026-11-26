@@ -3,7 +3,7 @@ import Page from '../layouts/Page.astro';
 import { faqSchema, type FaqItem } from '../lib/faq';
 
 const SITE = 'https://umbrallab.es';
-const pageUrl = `${SITE}/para-clubes`;
+const pageUrl = `${SITE}/para-clubes/`;
 
 const title = 'Software para clubes de triatlón y atletismo | Umbral';
 const description =
@@ -28,7 +28,7 @@ const faqs: FaqItem[] = [
   },
   {
     q: '¿Dónde están los datos y quién puede verlos?',
-    a: 'En servidores propios, en España. La conexión con los relojes es de solo lectura y cada atleta puede desconectarla. Los entrenadores acceden a los atletas que tienen asignados y el club a la información organizativa que le corresponde. El detalle está en la <a href="/privacidad">política de privacidad</a>.',
+    a: 'En servidores propios, en España. La conexión con los relojes es de solo lectura y cada atleta puede desconectarla. Los entrenadores acceden a los atletas que tienen asignados y el club a la información organizativa que le corresponde. El detalle está en la <a href="/privacidad/">política de privacidad</a>.',
   },
   {
     q: '¿Cuánto cuesta y cómo se contrata?',
@@ -99,7 +99,7 @@ const faq = faqSchema(faqs, pageUrl);
     </p>
     <div class="p-band__actions">
       <a class="u-btn" href="/#acceso">Pedir acceso para mi club</a>
-      <a class="u-btn u-btn--ghost" href="/entrenamiento">Ver el hub de entrenadores</a>
+      <a class="u-btn u-btn--ghost" href="/entrenamiento/">Ver el hub de entrenadores</a>
     </div>
   </div>
 
@@ -151,17 +151,17 @@ const faq = faqSchema(faqs, pageUrl);
 
   <h2>Sigue leyendo</h2>
   <div class="p-related">
-    <a href="/para-entrenadores">
+    <a href="/para-entrenadores/">
       <span class="p-related__kicker">Para entrenadores</span>
       <span class="p-related__title">La app del entrenador de resistencia</span>
       <span class="p-related__desc">Plan en texto libre, tests, carga y seguimiento.</span>
     </a>
-    <a href="/entrenamiento">
+    <a href="/entrenamiento/">
       <span class="p-related__kicker">Landing</span>
       <span class="p-related__title">Entrenadores y clubes</span>
       <span class="p-related__desc">Las tres miradas: club, entrenador y atleta.</span>
     </a>
-    <a href="/triatlon">
+    <a href="/triatlon/">
       <span class="p-related__kicker">Deporte</span>
       <span class="p-related__title">App de entrenamiento para triatlón</span>
       <span class="p-related__desc">Natación, bici y carrera en el mismo panel.</span>

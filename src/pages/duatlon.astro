@@ -3,7 +3,7 @@ import Page from '../layouts/Page.astro';
 import { faqSchema, type FaqItem } from '../lib/faq';
 
 const SITE = 'https://umbrallab.es';
-const pageUrl = `${SITE}/duatlon`;
+const pageUrl = `${SITE}/duatlon/`;
 
 const title = 'App de entrenamiento para duatlón | Umbral';
 const description =
@@ -140,17 +140,17 @@ const faq = faqSchema(faqs, pageUrl);
 
   <h2>Sigue leyendo</h2>
   <div class="p-related">
-    <a href="/ciclismo">
+    <a href="/ciclismo/">
       <span class="p-related__kicker">Landing</span>
       <span class="p-related__title">App de entrenamiento para ciclismo</span>
       <span class="p-related__desc">FTP, zonas de potencia y salidas con vueltas y mapa.</span>
     </a>
-    <a href="/atletismo">
+    <a href="/atletismo/">
       <span class="p-related__kicker">Landing</span>
       <span class="p-related__title">App de entrenamiento para atletismo</span>
       <span class="p-related__desc">Ritmos del test, series y RPE para clubes de carrera.</span>
     </a>
-    <a href="/guias/carga-de-entrenamiento">
+    <a href="/guias/carga-de-entrenamiento/">
       <span class="p-related__kicker">Guía</span>
       <span class="p-related__title">Carga de entrenamiento</span>
       <span class="p-related__desc">Cómo se suma el ECO de disciplinas distintas.</span>

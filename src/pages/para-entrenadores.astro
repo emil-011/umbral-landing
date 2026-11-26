@@ -3,7 +3,7 @@ import Page from '../layouts/Page.astro';
 import { faqSchema, type FaqItem } from '../lib/faq';
 
 const SITE = 'https://umbrallab.es';
-const pageUrl = `${SITE}/para-entrenadores`;
+const pageUrl = `${SITE}/para-entrenadores/`;
 
 const title = 'App para entrenadores de resistencia | Umbral';
 const description =
@@ -126,19 +126,19 @@ const faq = faqSchema(faqs, pageUrl);
   <h2>Para entrenadores de…</h2>
   <ul>
     <li>
-      <a href="/triatlon">Triatlón</a>: tres disciplinas, un plan y la carga de cada bloque.
+      <a href="/triatlon/">Triatlón</a>: tres disciplinas, un plan y la carga de cada bloque.
     </li>
     <li>
-      <a href="/atletismo">Atletismo</a>: ritmos del test, series y RPE por atleta.
+      <a href="/atletismo/">Atletismo</a>: ritmos del test, series y RPE por atleta.
     </li>
     <li>
-      <a href="/natacion">Natación</a>: tests por distancia y series con sus descansos.
+      <a href="/natacion/">Natación</a>: tests por distancia y series con sus descansos.
     </li>
     <li>
-      <a href="/ciclismo">Ciclismo</a>: FTP, zonas de potencia y salidas con vueltas y mapa.
+      <a href="/ciclismo/">Ciclismo</a>: FTP, zonas de potencia y salidas con vueltas y mapa.
     </li>
     <li>
-      <a href="/duatlon">Duatlón</a> y <a href="/acuatlon">acuatlón</a>: pruebas combinadas con la
+      <a href="/duatlon/">Duatlón</a> y <a href="/acuatlon/">acuatlón</a>: pruebas combinadas con la
       carga de cada tramo.
     </li>
   </ul>
@@ -155,17 +155,17 @@ const faq = faqSchema(faqs, pageUrl);
 
   <h2>Sigue leyendo</h2>
   <div class="p-related">
-    <a href="/para-clubes">
+    <a href="/para-clubes/">
       <span class="p-related__kicker">Para clubes</span>
       <span class="p-related__title">Software para clubes de resistencia</span>
       <span class="p-related__desc">Grupos, invitaciones, roles y fichas de atleta.</span>
     </a>
-    <a href="/entrenamiento">
+    <a href="/entrenamiento/">
       <span class="p-related__kicker">Landing</span>
       <span class="p-related__title">Entrenadores y clubes</span>
       <span class="p-related__desc">Las tres miradas: club, entrenador y atleta.</span>
     </a>
-    <a href="/guias/carga-de-entrenamiento">
+    <a href="/guias/carga-de-entrenamiento/">
       <span class="p-related__kicker">Guía</span>
       <span class="p-related__title">Carga de entrenamiento</span>
       <span class="p-related__desc">ECO, ECS, TSS, CTL, ATL y TSB, sin jerga.</span>

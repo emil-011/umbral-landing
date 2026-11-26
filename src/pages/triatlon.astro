@@ -3,7 +3,7 @@ import Page from '../layouts/Page.astro';
 import { faqSchema, type FaqItem } from '../lib/faq';
 
 const SITE = 'https://umbrallab.es';
-const pageUrl = `${SITE}/triatlon`;
+const pageUrl = `${SITE}/triatlon/`;
 
 const title = 'App de entrenamiento para triatlón | Umbral';
 const description =
@@ -151,17 +151,17 @@ const faqs: FaqItem[] = [
 
   <h2>Sigue leyendo</h2>
   <div class="p-related">
-    <a href="/atletismo">
+    <a href="/atletismo/">
       <span class="p-related__kicker">Landing</span>
       <span class="p-related__title">App de entrenamiento para atletismo</span>
       <span class="p-related__desc">Ritmos del test del atleta, series en texto libre y RPE.</span>
     </a>
-    <a href="/guias/zonas-de-entrenamiento">
+    <a href="/guias/zonas-de-entrenamiento/">
       <span class="p-related__kicker">Guía</span>
       <span class="p-related__title">Zonas de entrenamiento</span>
       <span class="p-related__desc">Qué son, cómo se calculan y qué significa cada zona.</span>
     </a>
-    <a href="/guias/carga-de-entrenamiento">
+    <a href="/guias/carga-de-entrenamiento/">
       <span class="p-related__kicker">Guía</span>
       <span class="p-related__title">Carga de entrenamiento</span>
       <span class="p-related__desc">ECO, ECS, TSS, CTL, ATL y TSB explicados con calma.</span>

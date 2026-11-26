@@ -11,6 +11,8 @@ const site = process.env.SITE_URL || 'https://umbrallab.es';
 export default defineConfig({
   site,
   adapter: node({ mode: 'standalone' }),
+  // Una sola URL por pagina: /triatlon redirige a /triatlon/ y el canonical coincide.
+  trailingSlash: 'always',
   // La barra flotante de desarrollo tapa la marquesina al hacer capturas.
   devToolbar: { enabled: false },
 });

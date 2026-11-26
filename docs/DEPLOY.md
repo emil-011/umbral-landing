@@ -2,7 +2,7 @@
 
 Checklist para publicar la landing y el formulario. La web es Astro con
 `@astrojs/node` en modo `standalone`: **no basta con subir HTML estático**, hace
-falta un proceso Node para `/api/waitlist`.
+falta un proceso Node para `/api/waitlist/`.
 
 - **Dominio:** `umbrallab.es` (DNS en Cloudflare)
 - **Registrador:** Hostinger
@@ -67,7 +67,7 @@ APP_URL=https://app.umbrallab.es
 RESEND_API_KEY=re_...
 WAITLIST_TO=solicitudes@umbrallab.es
 WAITLIST_FROM="Umbral <no-reply@umbrallab.es>"
-PUBLIC_WAITLIST_ENDPOINT=/api/waitlist
+PUBLIC_WAITLIST_ENDPOINT=/api/waitlist/
 ```
 
 7. Arranque: `bun ./dist/server/entry.mjs` o `npm start` (el script usa Bun). Si solo hay Node: `npm run start:node`.
@@ -99,7 +99,7 @@ La home se vería, pero el formulario devolvería error. Opciones:
 - Subir de plan a uno con Node.
 - Mantener la landing en Hostinger y el endpoint en un servicio Node aparte.
 - Cambiar el formulario a un servicio externo (Formspree, Netlify Forms…) y
-  quitar `/api/waitlist`.
+  quitar `/api/waitlist/`.
 
 ---
 
@@ -109,7 +109,7 @@ Resend es el servicio que **envía** el aviso. No es un buzón de entrada. El
 flujo es:
 
 ```
-Formulario → /api/waitlist → Resend → buzón de WAITLIST_TO
+Formulario → /api/waitlist/ → Resend → buzón de WAITLIST_TO
 ```
 
 Por eso `WAITLIST_TO` debe ser un correo real. Si apunta a tu Gmail personal,
@@ -202,7 +202,7 @@ informes estén limpios. No publiques `p=reject` el primer día.
 Prueba manual del endpoint:
 
 ```sh
-curl -X POST https://umbrallab.es/api/waitlist \
+curl -X POST https://umbrallab.es/api/waitlist/ \
   -H 'Content-Type: application/json' \
   -d '{"email":"tu@correo.com","role":"club"}'
 ```
